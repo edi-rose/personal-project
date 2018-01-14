@@ -1,3 +1,7 @@
+module.exports = {
+  turnOne:turnOne
+}
+
 var board = {}
 
 board.cells = [
@@ -20,3 +24,14 @@ board.cells = [
   /* bottom right */
   {name:'bot-right', isClaimed:false, isNaught:false, isCross:false, isCorner: true, isMiddle: false}
 ]
+
+function turnOne() {
+  for (var i = 0; i < board.cells.length; i++) {
+    if (board.cells[i].name === ['top-left']) {
+      board.cells[i].isCross == true;
+      board.cells[i].isClaimed == true;
+    }
+  }
+}
+
+turnOne()
