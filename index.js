@@ -1,5 +1,5 @@
 module.exports = {
-  turnOne:turnOne
+
 }
 
 var board = {}
@@ -23,15 +23,33 @@ board.cells = [
   {name:'bot-mid', isClaimed:false, isNaught:false, isCross:false, isCorner: true, isMiddle:false },
   /* bottom right */
   {name:'bot-right', isClaimed:false, isNaught:false, isCross:false, isCorner: true, isMiddle: false}
-]
+];
 
-function turnOne() {
+function turnOneCross() {
   for (var i = 0; i < board.cells.length; i++) {
-    if (board.cells[i].name === ['top-left']) {
-      board.cells[i].isCross == true;
-      board.cells[i].isClaimed == true;
+    if (board.cells[i].name === 'top-left') {
+      board.cells[i].isCross = true;
+      board.cells[i].isClaimed = true;
+      console.log(board.cells[i])
     }
   }
 }
 
-turnOne()
+ function turnOneNaught() {
+   for (var i = 0; i < board.cells.length; i++) {
+     if (board.cells[i].name === 'mid-mid') {
+       board.cells[i].isNaught = true;
+       board.cells[i].isClaimed = true;
+       console.log(board.cells[i])
+     }
+   }
+ }
+
+function turnTwoCross() {
+  for (var i = 0; i < board.cells.length; i++) {
+
+  }
+}
+
+turnOneCross()
+turnOneNaught()
