@@ -8,11 +8,10 @@ module.exports = {
 var board = require('./index.js')
 
 
-function findSquare(name) {
+function findCell(name) {
   var board = require('./index.js')
   for (var i = 0; i < board.cells.length; i++) {
     if (board.cells[i].name === name) {
-      console.log(board.cells[i])
       return board.cells[i]
 
     }
