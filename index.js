@@ -1,7 +1,4 @@
-module.exports = {
-
-}
-
+var helpers = require('./functions.js')
 var board = {}
 
 board.cells = [
@@ -25,31 +22,45 @@ board.cells = [
   {name:'bot-right', isClaimed:false, isNaught:false, isCross:false, isCorner: true, isMiddle: false}
 ];
 
+module.exports = board
+
 function turnOneCross() {
-  for (var i = 0; i < board.cells.length; i++) {
-    if (board.cells[i].name === 'top-left') {
-      board.cells[i].isCross = true;
-      board.cells[i].isClaimed = true;
-      console.log(board.cells[i])
-    }
+  var square = helpers.findSquare('top-left')
+  var team = 'cross'
+  if(helpers.isAvailable(square)) {
+    helpers.claim(square, team)
   }
 }
 
+
  function turnOneNaught() {
-   for (var i = 0; i < board.cells.length; i++) {
-     if (board.cells[i].name === 'mid-mid') {
-       board.cells[i].isNaught = true;
-       board.cells[i].isClaimed = true;
-       console.log(board.cells[i])
-     }
+   var square = helpers.findSquare('mid-mid')
+   var team = 'naught'
+   if(helpers.isAvailable(square)){
+     helpers.claim(square, team)
    }
  }
 
 function turnTwoCross() {
-  for (var i = 0; i < board.cells.length; i++) {
 
+  var square1 = helpers.findSquare('top-mid')
+  var square2 = helpers.findSquare('top-right')
+  var square3 = helpers.findSquare('bot-left')
+  var team = 'cross'
+
+  if(helpers.isAvailable(square1) && helpers.isAvailable(square2)){
+    helpers.claim(square2, team)
   }
+  else (
+    helpers.claim(sqaure3, team)
+  )
 }
+
+function turnTwoNaught(){
+  var team = naught
+}
+
 
 turnOneCross()
 turnOneNaught()
+turnTwoCross()
