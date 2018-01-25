@@ -19,5 +19,3 @@ Rules:
 The Game will randomly select who starts first. Bot is always Crosses user is always Naughts.
 
 The bot and the user then take turns declaring each cell either a Naught or a Cross, if either can get three of their class in a row they win the game, if all the cells are claimed without the win condition being met the game ends in a draw.
-
- 

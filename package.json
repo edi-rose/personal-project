@@ -1,0 +1,8 @@
+{
+  "name": "TicTacToe",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/edi-rose/personal-project.git",
+  "author": "Edi Rose edirose1998@gmail.com",
+  "license": "MIT"
+}
