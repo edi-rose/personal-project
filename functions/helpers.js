@@ -6,7 +6,7 @@ module.exports = {
   printGame: printGame
 }
 
-var board = require('./index.js')
+var board = require('../index.js')
 
 
 function findSquare(name) {

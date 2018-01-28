@@ -1,4 +1,5 @@
-var helpers = require('./functions.js')
+var helpers = require('./functions/helpers.js')
+var defense = require('./functions/winCheck.js')
 module.exports = board
 var board = {}
 
@@ -19,6 +20,7 @@ turnOneNaught()
 turnTwoCross()
 printGame()
 
+
 function turnOneCross() {
   var square = helpers.findSquare('top-left')
   var team = 'cross'
@@ -37,7 +39,6 @@ function turnOneCross() {
  }
 
 function turnTwoCross() {
-
   var square1 = helpers.findSquare('top-mid')
   var square2 = helpers.findSquare('top-right')
   var square3 = helpers.findSquare('bot-left')
