@@ -73,6 +73,28 @@ function checkDiagonals(taken){
   }
 }
 
+function checkDiagonal1(taken){
+  var count = 0
+  for (var i = 0; i < taken.length; i++) {
+    if(taken[i].name == 'top-right'
+     ||taken[i].name == 'mid-mid'
+     ||taken[i].name == 'bot-left'){
+         count ++
+    }
+  }
+}
+
+function checkDiagonal1(taken){
+  var count = 0
+  for (var i = 0; i < taken.length; i++) {
+    if(taken[i].name == 'top-left'
+     ||taken[i].name == 'mid-mid'
+     ||taken[i].name == 'bot-right'){
+         count ++
+    }
+  }
+}
+
 function getTeam(team) {
   var taken = board.cells.filer(cell, function(cell.teamName == team))
   return taken
