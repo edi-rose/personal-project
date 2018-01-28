@@ -4,5 +4,8 @@
   "main": "index.js",
   "repository": "https://github.com/edi-rose/personal-project.git",
   "author": "Edi Rose edirose1998@gmail.com",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "nodemon": "^1.14.11"
+  }
 }

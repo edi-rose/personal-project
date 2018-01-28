@@ -2,13 +2,14 @@
 module.exports = {
   findSquare: findSquare,
   isAvailable: isAvailable,
-  claim: claim
+  claim: claim,
+  printGame: printGame
 }
 
 var board = require('./index.js')
 
 
-function findCell(name) {
+function findSquare(name) {
   var board = require('./index.js')
   for (var i = 0; i < board.cells.length; i++) {
     if (board.cells[i].name === name) {
@@ -20,7 +21,7 @@ function findCell(name) {
 
 function isAvailable(square){
   var board = require('./index.js')
-  if(square.isClaimed === false){
+  if(square.teamName === 'none'){
     return true
   }
   else{
@@ -30,16 +31,11 @@ function isAvailable(square){
 
 function claim(square, team) {
   var board = require('./index.js')
-  if(team == 'naught') {
-    square.isNaught == true
-    square.isClaimed == true
-  }
-  else if( team == 'cross') {
-    square.isCross = true
-    square.isClaimed = true
-  }
-  else {
-    return ('error, invalid team name')
-    console.log('error, invalid teamname')
-  }
+    square.teamName = team
+}
+
+function printGame(){
+  for(var i = 0; i < board.cells.length; i++) {
+    console.log(board.cells[i].name + ': ' + board.cells[i].teamName)
+}
 }
