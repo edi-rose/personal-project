@@ -5,7 +5,7 @@ module.exports = {
 
 
 function checkForWin(team){
-  var taken = getTeam(team)
+  var taken = getTeam(team, board)
   if (checkRows(taken)
   ||checkCollumns(taken)
   ||checkDiagonals(taken)){
