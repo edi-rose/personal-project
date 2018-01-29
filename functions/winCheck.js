@@ -1,4 +1,8 @@
 var board = require('../index.js')
+module.exports = {
+  checkForWin: checkForWin
+}
+
 
 function checkForWin(team){
   var taken = getTeam(team)
@@ -95,7 +99,11 @@ function checkDiagonal1(taken){
   }
 }
 
-function getTeam(team) {
-  var taken = board.cells.filer(cell, function(cell.teamName == team))
-  return taken
+function getTeam(team, board) {
+  var taken = []
+  for (var i = 0; i < board.cells.length; i++) {
+    if(board.cells[i].teamName == team){
+      taken.push(board.cells[i])
+    }
+  }
 }
