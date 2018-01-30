@@ -33,6 +33,9 @@ let botRight = new Squares('none', 2, 2)
 
 var board = [topLeft, topMid, topRight, midLeft, midMid, midRight, botLeft, botMid, botLeft]
 //function runners
+turnOneCross()
+turnTwoCross()
+
 
 function turnOneCross() {
   if(topLeft.isAvailable()) {
@@ -53,7 +56,7 @@ function turnTwoCross() {
 }
 function turnTwoNaught() {
   var moveCount = 0
-  
+
 }
 
 function resetBoard()  {
@@ -61,3 +64,4 @@ function resetBoard()  {
     board[i].teamName = 'none'
   }
 }
+module.exports = board
