@@ -33,9 +33,7 @@ let botRight = new Squares('none', 2, 2)
 
 var board = [topLeft, topMid, topRight, midLeft, midMid, midRight, botLeft, botMid, botLeft]
 //function runners
-turnOneCross()
-turnTwoCross()
-
+resetBoard()
 
 function turnOneCross() {
   if(topLeft.isAvailable()) {

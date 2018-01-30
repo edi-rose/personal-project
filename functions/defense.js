@@ -1,14 +1,12 @@
 var board = require('../index.js')
-console.log(board)
 
-function getEnemySquares(enemyTeam) {
-  var enemySquares = []
+function defendRows(enemyTeam) {
   for (var i = 0; i < board.length; i++) {
-    if(board[i].teamName == enemyTeam){
-      enemySquares.push(board[i])
+    if(board[i].teamName == enemyTeam && !board[i].col == 2){
+      if(board[i+1].)
     }
-   }
-   console.log(enemySquares)
+  }
 }
 
-getEnemySquares('cross')
+
+// if we find an enemy square we want to check to see if theres another square in the sam
