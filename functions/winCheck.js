@@ -80,9 +80,9 @@ function checkDiagonals(taken){
 function checkDiagonal1(taken){
   var count = 0
   for (var i = 0; i < taken.length; i++) {
-    if(taken[i].name == 'top-right'
-     ||taken[i].name == 'mid-mid'
-     ||taken[i].name == 'bot-left'){
+    if(taken[i] == topRight
+     ||taken[i] == midMid
+     ||taken[i] == botLeft){
          count ++
     }
   }
@@ -91,18 +91,19 @@ function checkDiagonal1(taken){
 function checkDiagonal1(taken){
   var count = 0
   for (var i = 0; i < taken.length; i++) {
-    if(taken[i].name == 'top-left'
-     ||taken[i].name == 'mid-mid'
-     ||taken[i].name == 'bot-right'){
+    if(taken[i] == topLeft
+     ||taken[i] == midMid
+     ||taken[i] == botRight){
          count ++
     }
   }
 }
 
+//fixed for new system
 function getTeam(team, board) {
   var taken = []
-  for (var i = 0; i < board.cells.length; i++) {
-    if(board.cells[i].teamName == team){
+  for (var i = 0; i < board.length; i++) {
+    if(board[i].teamName == team){
       taken.push(board.cells[i])
     }
   }
