@@ -1,13 +1,4 @@
 
+var board = require('./index.js')
 
-function doIT(){
-  var count = 0
-  addOne(count)
-}
-
-function addOne(count){
-  count = count + 1
-  console.log(count)
-}
-
-doIT()
+console.log(board.topLeft.teamName)

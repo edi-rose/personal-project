@@ -1,6 +1,7 @@
 var board = require('../index.js')
 module.exports = {
-  checkForWin: checkForWin
+  checkForWin: checkForWin,
+  board: board
 }
 
 
@@ -33,7 +34,7 @@ function checkCol(taken, col){
     if(taken[i].col == col){
       count++
     }
-    if(count>2){
+    if(count == 3){
       return true
     }
     else{
@@ -59,7 +60,7 @@ for (var i = 0; i < taken.length; i++) {
   if(taken[i].row == row){
     count++
   }
-  if(count>2){
+  if(count == 3){
     return true
   }
   else{
