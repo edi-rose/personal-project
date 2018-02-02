@@ -1,10 +1,9 @@
 var board = require('../index.js')
 module.exports = {
   checkForWin: checkForWin,
-  board: board
 }
 
-
+//untested
 function checkForWin(team){
   var taken = getTeam(team, board)
   if (checkRows(taken)
@@ -89,7 +88,7 @@ function checkDiagonal1(taken){
   }
 }
 
-function checkDiagonal1(taken){
+function checkDiagonal2(taken){
   var count = 0
   for (var i = 0; i < taken.length; i++) {
     if(taken[i] == topLeft
@@ -100,12 +99,13 @@ function checkDiagonal1(taken){
   }
 }
 
-//fixed for new system
 function getTeam(team, board) {
   var taken = []
-  for (var i = 0; i < board.length; i++) {
-    if(board[i].teamName == team){
-      taken.push(board.cells[i])
-    }
-  }
+  var taken = board.map(x => x.teamName == team)
+  // for (var i = 0; i < board.length; i++) {
+  //   if(board[i].teamName == team){
+  //     taken.push(board.cells[i])
+  //   }
+  // }
+  console.log(taken)
 }
