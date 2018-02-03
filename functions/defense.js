@@ -1,14 +1,8 @@
-var board = require('../board.js')
-
+var board = require('../board.js').board
+var findEnemy = require('../board.js').findEnemy
 //working
 function defendRows(team) {
-  var enemyTeam = ''
-  if(team == 'cross'){
-    enemyTeam = 'naught'
-  }
-  else {
-    enemyTeam = 'cross'
-  }
+  var enemyTeam = findEnemy(team)
   for (var i = 0; i < board.length; i++) {
     if(board[i].teamName == enemyTeam &&
        board[i].col == 0 &&
@@ -31,13 +25,7 @@ function defendRows(team) {
 
 //working
 function defendCollumns(team) {
-  var enemyTeam = ''
-  if(team == 'cross'){
-     enemyTeam = 'naught'
-  }
-  else {
-     enemyTeam = 'cross'
-  }
+  var enemyTeam = findEnemy(team)
   for (var i = 0; i < board.length; i++) {
     if(board[i].teamName == enemyTeam &&
        board[i].row == 0 &&
@@ -66,13 +54,7 @@ function defendCollumns(team) {
 
 //untested
 function defendDiagonal1(team) {
-  var enemyTeam = ''
-  if(team == 'cross'){
-     enemyTeam = 'naught'
-  }
-  else {
-     enemyTeam = 'cross'
-  }
+  var enemyTeam = findEnemy(team)
   //board[0] == topLeft
   //board[4] == midMid
   //board[8] == botRight
@@ -102,13 +84,7 @@ function defendDiagonal1(team) {
 
 //untested
 function defendDiagonal2(team) {
-  var enemyTeam = ''
-  if(team == 'cross'){
-     enemyTeam = 'naught'
-  }
-  else {
-     enemyTeam = 'cross'
-  }
+  var enemyTeam = findEnemy(team)
   //board[2] == topRight
   //board[4] == midMid
   //board[6] == botLeft
@@ -136,7 +112,7 @@ function defendDiagonal2(team) {
 }
 
 
-function Defend(team) {
+function defend(team) {
   if(defendRows(team)){
     return true
   }
@@ -153,5 +129,5 @@ function Defend(team) {
 }
 
 module.exports = {
-  Defend: Defend
+  defend: defend
 }

@@ -33,4 +33,18 @@ let botRight = new Squares('none', 2, 2)
 
 var board = [topLeft, topMid, topRight, midLeft, midMid, midRight, botLeft, botMid, botRight]
 
-module.exports = board
+
+function findEnemy(team){
+  if(team == 'cross'){
+    return 'naught'
+  }
+  else {
+    return 'cross'
+  }
+}
+
+module.exports =
+{
+  board:board,
+  findEnemy: findEnemy
+}

@@ -1,6 +1,6 @@
 var winCheck = require('./functions/winCheck.js')
 var defense = require('./functions/defense.js')
-var board = require('./board.js')
+var board = require('./board.js').board
 
 function turnOneCross() {
   //board[0] == topLeft
@@ -28,7 +28,7 @@ function turnTwoCross() {
   }
 }
 function turnTwoNaught() {
-  if (defense.Defend('naught')){
+  if (defense.defend('naught')){
     return
   }
   else {
@@ -44,7 +44,7 @@ function turnTwoNaught() {
 function turnThreeCross(){
   // board[6] == botLeft
   // board[8] == botRight
-  if(defense.Defend('cross')){
+  if(defense.defend('cross')){
     return
   }
   else if(board[6].isAvailable()){
@@ -64,20 +64,20 @@ function turnThreeCross(){
   }
 }
 
-function resetBoard()  {
-  for(var i = 0; i < board.length; i++) {
-    board[i].teamName = 'none'
-  }
-}
-if(winCheck.checkForWin('cross')){
-  console.log('crosses win!!')
-}
+// function resetBoard()  {
+//   for(var i = 0; i < board.length; i++) {
+//     board[i].teamName = 'none'
+//   }
+// }
+// if(winCheck.checkForWin('cross')){
+//   console.log('crosses win!!')
+// }
 //function runners
-//turnOneCross()
-//turnOneNaught()
-//turnTwoCross()
-//turnTwoNaught()
-//turnThreeCross()
+turnOneCross()
+turnOneNaught()
+turnTwoCross()
+turnTwoNaught()
+turnThreeCross()
 console.log(board)
 
 module.exports = board
