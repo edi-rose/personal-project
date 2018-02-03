@@ -21,9 +21,9 @@ class Squares {
 }
 
 //board
-let topLeft = new Squares('cross', 0, 0)
-let topMid = new Squares('cross', 0, 1)
-let topRight = new Squares('cross', 0, 2)
+let topLeft = new Squares('none', 0, 0)
+let topMid = new Squares('none', 0, 1)
+let topRight = new Squares('none', 0, 2)
 let midLeft = new Squares('none', 1, 0)
 let midMid = new Squares('none', 1, 1)
 let midRight = new Squares('none', 1, 2)

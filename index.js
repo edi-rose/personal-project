@@ -64,20 +64,21 @@ function turnThreeCross(){
   }
 }
 
-// function resetBoard()  {
-//   for(var i = 0; i < board.length; i++) {
-//     board[i].teamName = 'none'
-//   }
-// }
-// if(winCheck.checkForWin('cross')){
-//   console.log('crosses win!!')
-// }
+function resetBoard()  {
+  for(var i = 0; i < board.length; i++) {
+    board[i].teamName = 'none'
+  }
+}
+
+if(winCheck.checkForWin('cross')){
+  console.log('crosses win!!')
+}
 //function runners
-turnOneCross()
-turnOneNaught()
-turnTwoCross()
-turnTwoNaught()
-turnThreeCross()
+// turnOneCross()
+// turnOneNaught()
+// turnTwoCross()
+// turnTwoNaught()
+// turnThreeCross()
 console.log(board)
 
 module.exports = board
