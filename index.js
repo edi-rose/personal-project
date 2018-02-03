@@ -130,7 +130,7 @@ function turnFourNaught(){
       }
       return
     }
-    else if(defense.defend('naught')){
+    else if(attack('naught')){
       return
     }
     else {
@@ -153,7 +153,7 @@ function turnFiveCross() {
       }
       return
     }
-    else if(defense.defend('cross')){
+    else if(attack('naught')){
       return
       }
     else {
@@ -186,6 +186,7 @@ if(winCheck.checkForWin('cross')){
  turnThreeNaught()
  turnFourCross()
  turnFourNaught()
+
  turnFiveCross()
 console.log(board)
 
