@@ -1,9 +1,5 @@
-var board = require('../board.js').board
-module.exports = {
-  checkForWin: checkForWin
-}
+var board = require('../board.js')
 
-//not working
 function checkForWin(team){
   var taken = getTeam(team)
   if (checkRows(taken)
@@ -29,6 +25,7 @@ function checkCollumns(taken){
 
 function checkCol(col, taken){
   var count = 0
+  
   for (var i = 0; i < taken.length; i++) {
     if(taken[i].col == col){
       count++
@@ -121,3 +118,5 @@ function checkDiagonal2(taken){
 function getTeam(team) {
   return board.filter(x => x.teamName == team)
 }
+
+module.exports = checkForWin

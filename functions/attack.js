@@ -1,5 +1,4 @@
-var board = require('../board.js').board
-var findEnemy = require('../board.js').findEnemy
+var board = require('../board.js')
 
 function attackRows(team){
   for (var i = 0; i < board.length; i++) {

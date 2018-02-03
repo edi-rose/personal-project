@@ -7,10 +7,8 @@ class Squares {
     this.col = col
   }
   // class functions
-
-  isAvailable(){
-    //not Working
-    if(this.teamName = 'none'){
+  isAvailable() {
+    if(this.teamName == 'none'){
       return true
     }
     else {
@@ -37,18 +35,4 @@ let botRight = new Squares('none', 2, 2)
 
 var board = [topLeft, topMid, topRight, midLeft, midMid, midRight, botLeft, botMid, botRight]
 
-
-function findEnemy(team){
-  if(team == 'cross'){
-    return 'naught'
-  }
-  else {
-    return 'cross'
-  }
-}
-
-module.exports =
-{
-  board:board,
-  findEnemy: findEnemy
-}
+module.exports = board
