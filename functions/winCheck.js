@@ -12,7 +12,6 @@ function checkForWin(team){
     return true
   }
   else{
-    console.log('interesting...')
     return false
   }
 }

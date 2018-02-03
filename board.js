@@ -7,7 +7,9 @@ class Squares {
     this.col = col
   }
   // class functions
+
   isAvailable(){
+    //not Working
     if(this.teamName = 'none'){
       return true
     }
@@ -30,6 +32,8 @@ let midRight = new Squares('none', 1, 2)
 let botLeft = new Squares('none', 2, 0)
 let botMid = new Squares('none', 2, 1)
 let botRight = new Squares('none', 2, 2)
+
+
 
 var board = [topLeft, topMid, topRight, midLeft, midMid, midRight, botLeft, botMid, botRight]
 
