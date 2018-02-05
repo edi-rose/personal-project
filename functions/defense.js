@@ -81,8 +81,6 @@ function defendDiagonal1(team) {
     }
 }
 
-
-//untested
 function defendDiagonal2(team) {
   var enemyTeam = findEnemy(team)
   //board[2] == topRight
@@ -110,7 +108,6 @@ function defendDiagonal2(team) {
       return false
     }
 }
-
 
 function defend(team) {
   if(defendRows(team)){

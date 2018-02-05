@@ -137,7 +137,7 @@ function turnFourNaught(){
       }
       return
     }
-    else if(defend('cross')){
+    else if(defend('naught')){
       return
     }
     else {
@@ -195,6 +195,7 @@ if(checkForWin('cross')){
  turnFourCross()
  turnFourNaught()
  turnFiveCross()
+
 console.log(board)
 
 module.exports = board

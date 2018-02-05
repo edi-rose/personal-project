@@ -7,9 +7,7 @@ function checkForWin(team){
   ||checkDiagonals(taken)){
     return true
   }
-  else{
-    return false
-  }
+  return false
 }
 
 function checkCollumns(taken){
@@ -18,25 +16,13 @@ function checkCollumns(taken){
    ||checkCol(2, taken)){
     return true
   }
-  else {
-    return false
-  }
+  return false
 }
 
 function checkCol(col, taken){
   var count = 0
-  
-  for (var i = 0; i < taken.length; i++) {
-    if(taken[i].col == col){
-      count++
-    }
-    }
-    if(count > 2){
-      return true
-    }
-    else{
-      return false
-  }
+  taken.filter(x => x.col == col).forEach(x => count ++)
+  return countCheck(count)
 }
 
 function checkRows(taken){
@@ -45,33 +31,20 @@ function checkRows(taken){
    ||checkRow(2, taken)){
     return true
   }
-  else {
-    return false
-  }
+  return false
 }
 
 function checkRow(row, taken) {
-var count = 0
-for (var i = 0; i < taken.length; i++) {
-  if(taken[i].row == row){
-    count++
-  }
-}
-if(count > 2){
-  return true
-}
-else{
-  return false
-}
+  var count = 0
+  taken.filter(x => x.row == row).forEach(x => count ++)
+  return countCheck(count)
 }
 
 function checkDiagonals(taken){
   if(checkDiagonal1(taken)||checkDiagonal2(taken)){
     return true
   }
-  else {
     return false
-  }
 }
 
 //board[2] == topRight
@@ -79,44 +52,33 @@ function checkDiagonals(taken){
 //board[6] == botLeft
 function checkDiagonal1(taken){
   var count = 0
-  for (var i = 0; i < taken.length; i++) {
-    if(taken[i] == board[2]
-     ||taken[i] == board[4]
-     ||taken[i] == board[6]){
-         count ++
-    }
-  }
-  if(count> 2){
-    return true
-  }
-  else{
-    return false
-  }
+   taken.filter(x => x == board[2] || x == board[4] || x == board[6]).forEach(x => count ++)
+  return countCheck(count)
 }
-
 //board[0]
 //board[4]
 //board[8]
 function checkDiagonal2(taken){
   var count = 0
-  for (var i = 0; i < taken.length; i++) {
-    if(taken[i] == board[0]
-     ||taken[i] == board[4]
-     ||taken[i] == board[8]){
-         count ++
-    }
-  }
-  if(count > 2){
-    return true
-  }
-  else {
-    return false
-  }
+  taken.filter(x => x == board[0] || x == board[4] || x == board[8]).forEach(x => count ++)
+ return countCheck(count)
 }
 
 //working
 function getTeam(team) {
   return board.filter(x => x.teamName == team)
 }
+
+function countCheck(count) {
+  if(count == 3){
+    return true
+  }
+  else if(count < 3){
+    return false
+  }
+  else {
+    console.log('WIN CHECK ERROR')
+  }
+  }
 
 module.exports = checkForWin
