@@ -1,5 +1,5 @@
-var board = require('../board.js').board
-var findEnemy = require('../board.js').findEnemy
+var board = require('../board.js')
+
 //working
 function defendRows(team) {
   var enemyTeam = findEnemy(team)
@@ -81,8 +81,6 @@ function defendDiagonal1(team) {
     }
 }
 
-
-//untested
 function defendDiagonal2(team) {
   var enemyTeam = findEnemy(team)
   //board[2] == topRight
@@ -111,7 +109,6 @@ function defendDiagonal2(team) {
     }
 }
 
-
 function defend(team) {
   if(defendRows(team)){
     return true
@@ -128,6 +125,13 @@ function defend(team) {
   return false
 }
 
-module.exports = {
-  defend: defend
+function findEnemy(team){
+  if(team == 'cross'){
+    return 'naught'
+  }
+  else {
+    return 'cross'
+  }
 }
+
+module.exports = defend
