@@ -1,10 +1,10 @@
 import React from 'react'
-import {render} from 'react-dom'
+var ReactDOM = require('react-dom')
 import Board from './components/Board'
 
-// document.addEventListener('DOMContentLoaded', () => {
-//   render(
-//     <Board />,
-//     document.getElementById('board')
-//   )
-// })
+document.addEventListener('DOMContentLoaded', () => {
+ReactDOM.render(
+    <Board />,
+    document.getElementById('board')
+  )
+})

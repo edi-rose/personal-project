@@ -16,8 +16,14 @@ class Squares {
   }
 }
 
-let topLeft = new Squares('naught', 0, 0)
-let topMid = new Squares('naught', 0, 1)
+// App component.
+// in the render, loop over the grid
+// in a consturctor component
+// state board = board
+// render the board inside the return of the app.
+
+let topLeft = new Squares('none', 0, 0)
+let topMid = new Squares('none', 0, 1)
 let topRight = new Squares('none', 0, 2)
 let midLeft = new Squares('none', 1, 0)
 let midMid = new Squares('none', 1, 1)
