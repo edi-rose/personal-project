@@ -23,26 +23,17 @@ Plan:
 I present in in the middle of Week 6. I am currently in the weekend before week 5. My main to do's are:
 
 Node App:
-Create a working Win Checker,
-Create a working attack.js file,
-Finish the Bots' 3rd, 4th and 5th
-Create working tests for my worker functions.
+Create a working Win Checker: tick
+Create a working attack.js file: tick
+Finish the Bots' 3rd, 4th and 5th: tick
+Create working tests for my worker functions:
 
 Converting to a React App:
 
-Set up local host to world.
-Set up board as visible object in the browser.
+Set up local host to world: tick
+Set up board as visible object in the browser: tick
+Give board cells naught, cross and none attributes
 Play a PVP game on the Board
 Play a Player vs Bot game
 Enable Switching between
 Add score board.
-
-
-Components:
-Board.jsx
-
-// App component.
-// in the render, loop over the grid
-// in a consturctor component
-// state board = board
-// render the board inside the return of the app.

@@ -1,9 +1,9 @@
 import React from 'react'
-var ReactDOM = require('react-dom')
+import {render} from 'react-dom'
 import Board from './components/Board'
 
 document.addEventListener('DOMContentLoaded', () => {
-ReactDOM.render(
+  render(
     <Board />,
     document.getElementById('board')
   )
