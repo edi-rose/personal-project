@@ -1,11 +1,30 @@
 {
-  "name": "TicTacToe",
+  "name": "NaughtsAndCrosses",
   "version": "1.0.0",
+  "description": "",
   "main": "index.js",
-  "repository": "https://github.com/edi-rose/personal-project.git",
-  "author": "Edi Rose edirose1998@gmail.com",
-  "license": "MIT",
+  "scripts": {
+    "start": "node server & webpack --watch"
+  },
+  "babel": {
+    "presets": [
+      "env",
+      "react"
+    ]
+  },
+  "keywords": [],
+  "author": "EDA",
+  "license": "ISC",
   "dependencies": {
-    "nodemon": "^1.14.11"
+    "express": "^4.16.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "webpack": "^3.10.0"
   }
 }

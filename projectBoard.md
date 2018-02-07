@@ -29,4 +29,20 @@ Finish the Bots' 3rd, 4th and 5th
 Create working tests for my worker functions.
 
 Converting to a React App:
-I'll get to that when I finish the Node App.
+
+Set up local host to world.
+Set up board as visible object in the browser.
+Play a PVP game on the Board
+Play a Player vs Bot game
+Enable Switching between
+Add score board.
+
+
+Components:
+Board.jsx
+
+// App component.
+// in the render, loop over the grid
+// in a consturctor component
+// state board = board
+// render the board inside the return of the app.
