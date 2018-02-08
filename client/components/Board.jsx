@@ -12,6 +12,11 @@ class Board extends React.Component{
       [botLeft,botMid,botRight],
     ]
   }
+  this.claimSquare = this.claimSquare.bind(this)
+}
+  claimSquare(){
+    this.setState(teamName = userTeam)
+    console.log(this.teamName)
 }
 render() {
   return (
@@ -26,7 +31,7 @@ render() {
               border: 'thin solid black'
             }}>
               {row.map((cell) => {
-                return <td onClick={() => setState(claimSquare(cell, userTeam))} style={{
+                return <td onClick={() => this.claimSquare} style={{
                   border: 'thin solid black',
                   padding: '10px',
                   height: '40px',
@@ -50,11 +55,6 @@ function isAvailable(cell) {
     return true
   }
   return false
-}
-function claimSquare(cell, team){
-  cell.teamName = team
-  console.log(cell.teamName)
-  return
 }
 
 var topLeft = {teamName:'none', row:0, col:0}
