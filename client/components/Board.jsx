@@ -1,8 +1,6 @@
 import React from 'react'
-import Cell from './cell'
-import userTeam from '../settings'
-
-
+var userTeam = require('../settings').userTeam
+var token = require('../settings').token
 
 class Board extends React.Component{
   constructor (props) {
@@ -14,26 +12,37 @@ class Board extends React.Component{
       [botLeft,botMid,botRight],
     ]
   }
-  render () {
-    return (
-      <div>
-      <table style={{border: 'thin solid black'}}>
-{this.state.grid && this.state.grid.map((row)=>{
-    return (
-      <tr style={{border: 'thin solid black'}}>
-        {row.map((cell)=>{
-          return <td style={{border: 'thin solid black', padding: '10px'}}><cell
-            class= {this.props.teamName} row={this.props.row} col={this.props.col}
-            onClick= {claimSquare(userTeam)}/>
-          </td>
+}
+render() {
+  return (
+    <div>
+      <table style={{
+        border: 'thin solid black'
+      }}>
+      <tbody>
+        {this.state.grid && this.state.grid.map((row) => {
+          return (
+            <tr style={{
+              border: 'thin solid black'
+            }}>
+              {row.map((cell) => {
+                return <td onClick={() => setState(claimSquare(cell, userTeam))} style={{
+                  border: 'thin solid black',
+                  padding: '10px',
+                  height: '40px',
+                  width: '30px'
+                }}>
+                  {(token(cell.teamName))}
+                </td>
+              })}
+            </tr>
+          )
         })}
-      </tr>
-    )
-})}
-</table>
-</div>
-    )
-  }
+      </tbody>
+      </table>
+    </div>
+  )
+}
 }
 
 function isAvailable(cell) {
@@ -44,18 +53,19 @@ function isAvailable(cell) {
 }
 function claimSquare(cell, team){
   cell.teamName = team
+  console.log(cell.teamName)
   return
 }
 
-var topLeft = {'none', 0, 0}
-var topMid = {'none', 0, 1}
-var topRight = {'none', 0, 2}
-var midLeft = {'none', 1, 0}
-var midMid = {'none', 1, 1}
-var midRight = {'none', 1, 2}
-var botLeft = {'none', 2, 0}
-var botMid = {'none', 2, 1}
-var botRight = {'none', 2, 2}
+var topLeft = {teamName:'none', row:0, col:0}
+var topMid = {teamName:'none', row:0, col:1}
+var topRight = {teamName:'none', row:0, col:2}
+var midLeft = {teamName:'none', row:1, col:0}
+var midMid = {teamName:'none', row:1, col:1}
+var midRight = {teamName:'none', row:1, col:2}
+var botLeft = {teamName:'none', row:2, col:0}
+var botMid = {teamName:'none', row:2, col:1}
+var botRight = {teamName:'none', row:2, col:2}
 
 var board = [topLeft, topMid, topRight, midLeft, midMid, midRight, botLeft, botMid, botRight]
 
