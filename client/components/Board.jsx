@@ -2,6 +2,8 @@ import React from 'react'
 import Cell from './cell'
 import userTeam from '../settings'
 
+
+
 class Board extends React.Component{
   constructor (props) {
     super(props)
@@ -20,7 +22,7 @@ class Board extends React.Component{
     return (
       <tr style={{border: 'thin solid black'}}>
         {row.map((cell)=>{
-          return <td style={{border: 'thin solid black', padding: '10px'}}><Cell
+          return <td style={{border: 'thin solid black', padding: '10px'}}><cell
             class= {this.props.teamName} row={this.props.row} col={this.props.col}
             onClick= {claimSquare(userTeam)}/>
           </td>
