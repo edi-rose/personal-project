@@ -6,48 +6,72 @@ class Board extends React.Component{
   constructor (props) {
     super(props)
     this.state = {
-    grid: [
-      [topLeft,topMid,topRight],
-      [midLeft,midMid,midRight],
-      [botLeft,botMid,botRight],
-    ]
+      grid: [
+        [topLeft,topMid,topRight],
+        [midLeft,midMid,midRight],
+        [botLeft,botMid,botRight],
+      ]
+    }
+    this.userClick = this.userClick.bind(this)
   }
-  this.claimSquare = this.claimSquare.bind(this)
-}
-  claimSquare(){
-    this.setState(teamName = userTeam)
-    console.log(this.teamName)
-}
-render() {
-  return (
-    <div>
-      <table style={{
-        border: 'thin solid black'
-      }}>
-      <tbody>
-        {this.state.grid && this.state.grid.map((row) => {
-          return (
-            <tr style={{
-              border: 'thin solid black'
-            }}>
-              {row.map((cell) => {
-                return <td onClick={() => this.claimSquare} style={{
-                  border: 'thin solid black',
-                  padding: '10px',
-                  height: '40px',
-                  width: '30px'
-                }}>
-                  {(token(cell.teamName))}
-                </td>
-              })}
-            </tr>
-          )
-        })}
-      </tbody>
-      </table>
-    </div>
-  )
-}
+  claimSquare(cell, team){
+    console.log("hello")
+    const {grid} = this.state
+    let found
+    grid.forEach(row => row.forEach(c => {
+      if (c == cell) found = cell
+    }))
+    console.log(found)
+    found.teamName = team
+    console.log(found)
+    this.setState({grid, userPaused: !this.state.userPaused})
+  }
+  userClick(cell) {
+    if (this.state.userPaused) return
+    this.claimSquare(cell, userTeam)
+    setTimeout(() => {
+      console.log("bot moves")
+      const {grid} = this.state
+      let found
+      while(!found) {
+        let randomRow = Math.floor(Math.random() * 3)
+        let randomCell = Math.floor(Math.random() * 3)
+        if (grid[randomRow][randomCell].teamName == 'none') found == grid[randomRow][randomCell]
+      }
+      this.claimSquare(found, "naught")
+    }, 3000)
+  }
+  render() {
+    console.log(this.state.grid);
+    return (
+      <div>
+        <table style={{
+          border: 'thin solid black'
+        }}>
+        <tbody>
+          {this.state.grid && this.state.grid.map((row) => {
+            return (
+              <tr style={{
+                border: 'thin solid black'
+              }}>
+                {row.map((cell) => {
+                  return <td onClick={() => this.userClick(cell)} style={{
+                    border: 'thin solid black',
+                    padding: '10px',
+                    height: '40px',
+                    width: '30px'
+                  }}>
+                    {(token(cell.teamName))}
+                  </td>
+                })}
+              </tr>
+            )
+          })}
+        </tbody>
+        </table>
+      </div>
+    )
+  }
 }
 
 function isAvailable(cell) {

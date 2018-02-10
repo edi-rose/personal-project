@@ -18327,21 +18327,53 @@ var Board = function (_React$Component) {
     _this.state = {
       grid: [[topLeft, topMid, topRight], [midLeft, midMid, midRight], [botLeft, botMid, botRight]]
     };
-    _this.claimSquare = _this.claimSquare.bind(_this);
+    _this.userClick = _this.userClick.bind(_this);
     return _this;
   }
 
   _createClass(Board, [{
     key: 'claimSquare',
-    value: function claimSquare() {
-      this.setState(teamName = userTeam);
-      console.log(this.teamName);
+    value: function claimSquare(cell, team) {
+      console.log("hello");
+      var grid = this.state.grid;
+
+      var found = void 0;
+      grid.forEach(function (row) {
+        return row.forEach(function (c) {
+          if (c == cell) found = cell;
+        });
+      });
+      console.log(found);
+      found.teamName = team;
+      console.log(found);
+      this.setState({ grid: grid, userPaused: !this.state.userPaused });
+    }
+  }, {
+    key: 'userClick',
+    value: function userClick(cell) {
+      var _this2 = this;
+
+      if (this.state.userPaused) return;
+      this.claimSquare(cell, userTeam);
+      setTimeout(function () {
+        console.log("bot moves");
+        var grid = _this2.state.grid;
+
+        var found = void 0;
+        while (!found) {
+          var randomRow = Math.floor(Math.random() * 3);
+          var randomCell = Math.floor(Math.random() * 3);
+          if (grid[randomRow][randomCell].teamName == 'none') found == grid[randomRow][randomCell];
+        }
+        _this2.claimSquare(found, "naught");
+      }, 3000);
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
+      console.log(this.state.grid);
       return _react2.default.createElement(
         'div',
         null,
@@ -18363,7 +18395,7 @@ var Board = function (_React$Component) {
                   return _react2.default.createElement(
                     'td',
                     { onClick: function onClick() {
-                        return _this2.claimSquare;
+                        return _this3.userClick(cell);
                       }, style: {
                         border: 'thin solid black',
                         padding: '10px',
