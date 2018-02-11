@@ -1,8 +1,10 @@
 import React from 'react'
 var userTeam = require('../settings').userTeam
 var token = require('../settings').token
-var turnCount = require('./settings').turnCount
-var turns = require('../../Bots/botMoves')
+var turns = require('../../Bots/botMovesReact.js')
+var getCell = require('../settings').getCell
+var turnCount = 1
+var sayHello = require('../sayHello')
 
 class Board extends React.Component{
   constructor (props) {
@@ -15,6 +17,14 @@ class Board extends React.Component{
       ]
     }
     this.userClick = this.userClick.bind(this)
+  }
+  getCell(count){
+    if (count == 1 && board[4].teamName =='none') {
+      return board[4]
+    }
+    else {
+      return board[0]
+    }
   }
   claimSquare(cell, team){
     const {grid} = this.state
@@ -32,15 +42,9 @@ class Board extends React.Component{
     this.claimSquare(cell, userTeam)
     setTimeout(() => {
       console.log("bot moves")
+      sayHello()
       var {grid} = this.state
-      for (var i = 0; i < grid.length; i++) {
-        for(var j = 0; j <grid[i].length; j++){
-          if(grid[i][j].teamName == 'none'){
-            this.claimSquare(grid[i][j], 'naught')
-            return
-          }
-        }
-      }
+      this.claimSquare(this.getCell(turnCount), 'naught')
     }, 3000)
     console.log('move over')
   }
@@ -96,4 +100,10 @@ var botRight = {teamName:'none', row:2, col:2}
 
 var board = [topLeft, topMid, topRight, midLeft, midMid, midRight, botLeft, botMid, botRight]
 
-export default Board
+
+
+
+
+module.exports = {
+  Board: Board
+}

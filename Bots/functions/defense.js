@@ -1,4 +1,4 @@
-var board = require('../../client/board.js')
+var board = require('../../client/components/Board.jsx')
 
 //working
 function defendRows(team) {

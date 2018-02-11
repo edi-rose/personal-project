@@ -1,5 +1,5 @@
 var userTeam = 'cross'
-var turnCount = 0
+var turns = require('../bots/botMovesReact')
 
 function token(teamName) {
   if(teamName == 'none'){
@@ -15,6 +15,5 @@ function token(teamName) {
 
 module.exports = {
   userTeam: userTeam,
-  token: token,
-  turnCount: turnCount
+  token: token
 }

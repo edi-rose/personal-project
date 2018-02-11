@@ -1,4 +1,4 @@
-var board = require('../../client/board.js')
+var board = require('../../client/components/Board.jsx')
 
 function attackRows(team){
   for (var i = 0; i < board.length; i++) {
@@ -119,5 +119,3 @@ function attack(team) {
 }
 
 module.exports = attack
-
-attackRows('naught')

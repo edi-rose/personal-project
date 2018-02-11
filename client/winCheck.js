@@ -1,4 +1,4 @@
-var board = require('./board.js')
+var board = require('./components/Board.jsx')
 
 function checkForWin(team){
   var taken = getTeam(team)

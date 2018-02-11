@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 15);
+/******/ 	return __webpack_require__(__webpack_require__.s = 16);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -303,9 +303,9 @@ module.exports = emptyFunction;
 /* WEBPACK VAR INJECTION */(function(process) {
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(16);
-} else {
   module.exports = __webpack_require__(17);
+} else {
+  module.exports = __webpack_require__(18);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
@@ -565,6 +565,186 @@ module.exports = warning;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var userTeam = __webpack_require__(8).userTeam;
+var token = __webpack_require__(8).token;
+var turns = __webpack_require__(30);
+var getCell = __webpack_require__(8).getCell;
+var turnCount = 1;
+var sayHello = __webpack_require__(31);
+
+var Board = function (_React$Component) {
+  _inherits(Board, _React$Component);
+
+  function Board(props) {
+    _classCallCheck(this, Board);
+
+    var _this = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this, props));
+
+    _this.state = {
+      grid: [[topLeft, topMid, topRight], [midLeft, midMid, midRight], [botLeft, botMid, botRight]]
+    };
+    _this.userClick = _this.userClick.bind(_this);
+    return _this;
+  }
+
+  _createClass(Board, [{
+    key: 'getCell',
+    value: function getCell(count) {
+      if (count == 1 && board[4].teamName == 'none') {
+        return board[4];
+      } else {
+        return board[0];
+      }
+    }
+  }, {
+    key: 'claimSquare',
+    value: function claimSquare(cell, team) {
+      var grid = this.state.grid;
+
+      var found = void 0;
+      grid.forEach(function (row) {
+        return row.forEach(function (c) {
+          if (c == cell) found = cell;
+        });
+      });
+      console.log(found);
+      found.teamName = team;
+      console.log(found);
+      this.setState({ grid: grid, userPaused: !this.state.userPaused });
+    }
+  }, {
+    key: 'userClick',
+    value: function userClick(cell) {
+      var _this2 = this;
+
+      if (this.state.userPaused) return;
+      this.claimSquare(cell, userTeam);
+      setTimeout(function () {
+        console.log("bot moves");
+        sayHello();
+        var grid = _this2.state.grid;
+
+        _this2.claimSquare(_this2.getCell(turnCount), 'naught');
+      }, 3000);
+      console.log('move over');
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this3 = this;
+
+      console.log(this.state.grid);
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'table',
+          { style: {
+              border: 'thin solid black'
+            } },
+          _react2.default.createElement(
+            'tbody',
+            null,
+            this.state.grid && this.state.grid.map(function (row) {
+              return _react2.default.createElement(
+                'tr',
+                { style: {
+                    border: 'thin solid black'
+                  } },
+                row.map(function (cell) {
+                  return _react2.default.createElement(
+                    'td',
+                    { onClick: function onClick() {
+                        return _this3.userClick(cell);
+                      }, style: {
+                        border: 'thin solid black',
+                        padding: '10px',
+                        height: '40px',
+                        width: '30px'
+                      } },
+                    token(cell.teamName)
+                  );
+                })
+              );
+            })
+          )
+        )
+      );
+    }
+  }]);
+
+  return Board;
+}(_react2.default.Component);
+
+function isAvailable(cell) {
+  if (cell.teamName == 'none') {
+    return true;
+  }
+  return false;
+}
+
+var topLeft = { teamName: 'none', row: 0, col: 0 };
+var topMid = { teamName: 'none', row: 0, col: 1 };
+var topRight = { teamName: 'none', row: 0, col: 2 };
+var midLeft = { teamName: 'none', row: 1, col: 0 };
+var midMid = { teamName: 'none', row: 1, col: 1 };
+var midRight = { teamName: 'none', row: 1, col: 2 };
+var botLeft = { teamName: 'none', row: 2, col: 0 };
+var botMid = { teamName: 'none', row: 2, col: 1 };
+var botRight = { teamName: 'none', row: 2, col: 2 };
+
+var board = [topLeft, topMid, topRight, midLeft, midMid, midRight, botLeft, botMid, botRight];
+
+module.exports = {
+  Board: Board
+};
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var userTeam = 'cross';
+var turns = __webpack_require__(29);
+
+function token(teamName) {
+  if (teamName == 'none') {
+    return ' ';
+  } else if (teamName == 'cross') {
+    return 'x';
+  } else if (teamName == 'naught') {
+    return 'o';
+  }
+}
+
+module.exports = {
+  userTeam: userTeam,
+  token: token
+};
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -577,7 +757,7 @@ module.exports = warning;
 if (process.env.NODE_ENV !== 'production') {
   var invariant = __webpack_require__(5);
   var warning = __webpack_require__(6);
-  var ReactPropTypesSecret = __webpack_require__(18);
+  var ReactPropTypesSecret = __webpack_require__(19);
   var loggedTypeFailures = {};
 }
 
@@ -628,7 +808,7 @@ module.exports = checkPropTypes;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -667,7 +847,7 @@ var ExecutionEnvironment = {
 module.exports = ExecutionEnvironment;
 
 /***/ }),
-/* 9 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -748,7 +928,7 @@ module.exports = EventListener;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 10 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -790,7 +970,7 @@ function getActiveElement(doc) /*?DOMElement*/{
 module.exports = getActiveElement;
 
 /***/ }),
-/* 11 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -861,7 +1041,7 @@ function shallowEqual(objA, objB) {
 module.exports = shallowEqual;
 
 /***/ }),
-/* 12 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -876,7 +1056,7 @@ module.exports = shallowEqual;
  * 
  */
 
-var isTextNode = __webpack_require__(21);
+var isTextNode = __webpack_require__(22);
 
 /*eslint-disable no-bitwise */
 
@@ -904,7 +1084,7 @@ function containsNode(outerNode, innerNode) {
 module.exports = containsNode;
 
 /***/ }),
-/* 13 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -934,33 +1114,7 @@ function focusNode(node) {
 module.exports = focusNode;
 
 /***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var userTeam = 'cross';
-var turnCount = 0;
-
-function token(teamName) {
-  if (teamName == 'none') {
-    return ' ';
-  } else if (teamName == 'cross') {
-    return 'x';
-  } else if (teamName == 'naught') {
-    return 'o';
-  }
-}
-
-module.exports = {
-  userTeam: userTeam,
-  token: token,
-  turnCount: turnCount
-};
-
-/***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -970,20 +1124,18 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(19);
+var _reactDom = __webpack_require__(20);
 
-var _Board = __webpack_require__(28);
-
-var _Board2 = _interopRequireDefault(_Board);
+var _Board = __webpack_require__(7);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 document.addEventListener('DOMContentLoaded', function () {
-  (0, _reactDom.render)(_react2.default.createElement(_Board2.default, null), document.getElementById('board'));
+  (0, _reactDom.render)(_react2.default.createElement(_Board.Board, null), document.getElementById('board'));
 });
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1011,7 +1163,7 @@ isValidElement:K,version:"16.2.0",__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_F
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1037,7 +1189,7 @@ var emptyObject = __webpack_require__(4);
 var invariant = __webpack_require__(5);
 var warning = __webpack_require__(6);
 var emptyFunction = __webpack_require__(1);
-var checkPropTypes = __webpack_require__(7);
+var checkPropTypes = __webpack_require__(9);
 
 // TODO: this is special because it gets imported during build.
 
@@ -2376,7 +2528,7 @@ module.exports = react;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2395,7 +2547,7 @@ module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2433,15 +2585,15 @@ if (process.env.NODE_ENV === 'production') {
   // DCE check should happen before ReactDOM bundle executes so that
   // DevTools can report bad minification during injection.
   checkDCE();
-  module.exports = __webpack_require__(20);
+  module.exports = __webpack_require__(21);
 } else {
-  module.exports = __webpack_require__(23);
+  module.exports = __webpack_require__(24);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2457,7 +2609,7 @@ if (process.env.NODE_ENV === 'production') {
 /*
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var aa=__webpack_require__(2),l=__webpack_require__(8),B=__webpack_require__(3),C=__webpack_require__(1),ba=__webpack_require__(9),da=__webpack_require__(10),ea=__webpack_require__(11),fa=__webpack_require__(12),ia=__webpack_require__(13),D=__webpack_require__(4);
+var aa=__webpack_require__(2),l=__webpack_require__(10),B=__webpack_require__(3),C=__webpack_require__(1),ba=__webpack_require__(11),da=__webpack_require__(12),ea=__webpack_require__(13),fa=__webpack_require__(14),ia=__webpack_require__(15),D=__webpack_require__(4);
 function E(a){for(var b=arguments.length-1,c="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,d=0;d<b;d++)c+="\x26args[]\x3d"+encodeURIComponent(arguments[d+1]);b=Error(c+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}aa?void 0:E("227");
 var oa={children:!0,dangerouslySetInnerHTML:!0,defaultValue:!0,defaultChecked:!0,innerHTML:!0,suppressContentEditableWarning:!0,suppressHydrationWarning:!0,style:!0};function pa(a,b){return(a&b)===b}
 var ta={MUST_USE_PROPERTY:1,HAS_BOOLEAN_VALUE:4,HAS_NUMERIC_VALUE:8,HAS_POSITIVE_NUMERIC_VALUE:24,HAS_OVERLOADED_BOOLEAN_VALUE:32,HAS_STRING_BOOLEAN_VALUE:64,injectDOMPropertyConfig:function(a){var b=ta,c=a.Properties||{},d=a.DOMAttributeNamespaces||{},e=a.DOMAttributeNames||{};a=a.DOMMutationMethods||{};for(var f in c){ua.hasOwnProperty(f)?E("48",f):void 0;var g=f.toLowerCase(),h=c[f];g={attributeName:g,attributeNamespace:null,propertyName:f,mutationMethod:null,mustUseProperty:pa(h,b.MUST_USE_PROPERTY),
@@ -2677,7 +2829,7 @@ Z.injectIntoDevTools({findFiberByHostInstance:pb,bundleType:0,version:"16.2.0",r
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2692,7 +2844,7 @@ Z.injectIntoDevTools({findFiberByHostInstance:pb,bundleType:0,version:"16.2.0",r
  * @typechecks
  */
 
-var isNode = __webpack_require__(22);
+var isNode = __webpack_require__(23);
 
 /**
  * @param {*} object The object to check.
@@ -2705,7 +2857,7 @@ function isTextNode(object) {
 module.exports = isTextNode;
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2733,7 +2885,7 @@ function isNode(object) {
 module.exports = isNode;
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2757,18 +2909,18 @@ if (process.env.NODE_ENV !== "production") {
 var React = __webpack_require__(2);
 var invariant = __webpack_require__(5);
 var warning = __webpack_require__(6);
-var ExecutionEnvironment = __webpack_require__(8);
+var ExecutionEnvironment = __webpack_require__(10);
 var _assign = __webpack_require__(3);
 var emptyFunction = __webpack_require__(1);
-var EventListener = __webpack_require__(9);
-var getActiveElement = __webpack_require__(10);
-var shallowEqual = __webpack_require__(11);
-var containsNode = __webpack_require__(12);
-var focusNode = __webpack_require__(13);
+var EventListener = __webpack_require__(11);
+var getActiveElement = __webpack_require__(12);
+var shallowEqual = __webpack_require__(13);
+var containsNode = __webpack_require__(14);
+var focusNode = __webpack_require__(15);
 var emptyObject = __webpack_require__(4);
-var checkPropTypes = __webpack_require__(7);
-var hyphenateStyleName = __webpack_require__(24);
-var camelizeStyleName = __webpack_require__(26);
+var checkPropTypes = __webpack_require__(9);
+var hyphenateStyleName = __webpack_require__(25);
+var camelizeStyleName = __webpack_require__(27);
 
 /**
  * WARNING: DO NOT manually require this module.
@@ -18135,7 +18287,7 @@ module.exports = reactDom;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18150,7 +18302,7 @@ module.exports = reactDom;
 
 
 
-var hyphenate = __webpack_require__(25);
+var hyphenate = __webpack_require__(26);
 
 var msPattern = /^ms-/;
 
@@ -18177,7 +18329,7 @@ function hyphenateStyleName(string) {
 module.exports = hyphenateStyleName;
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18213,7 +18365,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18228,7 +18380,7 @@ module.exports = hyphenate;
 
 
 
-var camelize = __webpack_require__(27);
+var camelize = __webpack_require__(28);
 
 var msPattern = /^-ms-/;
 
@@ -18256,7 +18408,7 @@ function camelizeStyleName(string) {
 module.exports = camelizeStyleName;
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18291,350 +18443,199 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 28 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(2);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var userTeam = __webpack_require__(14).userTeam;
-var token = __webpack_require__(14).token;
-var turnCount = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./settings\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).turnCount;
-var turns = __webpack_require__(29);
-
-var Board = function (_React$Component) {
-  _inherits(Board, _React$Component);
-
-  function Board(props) {
-    _classCallCheck(this, Board);
-
-    var _this = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this, props));
-
-    _this.state = {
-      grid: [[topLeft, topMid, topRight], [midLeft, midMid, midRight], [botLeft, botMid, botRight]]
-    };
-    _this.userClick = _this.userClick.bind(_this);
-    return _this;
-  }
-
-  _createClass(Board, [{
-    key: 'claimSquare',
-    value: function claimSquare(cell, team) {
-      var grid = this.state.grid;
-
-      var found = void 0;
-      grid.forEach(function (row) {
-        return row.forEach(function (c) {
-          if (c == cell) found = cell;
-        });
-      });
-      console.log(found);
-      found.teamName = team;
-      console.log(found);
-      this.setState({ grid: grid, userPaused: !this.state.userPaused });
-    }
-  }, {
-    key: 'userClick',
-    value: function userClick(cell) {
-      var _this2 = this;
-
-      if (this.state.userPaused) return;
-      this.claimSquare(cell, userTeam);
-      setTimeout(function () {
-        console.log("bot moves");
-        var grid = _this2.state.grid;
-
-        for (var i = 0; i < grid.length; i++) {
-          for (var j = 0; j < grid[i].length; j++) {
-            if (grid[i][j].teamName == 'none') {
-              _this2.claimSquare(grid[i][j], 'naught');
-              return;
-            }
-          }
-        }
-      }, 3000);
-      console.log('move over');
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this3 = this;
-
-      console.log(this.state.grid);
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          'table',
-          { style: {
-              border: 'thin solid black'
-            } },
-          _react2.default.createElement(
-            'tbody',
-            null,
-            this.state.grid && this.state.grid.map(function (row) {
-              return _react2.default.createElement(
-                'tr',
-                { style: {
-                    border: 'thin solid black'
-                  } },
-                row.map(function (cell) {
-                  return _react2.default.createElement(
-                    'td',
-                    { onClick: function onClick() {
-                        return _this3.userClick(cell);
-                      }, style: {
-                        border: 'thin solid black',
-                        padding: '10px',
-                        height: '40px',
-                        width: '30px'
-                      } },
-                    token(cell.teamName)
-                  );
-                })
-              );
-            })
-          )
-        )
-      );
-    }
-  }]);
-
-  return Board;
-}(_react2.default.Component);
-
-function isAvailable(cell) {
-  if (cell.teamName == 'none') {
-    return true;
-  }
-  return false;
-}
-
-var topLeft = { teamName: 'none', row: 0, col: 0 };
-var topMid = { teamName: 'none', row: 0, col: 1 };
-var topRight = { teamName: 'none', row: 0, col: 2 };
-var midLeft = { teamName: 'none', row: 1, col: 0 };
-var midMid = { teamName: 'none', row: 1, col: 1 };
-var midRight = { teamName: 'none', row: 1, col: 2 };
-var botLeft = { teamName: 'none', row: 2, col: 0 };
-var botMid = { teamName: 'none', row: 2, col: 1 };
-var botRight = { teamName: 'none', row: 2, col: 2 };
-
-var board = [topLeft, topMid, topRight, midLeft, midMid, midRight, botLeft, botMid, botRight];
-
-exports.default = Board;
-
-/***/ }),
 /* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var checkForWin = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./functions/winCheck.js\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
-var defend = __webpack_require__(30);
-var board = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../client/board.js\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
-var attack = __webpack_require__(31);
+//var checkForWin = require('../client/winCheck.js')
+//var defend = require('./functions/defense.js')
+var board = __webpack_require__(7);
+//var attack = require('./functions/attack.js')
 
-function turnOneCross() {
-  //board[0] == topLeft
-  if (board[0].isAvailable()) {
-    board[0].claimSquare('cross');
-    return;
-  }
-}
-
+// function turnOneCross() {
+//   //board[0] == topLeft
+//   if(board[0].isAvailable()) {
+//     return board[0]
+//   }
+// }
+//
 function turnOneNaught() {
   //board[4] == midMid
   //board[7] == botLeft
-  if (board[4].isAvailable()) {
-    board[4].claimSquare('naught');
-    return;
+  if (board[4].teamName == 'none') {
+    return board[4];
   } else {
-    board[7].claimSquare('naught');
+    return board[7];
   }
 }
-
-function turnTwoCross() {
-  //board[1] == topMid
-  //board[2] == topRight
-  //board[6] == botLeft
-  if (board[1].isAvailable() && board[2].isAvailable()) {
-    board[2].claimSquare('cross');
-  } else {
-    board[6].claimSquare('cross');
-  }
-}
-
-function turnTwoNaught() {
-  if (defend('naught')) {
-    return;
-  } else {
-    for (var i = 0; i < board.length; i++) {
-      if (board[i].isAvailable()) {
-        board[i].claimSquare('naught');
-        return;
-      }
-    }
-  }
-}
-
-function turnThreeCross() {
-  // board[6] == botLeft
-  // board[8] == botRight
-  if (attack('cross')) {
-    if (checkForWin('cross')) {
-      console.log('crosses win!!');
-    }
-    return;
-  } else if (defend('cross')) {
-    console.log('hello');
-    return;
-  } else if (board[6].isAvailable()) {
-    board[6].claimSquare('cross');
-    return;
-  } else if (board[8].isAvailable()) {
-    board[8].claimSquare('cross');
-    return;
-  } else {
-    for (var i = 0; i < board.length; i++) {
-      if (board[i].isAvailable()) {
-        board[i].claimSquare('cross');
-        return;
-      }
-    }
-  }
-  if (checkForWin('cross')) {
-    console.log('crosses win!!');
-  }
-}
-
-function turnThreeNaught() {
-  if (attack('naught')) {
-    if (checkForWin('naught')) {
-      console.log('naught win!!');
-    }
-    return;
-  } else if (defend('naught')) {
-    return;
-  } else {
-    for (var i = 0; i < board.length; i++) {
-      if (board[i].isAvailable()) {
-        board[i].claimSquare('naught');
-        return;
-      }
-    }
-  }
-  if (checkForWin('naught')) {
-    console.log('naught win!!');
-  }
-}
-
-function turnFourCross() {
-  if (attack('cross')) {
-    if (checkForWin('cross')) {
-      console.log('crosses win!!');
-    }
-    return;
-  } else if (defend('cross')) {
-    return;
-  } else {
-    for (var i = 0; i < board.length; i++) {
-      if (board[i].isAvailable()) {
-        board[i].claimSquare('cross');
-        return;
-      }
-    }
-  }
-  if (checkForWin('cross')) {
-    console.log('crosses win!!');
-  }
-}
-
-function turnFourNaught() {
-  // board[6] == botLeft
-  // board[8] == botRight
-  if (attack('naught')) {
-    if (checkForWin('naught')) {
-      console.log('naughts win!!');
-    }
-    return;
-  } else if (defend('naught')) {
-    return;
-  } else {
-    for (var i = 0; i < board.length; i++) {
-      if (board[i].isAvailable()) {
-        board[i].claimSquare('naught');
-        return;
-      }
-    }
-  }
-  if (checkForWin('naught')) {
-    console.log('naughts win!!');
-  }
-}
-
-function turnFiveCross() {
-  if (attack('cross')) {
-    if (checkForWin('cross')) {
-      console.log('crosses win!!');
-    }
-    return;
-  } else if (attack('naught')) {
-    return;
-  } else {
-    for (var i = 0; i < board.length; i++) {
-      if (board[i].isAvailable()) {
-        board[i].claimSquare('cross');
-        return;
-      }
-    }
-  }
-  if (checkForWin('cross')) {
-    console.log('crosses win!!');
-  }
-}
-
+//
+// function turnTwoCross() {
+//   //board[1] == topMid
+//   //board[2] == topRight
+//   //board[6] == botLeft
+//   if(board[1].isAvailable() && board[2].isAvailable()){
+//     board[2].claimSquare('cross')
+//   }
+//   else {
+//     board[6].claimSquare('cross')
+//   }
+// }
+//
+// function turnTwoNaught() {
+//   if (defend('naught')){
+//     return
+//   }
+//   else {
+//     for (var i = 0; i < board.length; i++) {
+//       if(board[i].isAvailable()) {
+//         board[i].claimSquare('naught')
+//         return
+//       }
+//     }
+//   }
+// }
+//
+// function turnThreeCross(){
+//   // board[6] == botLeft
+//   // board[8] == botRight
+//   if(attack('cross')){
+//     if(checkForWin('cross')){
+//       console.log('crosses win!!')
+//     }
+//     return
+//   }
+//   else if(defend('cross')){
+//     console.log('hello')
+//     return
+//   }
+//   else if(board[6].isAvailable()){
+//       board[6].claimSquare('cross')
+//       return
+//     }
+//   else if(board[8].isAvailable()){
+//       board[8].claimSquare('cross')
+//       return
+//     }
+//   else {
+//     for (var i = 0; i < board.length; i++) {
+//       if(board[i].isAvailable()){
+//         board[i].claimSquare('cross')
+//         return
+//       }
+//     }
+//   }
+//   if(checkForWin('cross')){
+//     console.log('crosses win!!')
+//   }
+// }
+//
+// function turnThreeNaught(){
+//   if(attack('naught')){
+//     if(checkForWin('naught')){
+//       console.log('naught win!!')
+//     }
+//     return
+//   }
+//   else if(defend('naught')){
+//     return
+//   }
+//   else {
+//     for (var i = 0; i < board.length; i++) {
+//       if(board[i].isAvailable()){
+//         board[i].claimSquare('naught')
+//         return
+//       }
+//     }
+//   }
+//   if(checkForWin('naught')){
+//     console.log('naught win!!')
+//   }
+// }
+//
+// function turnFourCross(){
+//     if(attack('cross')){
+//       if(checkForWin('cross')){
+//         console.log('crosses win!!')
+//       }
+//       return
+//     }
+//     else if(defend('cross')){
+//       return
+//     }
+//     else {
+//       for (var i = 0; i < board.length; i++) {
+//         if(board[i].isAvailable()){
+//           board[i].claimSquare('cross')
+//           return
+//         }
+//       }
+//     }
+//     if(checkForWin('cross')){
+//       console.log('crosses win!!')
+//     }
+//   }
+//
+// function turnFourNaught(){
+//     // board[6] == botLeft
+//     // board[8] == botRight
+//     if(attack('naught')){
+//       if(checkForWin('naught')){
+//         console.log('naughts win!!')
+//       }
+//       return
+//     }
+//     else if(defend('naught')){
+//       return
+//     }
+//     else {
+//       for (var i = 0; i < board.length; i++) {
+//         if(board[i].isAvailable()){
+//           board[i].claimSquare('naught')
+//           return
+//         }
+//       }
+//     }
+//     if(checkForWin('naught')){
+//       console.log('naughts win!!')
+//     }
+// }
+//
+// function turnFiveCross() {
+//     if(attack('cross')){
+//       if(checkForWin('cross')){
+//         console.log('crosses win!!')
+//       }
+//       return
+//     }
+//     else if(attack('naught')){
+//       return
+//       }
+//     else {
+//       for (var i = 0; i < board.length; i++) {
+//         if(board[i].isAvailable()){
+//           board[i].claimSquare('cross')
+//           return
+//         }
+//       }
+//     }
+//     if(checkForWin('cross')){
+//       console.log('crosses win!!')
+//     }
+// }
+//
 function resetBoard() {
   for (var i = 0; i < board.length; i++) {
     board[i].teamName = 'none';
   }
 }
 
-if (checkForWin('cross')) {
-  console.log('crosses win!!');
-}
-
-console.log(board);
-
 module.exports = {
-  turnOneCross: turnOneCross,
-  turnTwoCross: turnTwoCross,
-  turnThreeCross: turnThreeCross,
-  turnFourCross: turnFiveCross,
-  turnFiveCross: turnFiveCross,
   turnOneNaught: turnOneNaught,
-  turnTwoNaught: turnTwoNaught,
-  turnThreeNaught: turnThreeNaught,
-  turnFourNaught: turnFourNaught,
+  // turnTwoNaught: turnTwoNaught,
+  // turnThreeNaught: turnThreeNaught,
+  // turnFourNaught: turnFourNaught,
   resetBoard: resetBoard
 };
 
@@ -18645,102 +18646,195 @@ module.exports = {
 "use strict";
 
 
-var board = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../../client/board.js\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+//var checkForWin = require('../client/winCheck.js')
+//var defend = require('./functions/defense.js')
+var board = __webpack_require__(7);
+//var attack = require('./functions/attack.js')
 
-//working
-function defendRows(team) {
-  var enemyTeam = findEnemy(team);
-  for (var i = 0; i < board.length; i++) {
-    if (board[i].teamName == enemyTeam && board[i].col == 0 && board[i + 1].teamName == enemyTeam && board[i + 2].teamName == 'none') {
-      board[i + 2].teamName = team;
-      return true;
-    } else if (board[i].teamName == enemyTeam && board[i].col == 0 && board[i + 2].teamName == enemyTeam && board[i + 1].teamName == 'none') {
-      board[i + 1].teamName = team;
-      return true;
-    }
-  }
-  return false;
-}
-
-//working
-function defendCollumns(team) {
-  var enemyTeam = findEnemy(team);
-  for (var i = 0; i < board.length; i++) {
-    if (board[i].teamName == enemyTeam && board[i].row == 0 && board[i + 3].teamName == enemyTeam && board[i + 6].teamName == 'none') {
-      board[i + 6].teamName = team;
-      return true;
-    } else if (board[i].teamName == enemyTeam && board[i].row == 0 && board[i + 6].teamName == enemyTeam && board[i + 3].teamName == 'none') {
-      board[i + 3].teamName = team;
-      return true;
-    } else if (board[i].teamName == enemyTeam && board[i].row == 1 && board[i + 3].teamName == enemyTeam && board[i - 3].teamName == 'none') {
-      board[i - 3].teamName = team;
-      return true;
-    }
-  }
-  return false;
-}
-
-//untested
-function defendDiagonal1(team) {
-  var enemyTeam = findEnemy(team);
-  //board[0] == topLeft
+// function turnOneCross() {
+//   //board[0] == topLeft
+//   if(board[0].isAvailable()) {
+//     return board[0]
+//   }
+// }
+//
+function turnOneNaught() {
   //board[4] == midMid
-  //board[8] == botRight
-  if (board[0].teamName == enemyTeam && board[4].teamName == enemyTeam && board[8].teamName == 'none') {
-    board[8].teamName = team;
-    return true;
-  } else if (board[0].teamName == enemyTeam && board[8].teamName == enemyTeam && board[4].teamName == 'none') {
-    board[4].teamName = team;
-    return true;
-  } else if (board[4].teamName == enemyTeam && board[8].teamName == enemyTeam && board[0].teamName == 'none') {
-    board[0].teamName = team;
-    return true;
+  //board[7] == botLeft
+  if (board[4].teamName == 'none') {
+    return board[4];
   } else {
-    return false;
+    return board[7];
+  }
+}
+//
+// function turnTwoCross() {
+//   //board[1] == topMid
+//   //board[2] == topRight
+//   //board[6] == botLeft
+//   if(board[1].isAvailable() && board[2].isAvailable()){
+//     board[2].claimSquare('cross')
+//   }
+//   else {
+//     board[6].claimSquare('cross')
+//   }
+// }
+//
+// function turnTwoNaught() {
+//   if (defend('naught')){
+//     return
+//   }
+//   else {
+//     for (var i = 0; i < board.length; i++) {
+//       if(board[i].isAvailable()) {
+//         board[i].claimSquare('naught')
+//         return
+//       }
+//     }
+//   }
+// }
+//
+// function turnThreeCross(){
+//   // board[6] == botLeft
+//   // board[8] == botRight
+//   if(attack('cross')){
+//     if(checkForWin('cross')){
+//       console.log('crosses win!!')
+//     }
+//     return
+//   }
+//   else if(defend('cross')){
+//     console.log('hello')
+//     return
+//   }
+//   else if(board[6].isAvailable()){
+//       board[6].claimSquare('cross')
+//       return
+//     }
+//   else if(board[8].isAvailable()){
+//       board[8].claimSquare('cross')
+//       return
+//     }
+//   else {
+//     for (var i = 0; i < board.length; i++) {
+//       if(board[i].isAvailable()){
+//         board[i].claimSquare('cross')
+//         return
+//       }
+//     }
+//   }
+//   if(checkForWin('cross')){
+//     console.log('crosses win!!')
+//   }
+// }
+//
+// function turnThreeNaught(){
+//   if(attack('naught')){
+//     if(checkForWin('naught')){
+//       console.log('naught win!!')
+//     }
+//     return
+//   }
+//   else if(defend('naught')){
+//     return
+//   }
+//   else {
+//     for (var i = 0; i < board.length; i++) {
+//       if(board[i].isAvailable()){
+//         board[i].claimSquare('naught')
+//         return
+//       }
+//     }
+//   }
+//   if(checkForWin('naught')){
+//     console.log('naught win!!')
+//   }
+// }
+//
+// function turnFourCross(){
+//     if(attack('cross')){
+//       if(checkForWin('cross')){
+//         console.log('crosses win!!')
+//       }
+//       return
+//     }
+//     else if(defend('cross')){
+//       return
+//     }
+//     else {
+//       for (var i = 0; i < board.length; i++) {
+//         if(board[i].isAvailable()){
+//           board[i].claimSquare('cross')
+//           return
+//         }
+//       }
+//     }
+//     if(checkForWin('cross')){
+//       console.log('crosses win!!')
+//     }
+//   }
+//
+// function turnFourNaught(){
+//     // board[6] == botLeft
+//     // board[8] == botRight
+//     if(attack('naught')){
+//       if(checkForWin('naught')){
+//         console.log('naughts win!!')
+//       }
+//       return
+//     }
+//     else if(defend('naught')){
+//       return
+//     }
+//     else {
+//       for (var i = 0; i < board.length; i++) {
+//         if(board[i].isAvailable()){
+//           board[i].claimSquare('naught')
+//           return
+//         }
+//       }
+//     }
+//     if(checkForWin('naught')){
+//       console.log('naughts win!!')
+//     }
+// }
+//
+// function turnFiveCross() {
+//     if(attack('cross')){
+//       if(checkForWin('cross')){
+//         console.log('crosses win!!')
+//       }
+//       return
+//     }
+//     else if(attack('naught')){
+//       return
+//       }
+//     else {
+//       for (var i = 0; i < board.length; i++) {
+//         if(board[i].isAvailable()){
+//           board[i].claimSquare('cross')
+//           return
+//         }
+//       }
+//     }
+//     if(checkForWin('cross')){
+//       console.log('crosses win!!')
+//     }
+// }
+//
+function resetBoard() {
+  for (var i = 0; i < board.length; i++) {
+    board[i].teamName = 'none';
   }
 }
 
-function defendDiagonal2(team) {
-  var enemyTeam = findEnemy(team);
-  //board[2] == topRight
-  //board[4] == midMid
-  //board[6] == botLeft
-  if (board[2].teamName == enemyTeam && board[4].teamName == enemyTeam && board[6].teamName == 'none') {
-    board[6].teamName = team;
-    return true;
-  } else if (board[2].teamName == enemyTeam && board[6].teamName == enemyTeam && board[4].teamName == 'none') {
-    board[4].teamName = team;
-    return true;
-  } else if (board[4].teamName == enemyTeam && board[6].teamName == enemyTeam && board[2].teamName == 'none') {
-    board[2].teamName = team;
-    return true;
-  } else {
-    return false;
-  }
-}
-
-function defend(team) {
-  if (defendRows(team)) {
-    return true;
-  } else if (defendCollumns(team)) {
-    return true;
-  } else if (defendDiagonal1(team)) {
-    return true;
-  } else if (defendDiagonal2(team)) {
-    return true;
-  }
-  return false;
-}
-
-function findEnemy(team) {
-  if (team == 'cross') {
-    return 'naught';
-  } else {
-    return 'cross';
-  }
-}
-
-module.exports = defend;
+module.exports = {
+  turnOneNaught: turnOneNaught,
+  // turnTwoNaught: turnTwoNaught,
+  // turnThreeNaught: turnThreeNaught,
+  // turnFourNaught: turnFourNaught,
+  resetBoard: resetBoard
+};
 
 /***/ }),
 /* 31 */
@@ -18749,89 +18843,11 @@ module.exports = defend;
 "use strict";
 
 
-var board = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../../client/board.js\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
-
-function attackRows(team) {
-  for (var i = 0; i < board.length; i++) {
-    if (board[i].teamName == team && board[i].col == 0 && board[i + 1].teamName == team && board[i + 2].teamName == 'none') {
-      board[i + 2].teamName = team;
-      return true;
-    } else if (board[i].teamName == team && board[i].col == 0 && board[i + 2].teamName == team && board[i + 1].teamName == 'none') {
-      board[i + 1].teamName = team;
-      return true;
-    }
-  }
-  return false;
+function sayHello() {
+  console.log('so');
 }
 
-function attackCollumns(team) {
-  for (var i = 0; i < board.length; i++) {
-    if (board[i].teamName == team && board[i].row == 0 && board[i + 3].teamName == team && board[i + 6].teamName == 'none') {
-      board[i + 6].teamName = team;
-      return true;
-    } else if (board[i].teamName == team && board[i].row == 0 && board[i + 6].teamName == team && board[i + 3].teamName == 'none') {
-      board[i + 3].teamName = team;
-      return true;
-    } else if (board[i].teamName == team && board[i].row == 1 && board[i + 3].teamName == team && board[i - 3].teamName == 'none') {
-      board[i - 3].teamName = team;
-      return true;
-    }
-  }
-  return false;
-}
-
-function attackDiagonal1(team) {
-  //board[0] == topLeft
-  //board[4] == midMid
-  //board[8] == botRight
-  if (board[0].teamName == team && board[4].teamName == team && board[8].teamName == 'none') {
-    board[8].teamName = team;
-    return true;
-  } else if (board[0].teamName == team && board[8].teamName == team && board[4].teamName == 'none') {
-    board[4].teamName = team;
-    return true;
-  } else if (board[4].teamName == team && board[8].teamName == team && board[0].teamName == 'none') {
-    board[0].teamName = team;
-    return true;
-  } else {
-    return false;
-  }
-}
-
-function attackDiagonal2(team) {
-  //board[2] == topRight
-  //board[4] == midMid
-  //board[6] == botLeft
-  if (board[2].teamName == team && board[4].teamName == team && board[6].teamName == 'none') {
-    board[6].teamName = team;
-    return true;
-  } else if (board[2].teamName == team && board[6].teamName == team && board[4].teamName == 'none') {
-    board[4].teamName = team;
-    return true;
-  } else if (board[4].teamName == team && board[6].teamName == team && board[2].teamName == 'none') {
-    board[2].teamName = team;
-    return true;
-  } else {
-    return false;
-  }
-}
-
-function attack(team) {
-  if (attackRows(team)) {
-    return true;
-  } else if (attackCollumns(team)) {
-    return true;
-  } else if (attackDiagonal1(team)) {
-    return true;
-  } else if (attackDiagonal2(team)) {
-    return true;
-  }
-  return false;
-}
-
-module.exports = attack;
-
-attackRows('naught');
+module.exports = sayHello;
 
 /***/ })
 /******/ ]);
