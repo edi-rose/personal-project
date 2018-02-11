@@ -1,4 +1,5 @@
 var userTeam = 'cross'
+var turnCount = 0
 
 function token(teamName) {
   if(teamName == 'none'){
@@ -14,5 +15,6 @@ function token(teamName) {
 
 module.exports = {
   userTeam: userTeam,
-  token: token
+  token: token,
+  turnCount: turnCount
 }

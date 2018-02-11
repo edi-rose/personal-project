@@ -186,17 +186,18 @@ function resetBoard()  {
 if(checkForWin('cross')){
   console.log('crosses win!!')
 }
-//function runners
-//turnOneCross()
-//  turnOneNaught()
-//  turnTwoCross()
-//  turnTwoNaught()
-//turnThreeCross()
-//  turnThreeNaught()
-//   turnFourCross()
-//  turnFourNaught()
-// turnFiveCross()
 
 console.log(board)
 
-module.exports = board
+module.exports = {
+  turnOneCross: turnOneCross,
+  turnTwoCross: turnTwoCross,
+  turnThreeCross: turnThreeCross,
+  turnFourCross: turnFiveCross,
+  turnFiveCross: turnFiveCross,
+  turnOneNaught: turnOneNaught,
+  turnTwoNaught: turnTwoNaught,
+  turnThreeNaught: turnThreeNaught,
+  turnFourNaught: turnFourNaught,
+  resetBoard: resetBoard
+}

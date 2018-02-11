@@ -1,6 +1,8 @@
 import React from 'react'
 var userTeam = require('../settings').userTeam
 var token = require('../settings').token
+var turnCount = require('./settings').turnCount
+var turns = require('../../Bots/botMoves')
 
 class Board extends React.Component{
   constructor (props) {
@@ -9,13 +11,12 @@ class Board extends React.Component{
       grid: [
         [topLeft,topMid,topRight],
         [midLeft,midMid,midRight],
-        [botLeft,botMid,botRight],
+        [botLeft,botMid,botRight]
       ]
     }
     this.userClick = this.userClick.bind(this)
   }
   claimSquare(cell, team){
-    console.log("hello")
     const {grid} = this.state
     let found
     grid.forEach(row => row.forEach(c => {
@@ -31,15 +32,17 @@ class Board extends React.Component{
     this.claimSquare(cell, userTeam)
     setTimeout(() => {
       console.log("bot moves")
-      const {grid} = this.state
-      let found
-      while(!found) {
-        let randomRow = Math.floor(Math.random() * 3)
-        let randomCell = Math.floor(Math.random() * 3)
-        if (grid[randomRow][randomCell].teamName == 'none') found == grid[randomRow][randomCell]
+      var {grid} = this.state
+      for (var i = 0; i < grid.length; i++) {
+        for(var j = 0; j <grid[i].length; j++){
+          if(grid[i][j].teamName == 'none'){
+            this.claimSquare(grid[i][j], 'naught')
+            return
+          }
+        }
       }
-      this.claimSquare(found, "naught")
     }, 3000)
+    console.log('move over')
   }
   render() {
     console.log(this.state.grid);
