@@ -1,6 +1,6 @@
 //var checkForWin = require('../client/winCheck.js')
-//var defend = require('./functions/defense.js')
-var board = require('../client/components/Board.jsx')
+var defend = require('./functions/defense.js')
+var board = require('../client/boardArray')
 //var attack = require('./functions/attack.js')
 
 // function turnOneCross() {
@@ -11,6 +11,7 @@ var board = require('../client/components/Board.jsx')
 // }
 //
 function turnOneNaught() {
+  console.log('turnOne')
   //board[4] == midMid
   //board[7] == botLeft
    if(board[4].teamName == 'none') {
@@ -33,20 +34,20 @@ function turnOneNaught() {
 //   }
 // }
 //
-// function turnTwoNaught() {
-//   if (defend('naught')){
-//     return
-//   }
-//   else {
-//     for (var i = 0; i < board.length; i++) {
-//       if(board[i].isAvailable()) {
-//         board[i].claimSquare('naught')
-//         return
-//       }
-//     }
-//   }
-// }
-//
+function turnTwoNaught() {
+  if (defend('naught')){
+    return defend('naught')
+  }
+  else {
+    for (var i = 0; i < board.length; i++) {
+      if(board[i].isAvailable()) {
+        board[i].claimSquare('naught')
+        return
+      }
+    }
+  }
+}
+
 // function turnThreeCross(){
 //   // board[6] == botLeft
 //   // board[8] == botRight
@@ -184,7 +185,7 @@ function resetBoard()  {
 
 module.exports = {
   turnOneNaught: turnOneNaught,
-  // turnTwoNaught: turnTwoNaught,
+  turnTwoNaught: turnTwoNaught,
   // turnThreeNaught: turnThreeNaught,
   // turnFourNaught: turnFourNaught,
   resetBoard: resetBoard

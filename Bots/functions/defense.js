@@ -1,4 +1,4 @@
-var board = require('../../client/components/Board.jsx')
+var board = require('../../client/boardArray')
 
 //working
 function defendRows(team) {
@@ -8,15 +8,13 @@ function defendRows(team) {
        board[i].col == 0 &&
        board[i+1].teamName == enemyTeam &&
        board[i+2].teamName == 'none'){
-        board[i+2].teamName = team
-      return true
+        return board[i+2]
         }
     else if(board[i].teamName == enemyTeam&&
             board[i].col == 0&&
             board[i+2].teamName == enemyTeam&&
             board[i+1].teamName == 'none'){
-              board[i+1].teamName = team
-              return true
+            return board[i+1]
     }
   }
     return false
@@ -31,22 +29,20 @@ function defendCollumns(team) {
        board[i].row == 0 &&
        board[i+3].teamName == enemyTeam &&
        board[i+6].teamName == 'none'){
-        board[i+6].teamName = team
-        return true
+       return board[i+6]
+
       }
       else if(board[i].teamName == enemyTeam&&
               board[i].row == 0&&
               board[i+6].teamName == enemyTeam&&
               board[i+3].teamName == 'none'){
-                board[i+3].teamName = team
-                return true
+                return board[i+3]
               }
     else if(board[i].teamName == enemyTeam &&
             board[i].row == 1 &&
             board[i+3].teamName == enemyTeam &&
             board[i-3].teamName == 'none'){
-          board[i-3].teamName = team
-          return true
+            return board[i-3]
    }
   }
   return false
@@ -61,20 +57,17 @@ function defendDiagonal1(team) {
     if(board[0].teamName == enemyTeam &&
        board[4].teamName == enemyTeam &&
        board[8].teamName == 'none') {
-        board[8].teamName = team
-        return true
+        return board[8]
       }
     else if(board[0].teamName == enemyTeam &&
             board[8].teamName == enemyTeam &&
             board[4].teamName == 'none'){
-              board[4].teamName = team
-              return true
+              return board[4]
             }
     else if(board[4].teamName == enemyTeam &&
             board[8].teamName == enemyTeam &&
             board[0].teamName == 'none'){
-              board[0].teamName = team
-              return true
+              return board[0]
             }
     else {
       return false
@@ -89,20 +82,17 @@ function defendDiagonal2(team) {
     if(board[2].teamName == enemyTeam &&
       board[4].teamName == enemyTeam &&
       board[6].teamName == 'none') {
-        board[6].teamName = team
-        return true
+        return board[6]
       }
     else if(board[2].teamName == enemyTeam &&
             board[6].teamName == enemyTeam &&
             board[4].teamName == 'none'){
-              board[4].teamName = team
-              return true
+              return board[4]
             }
     else if(board[4].teamName == enemyTeam &&
             board[6].teamName == enemyTeam &&
             board[2].teamName == 'none'){
-              board[2].teamName = team
-              return true
+              return board[2]
             }
     else {
       return false
@@ -111,16 +101,16 @@ function defendDiagonal2(team) {
 
 function defend(team) {
   if(defendRows(team)){
-    return true
+    return (defendRows(team))
   }
   else if(defendCollumns(team)){
-    return true
+    return defendCollumns(team)
   }
   else if(defendDiagonal1(team)){
-    return true
+    return defendDiagonal1(team)
   }
   else if(defendDiagonal2(team)){
-    return true
+    return defendDiagonal2(team)
   }
   return false
 }

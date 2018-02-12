@@ -3,3 +3,7 @@ function sayHello() {
 }
 
 module.exports = sayHello
+
+var board = require('./boardArray')
+
+console.log(board[0])

@@ -1,4 +1,4 @@
-var board = require('../../client/components/Board.jsx')
+var board = require('../../client/boardArray')
 
 function attackRows(team){
   for (var i = 0; i < board.length; i++) {

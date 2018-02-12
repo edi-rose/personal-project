@@ -3,27 +3,35 @@ var userTeam = require('../settings').userTeam
 var token = require('../settings').token
 var turns = require('../../Bots/botMovesReact.js')
 var getCell = require('../settings').getCell
-var turnCount = 1
 var sayHello = require('../sayHello')
-
+var board = require('../boardArray')
+var turnCount = 1
 class Board extends React.Component{
   constructor (props) {
     super(props)
     this.state = {
       grid: [
-        [topLeft,topMid,topRight],
-        [midLeft,midMid,midRight],
-        [botLeft,botMid,botRight]
+        [board[0], board[1], board[2]],
+        [board[3], board[4], board[5]],
+        [board[6], board[7], board[8]]
+        // [topLeft,topMid,topRight],
+        // [midLeft,midMid,midRight],
+        // [botLeft,botMid,botRight]
       ]
     }
     this.userClick = this.userClick.bind(this)
   }
   getCell(count){
-    if (count == 1 && board[4].teamName =='none') {
-      return board[4]
+    if (count == 1) {
+      turnCount ++
+      return turns.turnOneNaught()
+    }
+    else if (count == 2) {
+      count ++
+      return turns.turnTwoNaught()
     }
     else {
-      return board[0]
+      console.log('count too high')
     }
   }
   claimSquare(cell, team){
@@ -42,10 +50,9 @@ class Board extends React.Component{
     this.claimSquare(cell, userTeam)
     setTimeout(() => {
       console.log("bot moves")
-      sayHello()
       var {grid} = this.state
       this.claimSquare(this.getCell(turnCount), 'naught')
-    }, 3000)
+    }, 2000)
     console.log('move over')
   }
   render() {
@@ -87,22 +94,6 @@ function isAvailable(cell) {
   }
   return false
 }
-
-var topLeft = {teamName:'none', row:0, col:0}
-var topMid = {teamName:'none', row:0, col:1}
-var topRight = {teamName:'none', row:0, col:2}
-var midLeft = {teamName:'none', row:1, col:0}
-var midMid = {teamName:'none', row:1, col:1}
-var midRight = {teamName:'none', row:1, col:2}
-var botLeft = {teamName:'none', row:2, col:0}
-var botMid = {teamName:'none', row:2, col:1}
-var botRight = {teamName:'none', row:2, col:2}
-
-var board = [topLeft, topMid, topRight, midLeft, midMid, midRight, botLeft, botMid, botRight]
-
-
-
-
 
 module.exports = {
   Board: Board

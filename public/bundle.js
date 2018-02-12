@@ -436,6 +436,27 @@ module.exports = emptyObject;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+var topLeft = { teamName: 'none', row: 0, col: 0 };
+var topMid = { teamName: 'none', row: 0, col: 1 };
+var topRight = { teamName: 'none', row: 0, col: 2 };
+var midLeft = { teamName: 'none', row: 1, col: 0 };
+var midMid = { teamName: 'none', row: 1, col: 1 };
+var midRight = { teamName: 'none', row: 1, col: 2 };
+var botLeft = { teamName: 'none', row: 2, col: 0 };
+var botMid = { teamName: 'none', row: 2, col: 1 };
+var botRight = { teamName: 'none', row: 2, col: 2 };
+
+var board = [topLeft, topMid, topRight, midLeft, midMid, midRight, botLeft, botMid, botRight];
+
+module.exports = board;
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -492,7 +513,7 @@ module.exports = invariant;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -561,161 +582,6 @@ module.exports = warning;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(2);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var userTeam = __webpack_require__(8).userTeam;
-var token = __webpack_require__(8).token;
-var turns = __webpack_require__(30);
-var getCell = __webpack_require__(8).getCell;
-var turnCount = 1;
-var sayHello = __webpack_require__(31);
-
-var Board = function (_React$Component) {
-  _inherits(Board, _React$Component);
-
-  function Board(props) {
-    _classCallCheck(this, Board);
-
-    var _this = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this, props));
-
-    _this.state = {
-      grid: [[topLeft, topMid, topRight], [midLeft, midMid, midRight], [botLeft, botMid, botRight]]
-    };
-    _this.userClick = _this.userClick.bind(_this);
-    return _this;
-  }
-
-  _createClass(Board, [{
-    key: 'getCell',
-    value: function getCell(count) {
-      if (count == 1 && board[4].teamName == 'none') {
-        return board[4];
-      } else {
-        return board[0];
-      }
-    }
-  }, {
-    key: 'claimSquare',
-    value: function claimSquare(cell, team) {
-      var grid = this.state.grid;
-
-      var found = void 0;
-      grid.forEach(function (row) {
-        return row.forEach(function (c) {
-          if (c == cell) found = cell;
-        });
-      });
-      console.log(found);
-      found.teamName = team;
-      console.log(found);
-      this.setState({ grid: grid, userPaused: !this.state.userPaused });
-    }
-  }, {
-    key: 'userClick',
-    value: function userClick(cell) {
-      var _this2 = this;
-
-      if (this.state.userPaused) return;
-      this.claimSquare(cell, userTeam);
-      setTimeout(function () {
-        console.log("bot moves");
-        sayHello();
-        var grid = _this2.state.grid;
-
-        _this2.claimSquare(_this2.getCell(turnCount), 'naught');
-      }, 3000);
-      console.log('move over');
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this3 = this;
-
-      console.log(this.state.grid);
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          'table',
-          { style: {
-              border: 'thin solid black'
-            } },
-          _react2.default.createElement(
-            'tbody',
-            null,
-            this.state.grid && this.state.grid.map(function (row) {
-              return _react2.default.createElement(
-                'tr',
-                { style: {
-                    border: 'thin solid black'
-                  } },
-                row.map(function (cell) {
-                  return _react2.default.createElement(
-                    'td',
-                    { onClick: function onClick() {
-                        return _this3.userClick(cell);
-                      }, style: {
-                        border: 'thin solid black',
-                        padding: '10px',
-                        height: '40px',
-                        width: '30px'
-                      } },
-                    token(cell.teamName)
-                  );
-                })
-              );
-            })
-          )
-        )
-      );
-    }
-  }]);
-
-  return Board;
-}(_react2.default.Component);
-
-function isAvailable(cell) {
-  if (cell.teamName == 'none') {
-    return true;
-  }
-  return false;
-}
-
-var topLeft = { teamName: 'none', row: 0, col: 0 };
-var topMid = { teamName: 'none', row: 0, col: 1 };
-var topRight = { teamName: 'none', row: 0, col: 2 };
-var midLeft = { teamName: 'none', row: 1, col: 0 };
-var midMid = { teamName: 'none', row: 1, col: 1 };
-var midRight = { teamName: 'none', row: 1, col: 2 };
-var botLeft = { teamName: 'none', row: 2, col: 0 };
-var botMid = { teamName: 'none', row: 2, col: 1 };
-var botRight = { teamName: 'none', row: 2, col: 2 };
-
-var board = [topLeft, topMid, topRight, midLeft, midMid, midRight, botLeft, botMid, botRight];
-
-module.exports = {
-  Board: Board
-};
-
-/***/ }),
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -723,7 +589,7 @@ module.exports = {
 
 
 var userTeam = 'cross';
-var turns = __webpack_require__(29);
+var turns = __webpack_require__(30);
 
 function token(teamName) {
   if (teamName == 'none') {
@@ -755,8 +621,8 @@ module.exports = {
 
 
 if (process.env.NODE_ENV !== 'production') {
-  var invariant = __webpack_require__(5);
-  var warning = __webpack_require__(6);
+  var invariant = __webpack_require__(6);
+  var warning = __webpack_require__(7);
   var ReactPropTypesSecret = __webpack_require__(19);
   var loggedTypeFailures = {};
 }
@@ -1126,7 +992,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactDom = __webpack_require__(20);
 
-var _Board = __webpack_require__(7);
+var _Board = __webpack_require__(29);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1186,8 +1052,8 @@ if (process.env.NODE_ENV !== "production") {
 
 var _assign = __webpack_require__(3);
 var emptyObject = __webpack_require__(4);
-var invariant = __webpack_require__(5);
-var warning = __webpack_require__(6);
+var invariant = __webpack_require__(6);
+var warning = __webpack_require__(7);
 var emptyFunction = __webpack_require__(1);
 var checkPropTypes = __webpack_require__(9);
 
@@ -2907,8 +2773,8 @@ if (process.env.NODE_ENV !== "production") {
 'use strict';
 
 var React = __webpack_require__(2);
-var invariant = __webpack_require__(5);
-var warning = __webpack_require__(6);
+var invariant = __webpack_require__(6);
+var warning = __webpack_require__(7);
 var ExecutionEnvironment = __webpack_require__(10);
 var _assign = __webpack_require__(3);
 var emptyFunction = __webpack_require__(1);
@@ -18449,194 +18315,148 @@ module.exports = camelize;
 "use strict";
 
 
-//var checkForWin = require('../client/winCheck.js')
-//var defend = require('./functions/defense.js')
-var board = __webpack_require__(7);
-//var attack = require('./functions/attack.js')
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-// function turnOneCross() {
-//   //board[0] == topLeft
-//   if(board[0].isAvailable()) {
-//     return board[0]
-//   }
-// }
-//
-function turnOneNaught() {
-  //board[4] == midMid
-  //board[7] == botLeft
-  if (board[4].teamName == 'none') {
-    return board[4];
-  } else {
-    return board[7];
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var userTeam = __webpack_require__(8).userTeam;
+var token = __webpack_require__(8).token;
+var turns = __webpack_require__(31);
+var getCell = __webpack_require__(8).getCell;
+var sayHello = __webpack_require__(32);
+var board = __webpack_require__(5);
+var turnCount = 1;
+
+var Board = function (_React$Component) {
+  _inherits(Board, _React$Component);
+
+  function Board(props) {
+    _classCallCheck(this, Board);
+
+    var _this = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this, props));
+
+    _this.state = {
+      grid: [[board[0], board[1], board[2]], [board[3], board[4], board[5]], [board[6], board[7], board[8]]
+      // [topLeft,topMid,topRight],
+      // [midLeft,midMid,midRight],
+      // [botLeft,botMid,botRight]
+      ]
+    };
+    _this.userClick = _this.userClick.bind(_this);
+    return _this;
   }
-}
-//
-// function turnTwoCross() {
-//   //board[1] == topMid
-//   //board[2] == topRight
-//   //board[6] == botLeft
-//   if(board[1].isAvailable() && board[2].isAvailable()){
-//     board[2].claimSquare('cross')
-//   }
-//   else {
-//     board[6].claimSquare('cross')
-//   }
-// }
-//
-// function turnTwoNaught() {
-//   if (defend('naught')){
-//     return
-//   }
-//   else {
-//     for (var i = 0; i < board.length; i++) {
-//       if(board[i].isAvailable()) {
-//         board[i].claimSquare('naught')
-//         return
-//       }
-//     }
-//   }
-// }
-//
-// function turnThreeCross(){
-//   // board[6] == botLeft
-//   // board[8] == botRight
-//   if(attack('cross')){
-//     if(checkForWin('cross')){
-//       console.log('crosses win!!')
-//     }
-//     return
-//   }
-//   else if(defend('cross')){
-//     console.log('hello')
-//     return
-//   }
-//   else if(board[6].isAvailable()){
-//       board[6].claimSquare('cross')
-//       return
-//     }
-//   else if(board[8].isAvailable()){
-//       board[8].claimSquare('cross')
-//       return
-//     }
-//   else {
-//     for (var i = 0; i < board.length; i++) {
-//       if(board[i].isAvailable()){
-//         board[i].claimSquare('cross')
-//         return
-//       }
-//     }
-//   }
-//   if(checkForWin('cross')){
-//     console.log('crosses win!!')
-//   }
-// }
-//
-// function turnThreeNaught(){
-//   if(attack('naught')){
-//     if(checkForWin('naught')){
-//       console.log('naught win!!')
-//     }
-//     return
-//   }
-//   else if(defend('naught')){
-//     return
-//   }
-//   else {
-//     for (var i = 0; i < board.length; i++) {
-//       if(board[i].isAvailable()){
-//         board[i].claimSquare('naught')
-//         return
-//       }
-//     }
-//   }
-//   if(checkForWin('naught')){
-//     console.log('naught win!!')
-//   }
-// }
-//
-// function turnFourCross(){
-//     if(attack('cross')){
-//       if(checkForWin('cross')){
-//         console.log('crosses win!!')
-//       }
-//       return
-//     }
-//     else if(defend('cross')){
-//       return
-//     }
-//     else {
-//       for (var i = 0; i < board.length; i++) {
-//         if(board[i].isAvailable()){
-//           board[i].claimSquare('cross')
-//           return
-//         }
-//       }
-//     }
-//     if(checkForWin('cross')){
-//       console.log('crosses win!!')
-//     }
-//   }
-//
-// function turnFourNaught(){
-//     // board[6] == botLeft
-//     // board[8] == botRight
-//     if(attack('naught')){
-//       if(checkForWin('naught')){
-//         console.log('naughts win!!')
-//       }
-//       return
-//     }
-//     else if(defend('naught')){
-//       return
-//     }
-//     else {
-//       for (var i = 0; i < board.length; i++) {
-//         if(board[i].isAvailable()){
-//           board[i].claimSquare('naught')
-//           return
-//         }
-//       }
-//     }
-//     if(checkForWin('naught')){
-//       console.log('naughts win!!')
-//     }
-// }
-//
-// function turnFiveCross() {
-//     if(attack('cross')){
-//       if(checkForWin('cross')){
-//         console.log('crosses win!!')
-//       }
-//       return
-//     }
-//     else if(attack('naught')){
-//       return
-//       }
-//     else {
-//       for (var i = 0; i < board.length; i++) {
-//         if(board[i].isAvailable()){
-//           board[i].claimSquare('cross')
-//           return
-//         }
-//       }
-//     }
-//     if(checkForWin('cross')){
-//       console.log('crosses win!!')
-//     }
-// }
-//
-function resetBoard() {
-  for (var i = 0; i < board.length; i++) {
-    board[i].teamName = 'none';
+
+  _createClass(Board, [{
+    key: 'getCell',
+    value: function getCell(count) {
+      if (count == 1) {
+        turnCount++;
+        return turns.turnOneNaught();
+      } else if (count == 2) {
+        count++;
+        return turns.turnTwoNaught();
+      } else {
+        console.log('count too high');
+      }
+    }
+  }, {
+    key: 'claimSquare',
+    value: function claimSquare(cell, team) {
+      var grid = this.state.grid;
+
+      var found = void 0;
+      grid.forEach(function (row) {
+        return row.forEach(function (c) {
+          if (c == cell) found = cell;
+        });
+      });
+      console.log(found);
+      found.teamName = team;
+      console.log(found);
+      this.setState({ grid: grid, userPaused: !this.state.userPaused });
+    }
+  }, {
+    key: 'userClick',
+    value: function userClick(cell) {
+      var _this2 = this;
+
+      if (this.state.userPaused) return;
+      this.claimSquare(cell, userTeam);
+      setTimeout(function () {
+        console.log("bot moves");
+        var grid = _this2.state.grid;
+
+        _this2.claimSquare(_this2.getCell(turnCount), 'naught');
+      }, 2000);
+      console.log('move over');
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this3 = this;
+
+      console.log(this.state.grid);
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'table',
+          { style: {
+              border: 'thin solid black'
+            } },
+          _react2.default.createElement(
+            'tbody',
+            null,
+            this.state.grid && this.state.grid.map(function (row) {
+              return _react2.default.createElement(
+                'tr',
+                { style: {
+                    border: 'thin solid black'
+                  } },
+                row.map(function (cell) {
+                  return _react2.default.createElement(
+                    'td',
+                    { onClick: function onClick() {
+                        return _this3.userClick(cell);
+                      }, style: {
+                        border: 'thin solid black',
+                        padding: '10px',
+                        height: '40px',
+                        width: '30px'
+                      } },
+                    token(cell.teamName)
+                  );
+                })
+              );
+            })
+          )
+        )
+      );
+    }
+  }]);
+
+  return Board;
+}(_react2.default.Component);
+
+function isAvailable(cell) {
+  if (cell.teamName == 'none') {
+    return true;
   }
+  return false;
 }
 
 module.exports = {
-  turnOneNaught: turnOneNaught,
-  // turnTwoNaught: turnTwoNaught,
-  // turnThreeNaught: turnThreeNaught,
-  // turnFourNaught: turnFourNaught,
-  resetBoard: resetBoard
+  Board: Board
 };
 
 /***/ }),
@@ -18648,7 +18468,7 @@ module.exports = {
 
 //var checkForWin = require('../client/winCheck.js')
 //var defend = require('./functions/defense.js')
-var board = __webpack_require__(7);
+var board = __webpack_require__(5);
 //var attack = require('./functions/attack.js')
 
 // function turnOneCross() {
@@ -18659,6 +18479,7 @@ var board = __webpack_require__(7);
 // }
 //
 function turnOneNaught() {
+  console.log('turnOne');
   //board[4] == midMid
   //board[7] == botLeft
   if (board[4].teamName == 'none') {
@@ -18680,20 +18501,20 @@ function turnOneNaught() {
 //   }
 // }
 //
-// function turnTwoNaught() {
-//   if (defend('naught')){
-//     return
-//   }
-//   else {
-//     for (var i = 0; i < board.length; i++) {
-//       if(board[i].isAvailable()) {
-//         board[i].claimSquare('naught')
-//         return
-//       }
-//     }
-//   }
-// }
-//
+function turnTwoNaught() {
+  if (defend('naught')) {
+    console.log(defend('naught'));
+    return defend('naught');
+  } else {
+    for (var i = 0; i < board.length; i++) {
+      if (board[i].isAvailable()) {
+        board[i].claimSquare('naught');
+        return;
+      }
+    }
+  }
+}
+
 // function turnThreeCross(){
 //   // board[6] == botLeft
 //   // board[8] == botRight
@@ -18830,7 +18651,7 @@ function resetBoard() {
 
 module.exports = {
   turnOneNaught: turnOneNaught,
-  // turnTwoNaught: turnTwoNaught,
+  turnTwoNaught: turnTwoNaught,
   // turnThreeNaught: turnThreeNaught,
   // turnFourNaught: turnFourNaught,
   resetBoard: resetBoard
@@ -18843,11 +18664,305 @@ module.exports = {
 "use strict";
 
 
+//var checkForWin = require('../client/winCheck.js')
+var defend = __webpack_require__(33);
+var board = __webpack_require__(5);
+//var attack = require('./functions/attack.js')
+
+// function turnOneCross() {
+//   //board[0] == topLeft
+//   if(board[0].isAvailable()) {
+//     return board[0]
+//   }
+// }
+//
+function turnOneNaught() {
+  console.log('turnOne');
+  //board[4] == midMid
+  //board[7] == botLeft
+  if (board[4].teamName == 'none') {
+    return board[4];
+  } else {
+    return board[7];
+  }
+}
+//
+// function turnTwoCross() {
+//   //board[1] == topMid
+//   //board[2] == topRight
+//   //board[6] == botLeft
+//   if(board[1].isAvailable() && board[2].isAvailable()){
+//     board[2].claimSquare('cross')
+//   }
+//   else {
+//     board[6].claimSquare('cross')
+//   }
+// }
+//
+function turnTwoNaught() {
+  if (defend('naught')) {
+    return defend('naught');
+  } else {
+    for (var i = 0; i < board.length; i++) {
+      if (board[i].isAvailable()) {
+        board[i].claimSquare('naught');
+        return;
+      }
+    }
+  }
+}
+
+// function turnThreeCross(){
+//   // board[6] == botLeft
+//   // board[8] == botRight
+//   if(attack('cross')){
+//     if(checkForWin('cross')){
+//       console.log('crosses win!!')
+//     }
+//     return
+//   }
+//   else if(defend('cross')){
+//     console.log('hello')
+//     return
+//   }
+//   else if(board[6].isAvailable()){
+//       board[6].claimSquare('cross')
+//       return
+//     }
+//   else if(board[8].isAvailable()){
+//       board[8].claimSquare('cross')
+//       return
+//     }
+//   else {
+//     for (var i = 0; i < board.length; i++) {
+//       if(board[i].isAvailable()){
+//         board[i].claimSquare('cross')
+//         return
+//       }
+//     }
+//   }
+//   if(checkForWin('cross')){
+//     console.log('crosses win!!')
+//   }
+// }
+//
+// function turnThreeNaught(){
+//   if(attack('naught')){
+//     if(checkForWin('naught')){
+//       console.log('naught win!!')
+//     }
+//     return
+//   }
+//   else if(defend('naught')){
+//     return
+//   }
+//   else {
+//     for (var i = 0; i < board.length; i++) {
+//       if(board[i].isAvailable()){
+//         board[i].claimSquare('naught')
+//         return
+//       }
+//     }
+//   }
+//   if(checkForWin('naught')){
+//     console.log('naught win!!')
+//   }
+// }
+//
+// function turnFourCross(){
+//     if(attack('cross')){
+//       if(checkForWin('cross')){
+//         console.log('crosses win!!')
+//       }
+//       return
+//     }
+//     else if(defend('cross')){
+//       return
+//     }
+//     else {
+//       for (var i = 0; i < board.length; i++) {
+//         if(board[i].isAvailable()){
+//           board[i].claimSquare('cross')
+//           return
+//         }
+//       }
+//     }
+//     if(checkForWin('cross')){
+//       console.log('crosses win!!')
+//     }
+//   }
+//
+// function turnFourNaught(){
+//     // board[6] == botLeft
+//     // board[8] == botRight
+//     if(attack('naught')){
+//       if(checkForWin('naught')){
+//         console.log('naughts win!!')
+//       }
+//       return
+//     }
+//     else if(defend('naught')){
+//       return
+//     }
+//     else {
+//       for (var i = 0; i < board.length; i++) {
+//         if(board[i].isAvailable()){
+//           board[i].claimSquare('naught')
+//           return
+//         }
+//       }
+//     }
+//     if(checkForWin('naught')){
+//       console.log('naughts win!!')
+//     }
+// }
+//
+// function turnFiveCross() {
+//     if(attack('cross')){
+//       if(checkForWin('cross')){
+//         console.log('crosses win!!')
+//       }
+//       return
+//     }
+//     else if(attack('naught')){
+//       return
+//       }
+//     else {
+//       for (var i = 0; i < board.length; i++) {
+//         if(board[i].isAvailable()){
+//           board[i].claimSquare('cross')
+//           return
+//         }
+//       }
+//     }
+//     if(checkForWin('cross')){
+//       console.log('crosses win!!')
+//     }
+// }
+//
+function resetBoard() {
+  for (var i = 0; i < board.length; i++) {
+    board[i].teamName = 'none';
+  }
+}
+
+module.exports = {
+  turnOneNaught: turnOneNaught,
+  turnTwoNaught: turnTwoNaught,
+  // turnThreeNaught: turnThreeNaught,
+  // turnFourNaught: turnFourNaught,
+  resetBoard: resetBoard
+};
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 function sayHello() {
   console.log('so');
 }
 
 module.exports = sayHello;
+
+var board = __webpack_require__(5);
+
+console.log(board[0]);
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var board = __webpack_require__(5);
+
+//working
+function defendRows(team) {
+  var enemyTeam = findEnemy(team);
+  for (var i = 0; i < board.length; i++) {
+    if (board[i].teamName == enemyTeam && board[i].col == 0 && board[i + 1].teamName == enemyTeam && board[i + 2].teamName == 'none') {
+      return board[i + 2];
+    } else if (board[i].teamName == enemyTeam && board[i].col == 0 && board[i + 2].teamName == enemyTeam && board[i + 1].teamName == 'none') {
+      return board[i + 1];
+    }
+  }
+  return false;
+}
+
+//working
+function defendCollumns(team) {
+  var enemyTeam = findEnemy(team);
+  for (var i = 0; i < board.length; i++) {
+    if (board[i].teamName == enemyTeam && board[i].row == 0 && board[i + 3].teamName == enemyTeam && board[i + 6].teamName == 'none') {
+      return board[i + 6];
+    } else if (board[i].teamName == enemyTeam && board[i].row == 0 && board[i + 6].teamName == enemyTeam && board[i + 3].teamName == 'none') {
+      return board[i + 3];
+    } else if (board[i].teamName == enemyTeam && board[i].row == 1 && board[i + 3].teamName == enemyTeam && board[i - 3].teamName == 'none') {
+      return board[i - 3];
+    }
+  }
+  return false;
+}
+
+//untested
+function defendDiagonal1(team) {
+  var enemyTeam = findEnemy(team);
+  //board[0] == topLeft
+  //board[4] == midMid
+  //board[8] == botRight
+  if (board[0].teamName == enemyTeam && board[4].teamName == enemyTeam && board[8].teamName == 'none') {
+    return board[8];
+  } else if (board[0].teamName == enemyTeam && board[8].teamName == enemyTeam && board[4].teamName == 'none') {
+    return board[4];
+  } else if (board[4].teamName == enemyTeam && board[8].teamName == enemyTeam && board[0].teamName == 'none') {
+    return board[0];
+  } else {
+    return false;
+  }
+}
+
+function defendDiagonal2(team) {
+  var enemyTeam = findEnemy(team);
+  //board[2] == topRight
+  //board[4] == midMid
+  //board[6] == botLeft
+  if (board[2].teamName == enemyTeam && board[4].teamName == enemyTeam && board[6].teamName == 'none') {
+    return board[6];
+  } else if (board[2].teamName == enemyTeam && board[6].teamName == enemyTeam && board[4].teamName == 'none') {
+    return board[4];
+  } else if (board[4].teamName == enemyTeam && board[6].teamName == enemyTeam && board[2].teamName == 'none') {
+    return board[2];
+  } else {
+    return false;
+  }
+}
+
+function defend(team) {
+  if (defendRows(team)) {
+    return defendRows(team);
+  } else if (defendCollumns(team)) {
+    return defendCollumns(team);
+  } else if (defendDiagonal1(team)) {
+    return defendDiagonal1(team);
+  } else if (defendDiagonal2(team)) {
+    return defendDiagonal2(team);
+  }
+  return false;
+}
+
+function findEnemy(team) {
+  if (team == 'cross') {
+    return 'naught';
+  } else {
+    return 'cross';
+  }
+}
+
+module.exports = defend;
 
 /***/ })
 /******/ ]);
