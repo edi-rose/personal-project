@@ -1,7 +1,7 @@
 //var checkForWin = require('../client/winCheck.js')
 var defend = require('./functions/defense.js')
 var board = require('../client/boardArray')
-//var attack = require('./functions/attack.js')
+var attack = require('./functions/attack.js')
 
 // function turnOneCross() {
 //   //board[0] == topLeft
@@ -18,7 +18,7 @@ function turnOneNaught() {
     return board[4]
    }
    else {
-     return board[7]
+     return board[0]
    }
 }
 //
@@ -38,15 +38,17 @@ function turnTwoNaught() {
   if (defend('naught')){
     return defend('naught')
   }
-  else {
-    for (var i = 0; i < board.length; i++) {
-      if(board[i].isAvailable()) {
-        board[i].claimSquare('naught')
-        return
+  else if (board[2].teamName == 'none'){
+     return board[2]
       }
-    }
+  else if (board[0].teamName == 'none'){
+    return board[0]
   }
-}
+  else {
+    return board[6]
+  }
+    }
+
 
 // function turnThreeCross(){
 //   // board[6] == botLeft
@@ -82,28 +84,21 @@ function turnTwoNaught() {
 //   }
 // }
 //
-// function turnThreeNaught(){
-//   if(attack('naught')){
-//     if(checkForWin('naught')){
-//       console.log('naught win!!')
-//     }
-//     return
-//   }
-//   else if(defend('naught')){
-//     return
-//   }
-//   else {
-//     for (var i = 0; i < board.length; i++) {
-//       if(board[i].isAvailable()){
-//         board[i].claimSquare('naught')
-//         return
-//       }
-//     }
-//   }
-//   if(checkForWin('naught')){
-//     console.log('naught win!!')
-//   }
-// }
+function turnThreeNaught(){
+  if(attack('naught')){
+  return attack('naught')
+    }
+  else if(defend('naught')){
+    return defend('naught')
+  }
+  else {
+    for (var i = 0; i < board.length; i++) {
+      if(board[i].teamName == 'none'){
+        return board[i]
+      }
+    }
+  }
+}
 //
 // function turnFourCross(){
 //     if(attack('cross')){
@@ -128,30 +123,23 @@ function turnTwoNaught() {
 //     }
 //   }
 //
-// function turnFourNaught(){
-//     // board[6] == botLeft
-//     // board[8] == botRight
-//     if(attack('naught')){
-//       if(checkForWin('naught')){
-//         console.log('naughts win!!')
-//       }
-//       return
-//     }
-//     else if(defend('naught')){
-//       return
-//     }
-//     else {
-//       for (var i = 0; i < board.length; i++) {
-//         if(board[i].isAvailable()){
-//           board[i].claimSquare('naught')
-//           return
-//         }
-//       }
-//     }
-//     if(checkForWin('naught')){
-//       console.log('naughts win!!')
-//     }
-// }
+function turnFourNaught(){
+    // board[6] == botLeft
+    // board[8] == botRight
+    if(attack('naught')){
+     return attack('naught')
+    }
+    else if(defend('naught')){
+      return defend('naught')
+    }
+    else {
+      for (var i = 0; i < board.length; i++) {
+        if(board[i].teamName == 'none'){
+          return board[i]
+        }
+      }
+    }
+}
 //
 // function turnFiveCross() {
 //     if(attack('cross')){
@@ -186,7 +174,7 @@ function resetBoard()  {
 module.exports = {
   turnOneNaught: turnOneNaught,
   turnTwoNaught: turnTwoNaught,
-  // turnThreeNaught: turnThreeNaught,
-  // turnFourNaught: turnFourNaught,
+  turnThreeNaught: turnThreeNaught,
+  turnFourNaught: turnFourNaught,
   resetBoard: resetBoard
 }

@@ -3,9 +3,9 @@ var userTeam = require('../settings').userTeam
 var token = require('../settings').token
 var turns = require('../../Bots/botMovesReact.js')
 var getCell = require('../settings').getCell
-var sayHello = require('../sayHello')
 var board = require('../boardArray')
-var turnCount = 1
+var count = 1
+
 class Board extends React.Component{
   constructor (props) {
     super(props)
@@ -21,14 +21,22 @@ class Board extends React.Component{
     }
     this.userClick = this.userClick.bind(this)
   }
-  getCell(count){
+  getCell(){
     if (count == 1) {
-      turnCount ++
+      count ++
       return turns.turnOneNaught()
     }
     else if (count == 2) {
       count ++
       return turns.turnTwoNaught()
+    }
+    else if (count == 3) {
+      count ++
+      return turns.turnThreeNaught()
+    }
+    else if (count == 4) {
+      count ++
+      return turns.turnFourNaught()
     }
     else {
       console.log('count too high')
@@ -51,12 +59,11 @@ class Board extends React.Component{
     setTimeout(() => {
       console.log("bot moves")
       var {grid} = this.state
-      this.claimSquare(this.getCell(turnCount), 'naught')
+      this.claimSquare(this.getCell(), 'naught')
     }, 2000)
     console.log('move over')
   }
   render() {
-    console.log(this.state.grid);
     return (
       <div>
         <table style={{

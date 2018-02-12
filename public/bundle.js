@@ -260,6 +260,27 @@ process.umask = function() { return 0; };
 "use strict";
 
 
+var topLeft = { teamName: 'none', row: 0, col: 0 };
+var topMid = { teamName: 'none', row: 0, col: 1 };
+var topRight = { teamName: 'none', row: 0, col: 2 };
+var midLeft = { teamName: 'none', row: 1, col: 0 };
+var midMid = { teamName: 'none', row: 1, col: 1 };
+var midRight = { teamName: 'none', row: 1, col: 2 };
+var botLeft = { teamName: 'none', row: 2, col: 0 };
+var botMid = { teamName: 'none', row: 2, col: 1 };
+var botRight = { teamName: 'none', row: 2, col: 2 };
+
+var board = [topLeft, topMid, topRight, midLeft, midMid, midRight, botLeft, botMid, botRight];
+
+module.exports = board;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -296,7 +317,7 @@ emptyFunction.thatReturnsArgument = function (arg) {
 module.exports = emptyFunction;
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -311,7 +332,7 @@ if (process.env.NODE_ENV === 'production') {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -408,7 +429,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -430,27 +451,6 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = emptyObject;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var topLeft = { teamName: 'none', row: 0, col: 0 };
-var topMid = { teamName: 'none', row: 0, col: 1 };
-var topRight = { teamName: 'none', row: 0, col: 2 };
-var midLeft = { teamName: 'none', row: 1, col: 0 };
-var midMid = { teamName: 'none', row: 1, col: 1 };
-var midRight = { teamName: 'none', row: 1, col: 2 };
-var botLeft = { teamName: 'none', row: 2, col: 0 };
-var botMid = { teamName: 'none', row: 2, col: 1 };
-var botRight = { teamName: 'none', row: 2, col: 2 };
-
-var board = [topLeft, topMid, topRight, midLeft, midMid, midRight, botLeft, botMid, botRight];
-
-module.exports = board;
 
 /***/ }),
 /* 6 */
@@ -527,7 +527,7 @@ module.exports = invariant;
 
 
 
-var emptyFunction = __webpack_require__(1);
+var emptyFunction = __webpack_require__(2);
 
 /**
  * Similar to invariant but only logs a warning if the condition is not met.
@@ -728,7 +728,7 @@ module.exports = ExecutionEnvironment;
  * @typechecks
  */
 
-var emptyFunction = __webpack_require__(1);
+var emptyFunction = __webpack_require__(2);
 
 /**
  * Upstream version of event listener. Does not take into account specific
@@ -986,7 +986,7 @@ module.exports = focusNode;
 "use strict";
 
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -1014,7 +1014,7 @@ document.addEventListener('DOMContentLoaded', function () {
  * LICENSE file in the root directory of this source tree.
  */
 
-var m=__webpack_require__(3),n=__webpack_require__(4),p=__webpack_require__(1),q="function"===typeof Symbol&&Symbol["for"],r=q?Symbol["for"]("react.element"):60103,t=q?Symbol["for"]("react.call"):60104,u=q?Symbol["for"]("react.return"):60105,v=q?Symbol["for"]("react.portal"):60106,w=q?Symbol["for"]("react.fragment"):60107,x="function"===typeof Symbol&&Symbol.iterator;
+var m=__webpack_require__(4),n=__webpack_require__(5),p=__webpack_require__(2),q="function"===typeof Symbol&&Symbol["for"],r=q?Symbol["for"]("react.element"):60103,t=q?Symbol["for"]("react.call"):60104,u=q?Symbol["for"]("react.return"):60105,v=q?Symbol["for"]("react.portal"):60106,w=q?Symbol["for"]("react.fragment"):60107,x="function"===typeof Symbol&&Symbol.iterator;
 function y(a){for(var b=arguments.length-1,e="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,c=0;c<b;c++)e+="\x26args[]\x3d"+encodeURIComponent(arguments[c+1]);b=Error(e+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}
 var z={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}};function A(a,b,e){this.props=a;this.context=b;this.refs=n;this.updater=e||z}A.prototype.isReactComponent={};A.prototype.setState=function(a,b){"object"!==typeof a&&"function"!==typeof a&&null!=a?y("85"):void 0;this.updater.enqueueSetState(this,a,b,"setState")};A.prototype.forceUpdate=function(a){this.updater.enqueueForceUpdate(this,a,"forceUpdate")};
 function B(a,b,e){this.props=a;this.context=b;this.refs=n;this.updater=e||z}function C(){}C.prototype=A.prototype;var D=B.prototype=new C;D.constructor=B;m(D,A.prototype);D.isPureReactComponent=!0;function E(a,b,e){this.props=a;this.context=b;this.refs=n;this.updater=e||z}var F=E.prototype=new C;F.constructor=E;m(F,A.prototype);F.unstable_isAsyncReactComponent=!0;F.render=function(){return this.props.children};var G={current:null},H=Object.prototype.hasOwnProperty,I={key:!0,ref:!0,__self:!0,__source:!0};
@@ -1050,11 +1050,11 @@ if (process.env.NODE_ENV !== "production") {
   (function() {
 'use strict';
 
-var _assign = __webpack_require__(3);
-var emptyObject = __webpack_require__(4);
+var _assign = __webpack_require__(4);
+var emptyObject = __webpack_require__(5);
 var invariant = __webpack_require__(6);
 var warning = __webpack_require__(7);
-var emptyFunction = __webpack_require__(1);
+var emptyFunction = __webpack_require__(2);
 var checkPropTypes = __webpack_require__(9);
 
 // TODO: this is special because it gets imported during build.
@@ -2475,7 +2475,7 @@ if (process.env.NODE_ENV === 'production') {
 /*
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var aa=__webpack_require__(2),l=__webpack_require__(10),B=__webpack_require__(3),C=__webpack_require__(1),ba=__webpack_require__(11),da=__webpack_require__(12),ea=__webpack_require__(13),fa=__webpack_require__(14),ia=__webpack_require__(15),D=__webpack_require__(4);
+var aa=__webpack_require__(3),l=__webpack_require__(10),B=__webpack_require__(4),C=__webpack_require__(2),ba=__webpack_require__(11),da=__webpack_require__(12),ea=__webpack_require__(13),fa=__webpack_require__(14),ia=__webpack_require__(15),D=__webpack_require__(5);
 function E(a){for(var b=arguments.length-1,c="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,d=0;d<b;d++)c+="\x26args[]\x3d"+encodeURIComponent(arguments[d+1]);b=Error(c+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}aa?void 0:E("227");
 var oa={children:!0,dangerouslySetInnerHTML:!0,defaultValue:!0,defaultChecked:!0,innerHTML:!0,suppressContentEditableWarning:!0,suppressHydrationWarning:!0,style:!0};function pa(a,b){return(a&b)===b}
 var ta={MUST_USE_PROPERTY:1,HAS_BOOLEAN_VALUE:4,HAS_NUMERIC_VALUE:8,HAS_POSITIVE_NUMERIC_VALUE:24,HAS_OVERLOADED_BOOLEAN_VALUE:32,HAS_STRING_BOOLEAN_VALUE:64,injectDOMPropertyConfig:function(a){var b=ta,c=a.Properties||{},d=a.DOMAttributeNamespaces||{},e=a.DOMAttributeNames||{};a=a.DOMMutationMethods||{};for(var f in c){ua.hasOwnProperty(f)?E("48",f):void 0;var g=f.toLowerCase(),h=c[f];g={attributeName:g,attributeNamespace:null,propertyName:f,mutationMethod:null,mustUseProperty:pa(h,b.MUST_USE_PROPERTY),
@@ -2772,18 +2772,18 @@ if (process.env.NODE_ENV !== "production") {
   (function() {
 'use strict';
 
-var React = __webpack_require__(2);
+var React = __webpack_require__(3);
 var invariant = __webpack_require__(6);
 var warning = __webpack_require__(7);
 var ExecutionEnvironment = __webpack_require__(10);
-var _assign = __webpack_require__(3);
-var emptyFunction = __webpack_require__(1);
+var _assign = __webpack_require__(4);
+var emptyFunction = __webpack_require__(2);
 var EventListener = __webpack_require__(11);
 var getActiveElement = __webpack_require__(12);
 var shallowEqual = __webpack_require__(13);
 var containsNode = __webpack_require__(14);
 var focusNode = __webpack_require__(15);
-var emptyObject = __webpack_require__(4);
+var emptyObject = __webpack_require__(5);
 var checkPropTypes = __webpack_require__(9);
 var hyphenateStyleName = __webpack_require__(25);
 var camelizeStyleName = __webpack_require__(27);
@@ -18317,7 +18317,7 @@ module.exports = camelize;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -18331,11 +18331,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var userTeam = __webpack_require__(8).userTeam;
 var token = __webpack_require__(8).token;
-var turns = __webpack_require__(31);
+var turns = __webpack_require__(33);
 var getCell = __webpack_require__(8).getCell;
-var sayHello = __webpack_require__(32);
-var board = __webpack_require__(5);
-var turnCount = 1;
+var board = __webpack_require__(1);
+var count = 1;
 
 var Board = function (_React$Component) {
   _inherits(Board, _React$Component);
@@ -18358,13 +18357,19 @@ var Board = function (_React$Component) {
 
   _createClass(Board, [{
     key: 'getCell',
-    value: function getCell(count) {
+    value: function getCell() {
       if (count == 1) {
-        turnCount++;
+        count++;
         return turns.turnOneNaught();
       } else if (count == 2) {
         count++;
         return turns.turnTwoNaught();
+      } else if (count == 3) {
+        count++;
+        return turns.turnThreeNaught();
+      } else if (count == 4) {
+        count++;
+        return turns.turnFourNaught();
       } else {
         console.log('count too high');
       }
@@ -18396,7 +18401,7 @@ var Board = function (_React$Component) {
         console.log("bot moves");
         var grid = _this2.state.grid;
 
-        _this2.claimSquare(_this2.getCell(turnCount), 'naught');
+        _this2.claimSquare(_this2.getCell(), 'naught');
       }, 2000);
       console.log('move over');
     }
@@ -18405,7 +18410,6 @@ var Board = function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
-      console.log(this.state.grid);
       return _react2.default.createElement(
         'div',
         null,
@@ -18467,9 +18471,9 @@ module.exports = {
 
 
 //var checkForWin = require('../client/winCheck.js')
-//var defend = require('./functions/defense.js')
-var board = __webpack_require__(5);
-//var attack = require('./functions/attack.js')
+var defend = __webpack_require__(31);
+var board = __webpack_require__(1);
+var attack = __webpack_require__(32);
 
 // function turnOneCross() {
 //   //board[0] == topLeft
@@ -18485,7 +18489,7 @@ function turnOneNaught() {
   if (board[4].teamName == 'none') {
     return board[4];
   } else {
-    return board[7];
+    return board[0];
   }
 }
 //
@@ -18503,15 +18507,13 @@ function turnOneNaught() {
 //
 function turnTwoNaught() {
   if (defend('naught')) {
-    console.log(defend('naught'));
     return defend('naught');
+  } else if (board[2].teamName == 'none') {
+    return board[2];
+  } else if (board[0].teamName == 'none') {
+    return board[0];
   } else {
-    for (var i = 0; i < board.length; i++) {
-      if (board[i].isAvailable()) {
-        board[i].claimSquare('naught');
-        return;
-      }
-    }
+    return board[6];
   }
 }
 
@@ -18549,28 +18551,19 @@ function turnTwoNaught() {
 //   }
 // }
 //
-// function turnThreeNaught(){
-//   if(attack('naught')){
-//     if(checkForWin('naught')){
-//       console.log('naught win!!')
-//     }
-//     return
-//   }
-//   else if(defend('naught')){
-//     return
-//   }
-//   else {
-//     for (var i = 0; i < board.length; i++) {
-//       if(board[i].isAvailable()){
-//         board[i].claimSquare('naught')
-//         return
-//       }
-//     }
-//   }
-//   if(checkForWin('naught')){
-//     console.log('naught win!!')
-//   }
-// }
+function turnThreeNaught() {
+  if (attack('naught')) {
+    return attack('naught');
+  } else if (defend('naught')) {
+    return defend('naught');
+  } else {
+    for (var i = 0; i < board.length; i++) {
+      if (board[i].teamName == 'none') {
+        return board[i];
+      }
+    }
+  }
+}
 //
 // function turnFourCross(){
 //     if(attack('cross')){
@@ -18595,30 +18588,21 @@ function turnTwoNaught() {
 //     }
 //   }
 //
-// function turnFourNaught(){
-//     // board[6] == botLeft
-//     // board[8] == botRight
-//     if(attack('naught')){
-//       if(checkForWin('naught')){
-//         console.log('naughts win!!')
-//       }
-//       return
-//     }
-//     else if(defend('naught')){
-//       return
-//     }
-//     else {
-//       for (var i = 0; i < board.length; i++) {
-//         if(board[i].isAvailable()){
-//           board[i].claimSquare('naught')
-//           return
-//         }
-//       }
-//     }
-//     if(checkForWin('naught')){
-//       console.log('naughts win!!')
-//     }
-// }
+function turnFourNaught() {
+  // board[6] == botLeft
+  // board[8] == botRight
+  if (attack('naught')) {
+    return attack('naught');
+  } else if (defend('naught')) {
+    return defend('naught');
+  } else {
+    for (var i = 0; i < board.length; i++) {
+      if (board[i].teamName == 'none') {
+        return board[i];
+      }
+    }
+  }
+}
 //
 // function turnFiveCross() {
 //     if(attack('cross')){
@@ -18652,8 +18636,8 @@ function resetBoard() {
 module.exports = {
   turnOneNaught: turnOneNaught,
   turnTwoNaught: turnTwoNaught,
-  // turnThreeNaught: turnThreeNaught,
-  // turnFourNaught: turnFourNaught,
+  turnThreeNaught: turnThreeNaught,
+  turnFourNaught: turnFourNaught,
   resetBoard: resetBoard
 };
 
@@ -18664,221 +18648,7 @@ module.exports = {
 "use strict";
 
 
-//var checkForWin = require('../client/winCheck.js')
-var defend = __webpack_require__(33);
-var board = __webpack_require__(5);
-//var attack = require('./functions/attack.js')
-
-// function turnOneCross() {
-//   //board[0] == topLeft
-//   if(board[0].isAvailable()) {
-//     return board[0]
-//   }
-// }
-//
-function turnOneNaught() {
-  console.log('turnOne');
-  //board[4] == midMid
-  //board[7] == botLeft
-  if (board[4].teamName == 'none') {
-    return board[4];
-  } else {
-    return board[7];
-  }
-}
-//
-// function turnTwoCross() {
-//   //board[1] == topMid
-//   //board[2] == topRight
-//   //board[6] == botLeft
-//   if(board[1].isAvailable() && board[2].isAvailable()){
-//     board[2].claimSquare('cross')
-//   }
-//   else {
-//     board[6].claimSquare('cross')
-//   }
-// }
-//
-function turnTwoNaught() {
-  if (defend('naught')) {
-    return defend('naught');
-  } else {
-    for (var i = 0; i < board.length; i++) {
-      if (board[i].isAvailable()) {
-        board[i].claimSquare('naught');
-        return;
-      }
-    }
-  }
-}
-
-// function turnThreeCross(){
-//   // board[6] == botLeft
-//   // board[8] == botRight
-//   if(attack('cross')){
-//     if(checkForWin('cross')){
-//       console.log('crosses win!!')
-//     }
-//     return
-//   }
-//   else if(defend('cross')){
-//     console.log('hello')
-//     return
-//   }
-//   else if(board[6].isAvailable()){
-//       board[6].claimSquare('cross')
-//       return
-//     }
-//   else if(board[8].isAvailable()){
-//       board[8].claimSquare('cross')
-//       return
-//     }
-//   else {
-//     for (var i = 0; i < board.length; i++) {
-//       if(board[i].isAvailable()){
-//         board[i].claimSquare('cross')
-//         return
-//       }
-//     }
-//   }
-//   if(checkForWin('cross')){
-//     console.log('crosses win!!')
-//   }
-// }
-//
-// function turnThreeNaught(){
-//   if(attack('naught')){
-//     if(checkForWin('naught')){
-//       console.log('naught win!!')
-//     }
-//     return
-//   }
-//   else if(defend('naught')){
-//     return
-//   }
-//   else {
-//     for (var i = 0; i < board.length; i++) {
-//       if(board[i].isAvailable()){
-//         board[i].claimSquare('naught')
-//         return
-//       }
-//     }
-//   }
-//   if(checkForWin('naught')){
-//     console.log('naught win!!')
-//   }
-// }
-//
-// function turnFourCross(){
-//     if(attack('cross')){
-//       if(checkForWin('cross')){
-//         console.log('crosses win!!')
-//       }
-//       return
-//     }
-//     else if(defend('cross')){
-//       return
-//     }
-//     else {
-//       for (var i = 0; i < board.length; i++) {
-//         if(board[i].isAvailable()){
-//           board[i].claimSquare('cross')
-//           return
-//         }
-//       }
-//     }
-//     if(checkForWin('cross')){
-//       console.log('crosses win!!')
-//     }
-//   }
-//
-// function turnFourNaught(){
-//     // board[6] == botLeft
-//     // board[8] == botRight
-//     if(attack('naught')){
-//       if(checkForWin('naught')){
-//         console.log('naughts win!!')
-//       }
-//       return
-//     }
-//     else if(defend('naught')){
-//       return
-//     }
-//     else {
-//       for (var i = 0; i < board.length; i++) {
-//         if(board[i].isAvailable()){
-//           board[i].claimSquare('naught')
-//           return
-//         }
-//       }
-//     }
-//     if(checkForWin('naught')){
-//       console.log('naughts win!!')
-//     }
-// }
-//
-// function turnFiveCross() {
-//     if(attack('cross')){
-//       if(checkForWin('cross')){
-//         console.log('crosses win!!')
-//       }
-//       return
-//     }
-//     else if(attack('naught')){
-//       return
-//       }
-//     else {
-//       for (var i = 0; i < board.length; i++) {
-//         if(board[i].isAvailable()){
-//           board[i].claimSquare('cross')
-//           return
-//         }
-//       }
-//     }
-//     if(checkForWin('cross')){
-//       console.log('crosses win!!')
-//     }
-// }
-//
-function resetBoard() {
-  for (var i = 0; i < board.length; i++) {
-    board[i].teamName = 'none';
-  }
-}
-
-module.exports = {
-  turnOneNaught: turnOneNaught,
-  turnTwoNaught: turnTwoNaught,
-  // turnThreeNaught: turnThreeNaught,
-  // turnFourNaught: turnFourNaught,
-  resetBoard: resetBoard
-};
-
-/***/ }),
-/* 32 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-function sayHello() {
-  console.log('so');
-}
-
-module.exports = sayHello;
-
-var board = __webpack_require__(5);
-
-console.log(board[0]);
-
-/***/ }),
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var board = __webpack_require__(5);
+var board = __webpack_require__(1);
 
 //working
 function defendRows(team) {
@@ -18963,6 +18733,433 @@ function findEnemy(team) {
 }
 
 module.exports = defend;
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var board = __webpack_require__(1);
+
+function attackRows(team) {
+  for (var i = 0; i < board.length; i++) {
+    if (board[i].teamName == team && board[i].col == 0 && board[i + 1].teamName == team && board[i + 2].teamName == 'none') {
+      return board[i + 2];
+    } else if (board[i].teamName == team && board[i].col == 0 && board[i + 2].teamName == team && board[i + 1].teamName == 'none') {
+      return board[i + 1];
+    }
+  }
+  return false;
+}
+
+function attackCollumns(team) {
+  for (var i = 0; i < board.length; i++) {
+    if (board[i].teamName == team && board[i].row == 0 && board[i + 3].teamName == team && board[i + 6].teamName == 'none') {
+      return board[i + 6];
+    } else if (board[i].teamName == team && board[i].row == 0 && board[i + 6].teamName == team && board[i + 3].teamName == 'none') {
+      return board[i + 3];
+    } else if (board[i].teamName == team && board[i].row == 1 && board[i + 3].teamName == team && board[i - 3].teamName == 'none') {
+      return board[i - 3];
+    }
+  }
+  return false;
+}
+
+function attackDiagonal1(team) {
+  //board[0] == topLeft
+  //board[4] == midMid
+  //board[8] == botRight
+  if (board[0].teamName == team && board[4].teamName == team && board[8].teamName == 'none') {
+    return board[8];
+  } else if (board[0].teamName == team && board[8].teamName == team && board[4].teamName == 'none') {
+    return board[4];
+  } else if (board[4].teamName == team && board[8].teamName == team && board[0].teamName == 'none') {
+    return board[0];
+  } else {
+    return false;
+  }
+}
+
+function attackDiagonal2(team) {
+  //board[2] == topRight
+  //board[4] == midMid
+  //board[6] == botLeft
+  if (board[2].teamName == team && board[4].teamName == team && board[6].teamName == 'none') {
+    return board[6];
+  } else if (board[2].teamName == team && board[6].teamName == team && board[4].teamName == 'none') {
+    return board[4];
+  } else if (board[4].teamName == team && board[6].teamName == team && board[2].teamName == 'none') {
+    return board[2];
+  } else {
+    return false;
+  }
+}
+
+function attack(team) {
+  if (attackRows(team)) {
+    return attackRows(team);
+  } else if (attackCollumns(team)) {
+    return attackCollumns(team);
+  } else if (attackDiagonal1(team)) {
+    return attackDiagonal1(team);
+  } else if (attackDiagonal2(team)) {
+    return attackDiagonal2(team);
+  }
+  return false;
+}
+
+module.exports = attack;
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+//var checkForWin = require('../client/winCheck.js')
+var defend = __webpack_require__(34);
+var board = __webpack_require__(1);
+var attack = __webpack_require__(35);
+
+// function turnOneCross() {
+//   //board[0] == topLeft
+//   if(board[0].isAvailable()) {
+//     return board[0]
+//   }
+// }
+//
+function turnOneNaught() {
+  console.log('turnOne');
+  //board[4] == midMid
+  //board[7] == botLeft
+  if (board[4].teamName == 'none') {
+    return board[4];
+  } else {
+    return board[0];
+  }
+}
+//
+// function turnTwoCross() {
+//   //board[1] == topMid
+//   //board[2] == topRight
+//   //board[6] == botLeft
+//   if(board[1].isAvailable() && board[2].isAvailable()){
+//     board[2].claimSquare('cross')
+//   }
+//   else {
+//     board[6].claimSquare('cross')
+//   }
+// }
+//
+function turnTwoNaught() {
+  if (defend('naught')) {
+    return defend('naught');
+  } else if (board[2].teamName == 'none') {
+    return board[2];
+  } else if (board[0].teamName == 'none') {
+    return board[0];
+  } else {
+    return board[6];
+  }
+}
+
+// function turnThreeCross(){
+//   // board[6] == botLeft
+//   // board[8] == botRight
+//   if(attack('cross')){
+//     if(checkForWin('cross')){
+//       console.log('crosses win!!')
+//     }
+//     return
+//   }
+//   else if(defend('cross')){
+//     console.log('hello')
+//     return
+//   }
+//   else if(board[6].isAvailable()){
+//       board[6].claimSquare('cross')
+//       return
+//     }
+//   else if(board[8].isAvailable()){
+//       board[8].claimSquare('cross')
+//       return
+//     }
+//   else {
+//     for (var i = 0; i < board.length; i++) {
+//       if(board[i].isAvailable()){
+//         board[i].claimSquare('cross')
+//         return
+//       }
+//     }
+//   }
+//   if(checkForWin('cross')){
+//     console.log('crosses win!!')
+//   }
+// }
+//
+function turnThreeNaught() {
+  if (attack('naught')) {
+    return attack('naught');
+  } else if (defend('naught')) {
+    return defend('naught');
+  } else {
+    for (var i = 0; i < board.length; i++) {
+      if (board[i].teamName == 'none') {
+        return board[i];
+      }
+    }
+  }
+}
+//
+// function turnFourCross(){
+//     if(attack('cross')){
+//       if(checkForWin('cross')){
+//         console.log('crosses win!!')
+//       }
+//       return
+//     }
+//     else if(defend('cross')){
+//       return
+//     }
+//     else {
+//       for (var i = 0; i < board.length; i++) {
+//         if(board[i].isAvailable()){
+//           board[i].claimSquare('cross')
+//           return
+//         }
+//       }
+//     }
+//     if(checkForWin('cross')){
+//       console.log('crosses win!!')
+//     }
+//   }
+//
+function turnFourNaught() {
+  // board[6] == botLeft
+  // board[8] == botRight
+  if (attack('naught')) {
+    return attack('naught');
+  } else if (defend('naught')) {
+    return defend('naught');
+  } else {
+    for (var i = 0; i < board.length; i++) {
+      if (board[i].teamName == 'none') {
+        return board[i];
+      }
+    }
+  }
+}
+//
+// function turnFiveCross() {
+//     if(attack('cross')){
+//       if(checkForWin('cross')){
+//         console.log('crosses win!!')
+//       }
+//       return
+//     }
+//     else if(attack('naught')){
+//       return
+//       }
+//     else {
+//       for (var i = 0; i < board.length; i++) {
+//         if(board[i].isAvailable()){
+//           board[i].claimSquare('cross')
+//           return
+//         }
+//       }
+//     }
+//     if(checkForWin('cross')){
+//       console.log('crosses win!!')
+//     }
+// }
+//
+function resetBoard() {
+  for (var i = 0; i < board.length; i++) {
+    board[i].teamName = 'none';
+  }
+}
+
+module.exports = {
+  turnOneNaught: turnOneNaught,
+  turnTwoNaught: turnTwoNaught,
+  turnThreeNaught: turnThreeNaught,
+  turnFourNaught: turnFourNaught,
+  resetBoard: resetBoard
+};
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var board = __webpack_require__(1);
+
+//working
+function defendRows(team) {
+  var enemyTeam = findEnemy(team);
+  for (var i = 0; i < board.length; i++) {
+    if (board[i].teamName == enemyTeam && board[i].col == 0 && board[i + 1].teamName == enemyTeam && board[i + 2].teamName == 'none') {
+      return board[i + 2];
+    } else if (board[i].teamName == enemyTeam && board[i].col == 0 && board[i + 2].teamName == enemyTeam && board[i + 1].teamName == 'none') {
+      return board[i + 1];
+    }
+  }
+  return false;
+}
+
+//working
+function defendCollumns(team) {
+  var enemyTeam = findEnemy(team);
+  for (var i = 0; i < board.length; i++) {
+    if (board[i].teamName == enemyTeam && board[i].row == 0 && board[i + 3].teamName == enemyTeam && board[i + 6].teamName == 'none') {
+      return board[i + 6];
+    } else if (board[i].teamName == enemyTeam && board[i].row == 0 && board[i + 6].teamName == enemyTeam && board[i + 3].teamName == 'none') {
+      return board[i + 3];
+    } else if (board[i].teamName == enemyTeam && board[i].row == 1 && board[i + 3].teamName == enemyTeam && board[i - 3].teamName == 'none') {
+      return board[i - 3];
+    }
+  }
+  return false;
+}
+
+//untested
+function defendDiagonal1(team) {
+  var enemyTeam = findEnemy(team);
+  //board[0] == topLeft
+  //board[4] == midMid
+  //board[8] == botRight
+  if (board[0].teamName == enemyTeam && board[4].teamName == enemyTeam && board[8].teamName == 'none') {
+    return board[8];
+  } else if (board[0].teamName == enemyTeam && board[8].teamName == enemyTeam && board[4].teamName == 'none') {
+    return board[4];
+  } else if (board[4].teamName == enemyTeam && board[8].teamName == enemyTeam && board[0].teamName == 'none') {
+    return board[0];
+  } else {
+    return false;
+  }
+}
+
+function defendDiagonal2(team) {
+  var enemyTeam = findEnemy(team);
+  //board[2] == topRight
+  //board[4] == midMid
+  //board[6] == botLeft
+  if (board[2].teamName == enemyTeam && board[4].teamName == enemyTeam && board[6].teamName == 'none') {
+    return board[6];
+  } else if (board[2].teamName == enemyTeam && board[6].teamName == enemyTeam && board[4].teamName == 'none') {
+    return board[4];
+  } else if (board[4].teamName == enemyTeam && board[6].teamName == enemyTeam && board[2].teamName == 'none') {
+    return board[2];
+  } else {
+    return false;
+  }
+}
+
+function defend(team) {
+  if (defendRows(team)) {
+    return defendRows(team);
+  } else if (defendCollumns(team)) {
+    return defendCollumns(team);
+  } else if (defendDiagonal1(team)) {
+    return defendDiagonal1(team);
+  } else if (defendDiagonal2(team)) {
+    return defendDiagonal2(team);
+  }
+  return false;
+}
+
+function findEnemy(team) {
+  if (team == 'cross') {
+    return 'naught';
+  } else {
+    return 'cross';
+  }
+}
+
+module.exports = defend;
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var board = __webpack_require__(1);
+
+function attackRows(team) {
+  for (var i = 0; i < board.length; i++) {
+    if (board[i].teamName == team && board[i].col == 0 && board[i + 1].teamName == team && board[i + 2].teamName == 'none') {
+      return board[i + 2];
+    } else if (board[i].teamName == team && board[i].col == 0 && board[i + 2].teamName == team && board[i + 1].teamName == 'none') {
+      return board[i + 1];
+    }
+  }
+  return false;
+}
+
+function attackCollumns(team) {
+  for (var i = 0; i < board.length; i++) {
+    if (board[i].teamName == team && board[i].row == 0 && board[i + 3].teamName == team && board[i + 6].teamName == 'none') {
+      return board[i + 6];
+    } else if (board[i].teamName == team && board[i].row == 0 && board[i + 6].teamName == team && board[i + 3].teamName == 'none') {
+      return board[i + 3];
+    } else if (board[i].teamName == team && board[i].row == 1 && board[i + 3].teamName == team && board[i - 3].teamName == 'none') {
+      return board[i - 3];
+    }
+  }
+  return false;
+}
+
+function attackDiagonal1(team) {
+  //board[0] == topLeft
+  //board[4] == midMid
+  //board[8] == botRight
+  if (board[0].teamName == team && board[4].teamName == team && board[8].teamName == 'none') {
+    return board[8];
+  } else if (board[0].teamName == team && board[8].teamName == team && board[4].teamName == 'none') {
+    return board[4];
+  } else if (board[4].teamName == team && board[8].teamName == team && board[0].teamName == 'none') {
+    return board[0];
+  } else {
+    return false;
+  }
+}
+
+function attackDiagonal2(team) {
+  //board[2] == topRight
+  //board[4] == midMid
+  //board[6] == botLeft
+  if (board[2].teamName == team && board[4].teamName == team && board[6].teamName == 'none') {
+    return board[6];
+  } else if (board[2].teamName == team && board[6].teamName == team && board[4].teamName == 'none') {
+    return board[4];
+  } else if (board[4].teamName == team && board[6].teamName == team && board[2].teamName == 'none') {
+    return board[2];
+  } else {
+    return false;
+  }
+}
+
+function attack(team) {
+  if (attackRows(team)) {
+    return attackRows(team);
+  } else if (attackCollumns(team)) {
+    return attackCollumns(team);
+  } else if (attackDiagonal1(team)) {
+    return attackDiagonal1(team);
+  } else if (attackDiagonal2(team)) {
+    return attackDiagonal2(team);
+  }
+  return false;
+}
+
+module.exports = attack;
 
 /***/ })
 /******/ ]);
