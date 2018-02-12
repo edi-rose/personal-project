@@ -6,10 +6,10 @@ function token(teamName) {
     return ' '
   }
   else if(teamName == 'cross'){
-    return 'x'
+    return 'u'
   }
   else if(teamName == 'naught'){
-    return 'o'
+    return 'suck'
   }
 }
 

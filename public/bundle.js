@@ -595,9 +595,9 @@ function token(teamName) {
   if (teamName == 'none') {
     return ' ';
   } else if (teamName == 'cross') {
-    return 'x';
+    return 'u';
   } else if (teamName == 'naught') {
-    return 'o';
+    return 'suck';
   }
 }
 
@@ -18334,6 +18334,8 @@ var token = __webpack_require__(8).token;
 var turns = __webpack_require__(33);
 var getCell = __webpack_require__(8).getCell;
 var board = __webpack_require__(1);
+var checkForWin = __webpack_require__(36);
+
 var count = 1;
 
 var Board = function (_React$Component) {
@@ -18352,10 +18354,39 @@ var Board = function (_React$Component) {
       ]
     };
     _this.userClick = _this.userClick.bind(_this);
+    _this.resetBoard = _this.resetBoard.bind(_this);
     return _this;
   }
 
   _createClass(Board, [{
+    key: 'resetBoard',
+    value: function resetBoard() {
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = board[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var cell = _step.value;
+
+          this.claimSquare(cell, 'none');
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+    }
+  }, {
     key: 'getCell',
     value: function getCell() {
       if (count == 1) {
@@ -18371,7 +18402,7 @@ var Board = function (_React$Component) {
         count++;
         return turns.turnFourNaught();
       } else {
-        console.log('count too high');
+        alert('draw... as usual');
       }
     }
   }, {
@@ -18385,9 +18416,14 @@ var Board = function (_React$Component) {
           if (c == cell) found = cell;
         });
       });
-      console.log(found);
       found.teamName = team;
-      console.log(found);
+      if (checkForWin('naught')) {
+        alert('Bot Wins!');
+        count = 1;
+      } else if (checkForWin('cross')) {
+        alert('email me at edirose1998@gmail.com telling me how you did this');
+        count = 1;
+      }
       this.setState({ grid: grid, userPaused: !this.state.userPaused });
     }
   }, {
@@ -18398,12 +18434,10 @@ var Board = function (_React$Component) {
       if (this.state.userPaused) return;
       this.claimSquare(cell, userTeam);
       setTimeout(function () {
-        console.log("bot moves");
         var grid = _this2.state.grid;
 
         _this2.claimSquare(_this2.getCell(), 'naught');
       }, 2000);
-      console.log('move over');
     }
   }, {
     key: 'render',
@@ -18444,6 +18478,14 @@ var Board = function (_React$Component) {
               );
             })
           )
+        ),
+        _react2.default.createElement('br', null),
+        _react2.default.createElement(
+          'button',
+          { onClick: function onClick() {
+              return _this3.resetBoard();
+            } },
+          'Try Again'
         )
       );
     }
@@ -18832,7 +18874,6 @@ var attack = __webpack_require__(35);
 // }
 //
 function turnOneNaught() {
-  console.log('turnOne');
   //board[4] == midMid
   //board[7] == botLeft
   if (board[4].teamName == 'none') {
@@ -19160,6 +19201,108 @@ function attack(team) {
 }
 
 module.exports = attack;
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var board = __webpack_require__(1);
+
+function checkForWin(team) {
+  var taken = getTeam(team);
+  if (checkRows(taken) || checkCollumns(taken) || checkDiagonals(taken)) {
+    return true;
+  }
+  return false;
+}
+
+function checkCollumns(taken) {
+  if (checkCol(0, taken) || checkCol(1, taken) || checkCol(2, taken)) {
+    return true;
+  }
+  return false;
+}
+
+function checkCol(col, taken) {
+  var count = 0;
+  taken.filter(function (x) {
+    return x.col == col;
+  }).forEach(function (x) {
+    return count++;
+  });
+  return countCheck(count);
+}
+
+function checkRows(taken) {
+  if (checkRow(0, taken) || checkRow(1, taken) || checkRow(2, taken)) {
+    return true;
+  }
+  return false;
+}
+
+function checkRow(row, taken) {
+  var count = 0;
+  taken.filter(function (x) {
+    return x.row == row;
+  }).forEach(function (x) {
+    return count++;
+  });
+  return countCheck(count);
+}
+
+function checkDiagonals(taken) {
+  if (checkDiagonal1(taken) || checkDiagonal2(taken)) {
+    return true;
+  }
+  return false;
+}
+
+//board[2] == topRight
+//board[4] == midMid
+//board[6] == botLeft
+function checkDiagonal1(taken) {
+  var count = 0;
+  taken.filter(function (x) {
+    return x == board[2] || x == board[4] || x == board[6];
+  }).forEach(function (x) {
+    return count++;
+  });
+  return countCheck(count);
+}
+//board[0]
+//board[4]
+//board[8]
+function checkDiagonal2(taken) {
+  var count = 0;
+  taken.filter(function (x) {
+    return x == board[0] || x == board[4] || x == board[8];
+  }).forEach(function (x) {
+    return count++;
+  });
+  return countCheck(count);
+}
+
+//working
+function getTeam(team) {
+  return board.filter(function (x) {
+    return x.teamName == team;
+  });
+}
+
+function countCheck(count) {
+  if (count == 3) {
+    return true;
+  } else if (count < 3) {
+    return false;
+  } else {
+    console.log('WIN CHECK ERROR');
+  }
+}
+
+module.exports = checkForWin;
 
 /***/ })
 /******/ ]);
