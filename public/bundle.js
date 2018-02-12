@@ -18525,7 +18525,6 @@ var attack = __webpack_require__(32);
 // }
 //
 function turnOneNaught() {
-  console.log('turnOne');
   //board[4] == midMid
   //board[7] == botLeft
   if (board[4].teamName == 'none') {
