@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server & webpack --watch",
+    "postinstall": "yarn webpack",
     "dev": "nodemon server & webpack --watch"
   },
   "babel": {
@@ -19,9 +20,7 @@
   "dependencies": {
     "express": "^4.16.2",
     "heroku": "^0.2.0",
-    "nodemon": "^1.14.12"
-  },
-  "devDependencies": {
+    "nodemon": "^1.14.12",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
