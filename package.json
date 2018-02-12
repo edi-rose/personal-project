@@ -1,7 +1,7 @@
 {
   "name": "NaughtsAndCrosses",
   "version": "1.0.0",
-  "description": "",
+  "description": "coolest game eva",
   "main": "index.js",
   "scripts": {
     "start": "node server & webpack --watch",
@@ -15,7 +15,7 @@
     ]
   },
   "keywords": [],
-  "author": "EDA",
+  "author": "Edi Rose",
   "license": "ISC",
   "dependencies": {
     "babel-core": "^6.26.0",
