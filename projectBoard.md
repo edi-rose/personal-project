@@ -23,10 +23,17 @@ Plan:
 I present in in the middle of Week 6. I am currently in the weekend before week 5. My main to do's are:
 
 Node App:
-Create a working Win Checker,
-Create a working attack.js file,
-Finish the Bots' 3rd, 4th and 5th
-Create working tests for my worker functions.
+Create a working Win Checker: tick
+Create a working attack.js file: tick
+Finish the Bots' 3rd, 4th and 5th: tick
+Create working tests for my worker functions:
 
 Converting to a React App:
-I'll get to that when I finish the Node App.
+
+Set up local host to world: tick
+Set up board as visible object in the browser: tick
+Give board cells naught, cross and none attributes
+Play a PVP game on the Board
+Play a Player vs Bot game
+Enable Switching between
+Add score board.
