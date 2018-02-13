@@ -140,6 +140,7 @@ class Board extends React.Component{
     }
     return (
       <div>
+        <div className="game">
         <table style={{
           border: 'thin solid black'
         }}>
@@ -153,10 +154,10 @@ class Board extends React.Component{
                   return <td onClick={() => this.userClick(cell)} style={{
                     border: 'thin solid black',
                     padding: '10px',
-                    height: '40px',
-                    width: '30px'
+                    height: '50px',
+                    width: '40px'
                   }}>
-                    {(token(cell.teamName))}
+                    <div className= 'token'>{(token(cell.teamName))}</div>
                   </td>
                 })}
               </tr>
@@ -164,15 +165,18 @@ class Board extends React.Component{
           })}
         </tbody>
         </table>
-      <br/>
-      <div className='scoreBoard'>
-        <h2> Score Board </h2>
-        <h4> Naughts: {naughtsScore}  Crosses: {crossesScore} </h4>
       </div>
-      <br/>
+      <div class="addOns">
+      <div className="scoreBoard">
+        <h4> Score Board </h4>
+        <p> Naughts: {naughtsScore}  Crosses: {crossesScore} </p>
+      </div>
+      <div className="buttons">
         <button onClick= {() =>this.resetBoard()}>Try Again</button>
         <button onClick={() => this.changeTeam()}>Change Teams</button>
       </div>
+      </div>
+    </div>
     )
   }
 }

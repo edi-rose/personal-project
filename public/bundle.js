@@ -18507,70 +18507,84 @@ var Board = function (_React$Component) {
         'div',
         null,
         _react2.default.createElement(
-          'table',
-          { style: {
-              border: 'thin solid black'
-            } },
+          'div',
+          { className: 'game' },
           _react2.default.createElement(
-            'tbody',
-            null,
-            this.state.grid && this.state.grid.map(function (row) {
-              return _react2.default.createElement(
-                'tr',
-                { style: {
-                    border: 'thin solid black'
-                  } },
-                row.map(function (cell) {
-                  return _react2.default.createElement(
-                    'td',
-                    { onClick: function onClick() {
-                        return _this3.userClick(cell);
-                      }, style: {
-                        border: 'thin solid black',
-                        padding: '10px',
-                        height: '40px',
-                        width: '30px'
-                      } },
-                    token(cell.teamName)
-                  );
-                })
-              );
-            })
+            'table',
+            { style: {
+                border: 'thin solid black'
+              } },
+            _react2.default.createElement(
+              'tbody',
+              null,
+              this.state.grid && this.state.grid.map(function (row) {
+                return _react2.default.createElement(
+                  'tr',
+                  { style: {
+                      border: 'thin solid black'
+                    } },
+                  row.map(function (cell) {
+                    return _react2.default.createElement(
+                      'td',
+                      { onClick: function onClick() {
+                          return _this3.userClick(cell);
+                        }, style: {
+                          border: 'thin solid black',
+                          padding: '10px',
+                          height: '50px',
+                          width: '40px'
+                        } },
+                      _react2.default.createElement(
+                        'div',
+                        { className: 'token' },
+                        token(cell.teamName)
+                      )
+                    );
+                  })
+                );
+              })
+            )
           )
         ),
-        _react2.default.createElement('br', null),
         _react2.default.createElement(
           'div',
-          { className: 'scoreBoard' },
+          { 'class': 'addOns' },
           _react2.default.createElement(
-            'h2',
-            null,
-            ' Score Board '
+            'div',
+            { className: 'scoreBoard' },
+            _react2.default.createElement(
+              'h4',
+              null,
+              ' Score Board '
+            ),
+            _react2.default.createElement(
+              'p',
+              null,
+              ' Naughts: ',
+              naughtsScore,
+              '  Crosses: ',
+              crossesScore,
+              ' '
+            )
           ),
           _react2.default.createElement(
-            'h4',
-            null,
-            ' Naughts: ',
-            naughtsScore,
-            '  Crosses: ',
-            crossesScore,
-            ' '
+            'div',
+            { className: 'buttons' },
+            _react2.default.createElement(
+              'button',
+              { onClick: function onClick() {
+                  return _this3.resetBoard();
+                } },
+              'Try Again'
+            ),
+            _react2.default.createElement(
+              'button',
+              { onClick: function onClick() {
+                  return _this3.changeTeam();
+                } },
+              'Change Teams'
+            )
           )
-        ),
-        _react2.default.createElement('br', null),
-        _react2.default.createElement(
-          'button',
-          { onClick: function onClick() {
-              return _this3.resetBoard();
-            } },
-          'Try Again'
-        ),
-        _react2.default.createElement(
-          'button',
-          { onClick: function onClick() {
-              return _this3.changeTeam();
-            } },
-          'Change Teams'
         )
       );
     }
