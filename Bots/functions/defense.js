@@ -16,6 +16,12 @@ function defendRows(team) {
             board[i+1].teamName == 'none'){
             return board[i+1]
     }
+    else if(board[i].teamName == enemyTeam&&
+            board[i].col == 1&&
+            board[i+1].teamName == enemyTeam&&
+            board[i-1].teamName == 'none'){
+              return board[i-1]
+            }
   }
     return false
 }

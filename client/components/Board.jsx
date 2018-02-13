@@ -29,6 +29,7 @@ class Board extends React.Component{
     for(const cell of board){
       this.claimSquare(cell, 'none')
     }
+    count = 1
   }
   getCell(){
     if (count == 1) {
