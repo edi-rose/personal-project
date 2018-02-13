@@ -41,10 +41,16 @@ function turnTwoNaught() {
   if (defend('naught')){
     return defend('naught')
   }
-  else if (board[1].teamName == 'none'){
+  else if (board[1].teamName == 'none'&&
+           board[4].teamName == 'naught'&&
+           ((board[0].teamName == 'cross' &&
+           board[8].teamName == 'cross') ||
+           (board[2].teamName == 'cross' &&
+           board[6].teamName == 'cross'))){
      return board[1]
       }
-  else if (board[0].teamName == 'none'){
+  else if (board[0].teamName == 'none' &&
+           board[2].teamName !== 'cross'){
     return board[0]
   }
   else {
