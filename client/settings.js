@@ -1,4 +1,5 @@
 var userTeam = 'cross'
+var botTeam = 'naught'
 var turns = require('../bots/botMovesReact')
 
 function token(teamName) {
@@ -15,5 +16,7 @@ function token(teamName) {
 
 module.exports = {
   userTeam: userTeam,
-  token: token
+  token: token,
+  botTeam: botTeam
+
 }

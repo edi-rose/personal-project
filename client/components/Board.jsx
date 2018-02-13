@@ -1,5 +1,6 @@
 import React from 'react'
 var userTeam = require('../settings').userTeam
+var botTeam = require('../settings').botTeam
 var token = require('../settings').token
 var turns = require('../../Bots/botMovesReact.js')
 var board = require('../boardArray')
@@ -31,6 +32,7 @@ class Board extends React.Component{
     count = 1
   }
   getCell(){
+    if(botTeam == 'naught'){
     if (count == 1) {
       count ++
       return turns.turnOneNaught()
@@ -51,6 +53,33 @@ class Board extends React.Component{
       alert('draw... as usual')
     }
   }
+    if(botTeam == 'cross')
+    if(count == 1){
+      count ++
+      return turns.turnOneCross()
+    }
+    else if (count == 2) {
+      count ++
+      return turns.turnTwoCross()
+    }
+    else if (count == 3) {
+      console.log('turn three')
+      count ++
+      return turns.turnThreeCross()
+    }
+    else if (count == 4) {
+      count ++
+      return turns.turnFourCross()
+    }
+    else if(count == 5) {
+      count ++
+      return turns.turnFiveCross()
+    }
+    else {
+      alert('draw... as usual')
+      this.resetBoard()
+    }
+  }
   claimSquare(cell, team){
     const {grid} = this.state
     let found
@@ -58,25 +87,46 @@ class Board extends React.Component{
       if (c == cell) found = cell
     }))
     found.teamName = team
-    if(checkForWin('naught')){
+    if(checkForWin(botTeam)){
       alert('Bot Wins!')
       count = 1
+      this.resetBoard()
     }
-    else if(checkForWin('cross')){
+    else if(checkForWin(userTeam)){
       alert('email me at edirose1998@gmail.com telling me how you did this')
       count = 1
+      this.resetBoard()
     }
     this.setState({grid, userPaused: !this.state.userPaused})
+  }
+  changeTeam() {
+    this.resetBoard()
+    if(userTeam == 'cross'){
+      userTeam = 'naught'
+    }
+    else {
+      userTeam = 'cross'
+    }
+    if(botTeam == 'cross'){
+      botTeam = 'naught'
+    }
+    else {
+      botTeam = 'cross'
+    }
   }
   userClick(cell) {
     if (this.state.userPaused) return
     this.claimSquare(cell, userTeam)
     setTimeout(() => {
       var {grid} = this.state
-      this.claimSquare(this.getCell(), 'naught')
+      this.claimSquare(this.getCell(), botTeam)
     }, 2000)
   }
   render() {
+    if(botTeam == 'cross' && count == 1){
+      console.log('bot starts')
+      this.claimSquare(this.getCell(), botTeam)
+    }
     return (
       <div>
         <table style={{
@@ -105,6 +155,7 @@ class Board extends React.Component{
         </table>
       <br/>
         <button onClick= {() =>this.resetBoard()}>Try Again</button>
+        <button onClick={() => this.changeTeam()}>Change Teams</button>
       </div>
     )
   }
