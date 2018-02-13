@@ -128,6 +128,7 @@ class Board extends React.Component{
         crossesScore ++
       }
       alert('Please email me at edirose1998@gmail.com telling me how you won!! Congratulations')
+      this.resetBoard()
     }
     if(checkForWin(botTeam)){
       if(botTeam == 'naught'){
@@ -137,6 +138,7 @@ class Board extends React.Component{
         crossesScore ++
       }
       alert(botTeam + ' wins! Try Again!')
+      this.resetBoard()
     }
     return (
       <div>
