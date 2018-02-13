@@ -18741,6 +18741,15 @@ var Board = function (_React$Component) {
               'Change Teams'
             )
           )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'link' },
+          _react2.default.createElement(
+            'a',
+            { href: './leaderBoard.html' },
+            ' The Winners '
+          )
         )
       );
     }
