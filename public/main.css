@@ -1,6 +1,7 @@
 .body {
   width: 60%;
-  margin-left: 30%
+  margin-left: 30%;
+  background-image: url('./images/image.jpg');
 }
 .token {
   font-size: 20px;
