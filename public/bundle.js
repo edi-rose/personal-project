@@ -589,21 +589,24 @@ module.exports = warning;
 
 
 var userTeam = 'cross';
+var botTeam = 'naught';
 var turns = __webpack_require__(30);
 
 function token(teamName) {
   if (teamName == 'none') {
     return ' ';
   } else if (teamName == 'cross') {
-    return 'u';
+    return 'x';
   } else if (teamName == 'naught') {
-    return 'suck';
+    return 'o';
   }
 }
 
 module.exports = {
   userTeam: userTeam,
-  token: token
+  token: token,
+  botTeam: botTeam
+
 };
 
 /***/ }),
@@ -18330,13 +18333,16 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var userTeam = __webpack_require__(8).userTeam;
+var botTeam = __webpack_require__(8).botTeam;
 var token = __webpack_require__(8).token;
 var turns = __webpack_require__(33);
-var getCell = __webpack_require__(8).getCell;
 var board = __webpack_require__(1);
 var checkForWin = __webpack_require__(36);
 
 var count = 1;
+var alertCount = 0;
+var naughtsScore = 0;
+var crossesScore = 0;
 
 var Board = function (_React$Component) {
   _inherits(Board, _React$Component);
@@ -18385,24 +18391,48 @@ var Board = function (_React$Component) {
           }
         }
       }
+
+      count = 1;
     }
   }, {
     key: 'getCell',
     value: function getCell() {
-      if (count == 1) {
+      if (botTeam == 'naught') {
+        if (count == 1) {
+          count++;
+          return turns.turnOneNaught();
+        } else if (count == 2) {
+          count++;
+          return turns.turnTwoNaught();
+        } else if (count == 3) {
+          count++;
+          return turns.turnThreeNaught();
+        } else if (count == 4) {
+          count++;
+          return turns.turnFourNaught();
+        } else {
+          alert('draw... as usual');
+        }
+      }
+      if (botTeam == 'cross') if (count == 1) {
         count++;
-        return turns.turnOneNaught();
+        return turns.turnOneCross();
       } else if (count == 2) {
         count++;
-        return turns.turnTwoNaught();
+        return turns.turnTwoCross();
       } else if (count == 3) {
+        console.log('turn three');
         count++;
-        return turns.turnThreeNaught();
+        return turns.turnThreeCross();
       } else if (count == 4) {
         count++;
-        return turns.turnFourNaught();
+        return turns.turnFourCross();
+      } else if (count == 5) {
+        count++;
+        return turns.turnFiveCross();
       } else {
         alert('draw... as usual');
+        this.resetBoard();
       }
     }
   }, {
@@ -18417,14 +18447,22 @@ var Board = function (_React$Component) {
         });
       });
       found.teamName = team;
-      if (checkForWin('naught')) {
-        alert('Bot Wins!');
-        count = 1;
-      } else if (checkForWin('cross')) {
-        alert('email me at edirose1998@gmail.com telling me how you did this');
-        count = 1;
-      }
       this.setState({ grid: grid, userPaused: !this.state.userPaused });
+    }
+  }, {
+    key: 'changeTeam',
+    value: function changeTeam() {
+      if (userTeam == 'cross') {
+        userTeam = 'naught';
+      } else {
+        userTeam = 'cross';
+      }
+      if (botTeam == 'cross') {
+        botTeam = 'naught';
+      } else {
+        botTeam = 'cross';
+      }
+      this.resetBoard();
     }
   }, {
     key: 'userClick',
@@ -18436,7 +18474,7 @@ var Board = function (_React$Component) {
       setTimeout(function () {
         var grid = _this2.state.grid;
 
-        _this2.claimSquare(_this2.getCell(), 'naught');
+        _this2.claimSquare(_this2.getCell(), botTeam);
       }, 2000);
     }
   }, {
@@ -18444,48 +18482,109 @@ var Board = function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
+      if (botTeam == 'cross' && count == 1) {
+        console.log('bot starts');
+        this.claimSquare(this.getCell(), botTeam);
+      }
+      console.log(count);
+      if (checkForWin(userTeam)) {
+        if (botTeam == 'naught') {
+          naughtsScore++;
+        } else {
+          crossesScore++;
+        }
+        alert('Please email me at edirose1998@gmail.com telling me how you won!! Congratulations');
+      }
+      if (checkForWin(botTeam)) {
+        if (botTeam == 'naught') {
+          naughtsScore++;
+        } else {
+          crossesScore++;
+        }
+        alert(botTeam + ' wins! Try Again!');
+      }
       return _react2.default.createElement(
         'div',
         null,
         _react2.default.createElement(
-          'table',
-          { style: {
-              border: 'thin solid black'
-            } },
+          'div',
+          { className: 'game' },
           _react2.default.createElement(
-            'tbody',
-            null,
-            this.state.grid && this.state.grid.map(function (row) {
-              return _react2.default.createElement(
-                'tr',
-                { style: {
-                    border: 'thin solid black'
-                  } },
-                row.map(function (cell) {
-                  return _react2.default.createElement(
-                    'td',
-                    { onClick: function onClick() {
-                        return _this3.userClick(cell);
-                      }, style: {
-                        border: 'thin solid black',
-                        padding: '10px',
-                        height: '40px',
-                        width: '30px'
-                      } },
-                    token(cell.teamName)
-                  );
-                })
-              );
-            })
+            'table',
+            { style: {
+                border: 'thin solid black'
+              } },
+            _react2.default.createElement(
+              'tbody',
+              null,
+              this.state.grid && this.state.grid.map(function (row) {
+                return _react2.default.createElement(
+                  'tr',
+                  { style: {
+                      border: 'thin solid black'
+                    } },
+                  row.map(function (cell) {
+                    return _react2.default.createElement(
+                      'td',
+                      { onClick: function onClick() {
+                          return _this3.userClick(cell);
+                        }, style: {
+                          border: 'thin solid black',
+                          padding: '10px',
+                          height: '50px',
+                          width: '40px'
+                        } },
+                      _react2.default.createElement(
+                        'div',
+                        { className: 'token' },
+                        token(cell.teamName)
+                      )
+                    );
+                  })
+                );
+              })
+            )
           )
         ),
-        _react2.default.createElement('br', null),
         _react2.default.createElement(
-          'button',
-          { onClick: function onClick() {
-              return _this3.resetBoard();
-            } },
-          'Try Again'
+          'div',
+          { 'class': 'addOns' },
+          _react2.default.createElement(
+            'div',
+            { className: 'scoreBoard' },
+            _react2.default.createElement(
+              'h4',
+              null,
+              ' Score Board '
+            ),
+            _react2.default.createElement(
+              'p',
+              null,
+              ' Naughts: ',
+              naughtsScore,
+              '  Crosses: ',
+              crossesScore,
+              ' '
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'buttons' },
+            _react2.default.createElement(
+              'button',
+              { onClick: function onClick() {
+                  return _this3.resetBoard();
+                } },
+              'Try Again'
+            ),
+            _react2.default.createElement(
+              'button',
+              { onClick: function onClick() {
+                  return _this3.changeTeam();
+                } },
+              'Change Teams'
+            )
+          )
         )
       );
     }
@@ -18512,18 +18611,17 @@ module.exports = {
 "use strict";
 
 
-//var checkForWin = require('../client/winCheck.js')
 var defend = __webpack_require__(31);
 var board = __webpack_require__(1);
 var attack = __webpack_require__(32);
 
-// function turnOneCross() {
-//   //board[0] == topLeft
-//   if(board[0].isAvailable()) {
-//     return board[0]
-//   }
-// }
-//
+function turnOneCross() {
+  //board[0] == topLeft
+  if (board[0].teamName == 'none') {
+    return board[0];
+  }
+}
+
 function turnOneNaught() {
   //board[4] == midMid
   //board[7] == botLeft
@@ -18533,70 +18631,44 @@ function turnOneNaught() {
     return board[0];
   }
 }
-//
-// function turnTwoCross() {
-//   //board[1] == topMid
-//   //board[2] == topRight
-//   //board[6] == botLeft
-//   if(board[1].isAvailable() && board[2].isAvailable()){
-//     board[2].claimSquare('cross')
-//   }
-//   else {
-//     board[6].claimSquare('cross')
-//   }
-// }
-//
-function turnTwoNaught() {
-  if (defend('naught')) {
-    return defend('naught');
-  } else if (board[2].teamName == 'none') {
+
+function turnTwoCross() {
+  //board[1] == topMid
+  //board[2] == topRight
+  //board[6] == botLeft
+  //board[4] == midMid
+  if (board[4].teamName == 'naught') {
+    return board[8];
+  } else if (board[1].teamName == 'none' && board[2].teamName == 'none') {
     return board[2];
-  } else if (board[0].teamName == 'none') {
-    return board[0];
   } else {
     return board[6];
   }
 }
 
-// function turnThreeCross(){
-//   // board[6] == botLeft
-//   // board[8] == botRight
-//   if(attack('cross')){
-//     if(checkForWin('cross')){
-//       console.log('crosses win!!')
-//     }
-//     return
-//   }
-//   else if(defend('cross')){
-//     console.log('hello')
-//     return
-//   }
-//   else if(board[6].isAvailable()){
-//       board[6].claimSquare('cross')
-//       return
-//     }
-//   else if(board[8].isAvailable()){
-//       board[8].claimSquare('cross')
-//       return
-//     }
-//   else {
-//     for (var i = 0; i < board.length; i++) {
-//       if(board[i].isAvailable()){
-//         board[i].claimSquare('cross')
-//         return
-//       }
-//     }
-//   }
-//   if(checkForWin('cross')){
-//     console.log('crosses win!!')
-//   }
-// }
-//
-function turnThreeNaught() {
-  if (attack('naught')) {
-    return attack('naught');
-  } else if (defend('naught')) {
+function turnTwoNaught() {
+  if (defend('naught')) {
     return defend('naught');
+  } else if (board[1].teamName == 'none') {
+    return board[1];
+  } else if (board[3].teamName == 'none') {
+    return board[3];
+  } else {
+    return board[6];
+  }
+}
+
+function turnThreeCross() {
+  // board[6] == botLeft
+  // board[8] == botRight
+  if (attack('cross')) {
+    return attack('cross');
+  } else if (defend('cross')) {
+    return defend('cross');
+  } else if (board[6].teamName == 'none' && board[3].teamName == 'none') {
+    return board[6];
+  } else if (board[8].teamName == 'none') {
+    return board[8];
   } else {
     for (var i = 0; i < board.length; i++) {
       if (board[i].teamName == 'none') {
@@ -18605,30 +18677,38 @@ function turnThreeNaught() {
     }
   }
 }
-//
-// function turnFourCross(){
-//     if(attack('cross')){
-//       if(checkForWin('cross')){
-//         console.log('crosses win!!')
-//       }
-//       return
-//     }
-//     else if(defend('cross')){
-//       return
-//     }
-//     else {
-//       for (var i = 0; i < board.length; i++) {
-//         if(board[i].isAvailable()){
-//           board[i].claimSquare('cross')
-//           return
-//         }
-//       }
-//     }
-//     if(checkForWin('cross')){
-//       console.log('crosses win!!')
-//     }
-//   }
-//
+
+function turnThreeNaught() {
+  if (attack('naught')) {
+    console.log('this is and attack');
+    return attack('naught');
+  } else if (defend('naught')) {
+    console.log('this is a defend');
+    return defend('naught');
+  } else {
+    console.log('this is a random move');
+    for (var i = 0; i < board.length; i++) {
+      if (board[i].teamName == 'none') {
+        return board[i];
+      }
+    }
+  }
+}
+
+function turnFourCross() {
+  if (attack('cross')) {
+    return attack('cross');
+  } else if (defend('cross')) {
+    return defend('cross');
+  } else {
+    for (var i = 0; i < board.length; i++) {
+      if (board[i].teamName == 'none') {
+        return board[i];
+      }
+    }
+  }
+}
+
 function turnFourNaught() {
   // board[6] == botLeft
   // board[8] == botRight
@@ -18644,30 +18724,21 @@ function turnFourNaught() {
     }
   }
 }
-//
-// function turnFiveCross() {
-//     if(attack('cross')){
-//       if(checkForWin('cross')){
-//         console.log('crosses win!!')
-//       }
-//       return
-//     }
-//     else if(attack('naught')){
-//       return
-//       }
-//     else {
-//       for (var i = 0; i < board.length; i++) {
-//         if(board[i].isAvailable()){
-//           board[i].claimSquare('cross')
-//           return
-//         }
-//       }
-//     }
-//     if(checkForWin('cross')){
-//       console.log('crosses win!!')
-//     }
-// }
-//
+
+function turnFiveCross() {
+  if (attack('cross')) {
+    return attack('cross');
+  } else if (defend('cross')) {
+    return defend('cross');
+  } else {
+    for (var i = 0; i < board.length; i++) {
+      if (board[i].teamName == 'none') {
+        return board[i];
+      }
+    }
+  }
+}
+
 function resetBoard() {
   for (var i = 0; i < board.length; i++) {
     board[i].teamName = 'none';
@@ -18679,6 +18750,11 @@ module.exports = {
   turnTwoNaught: turnTwoNaught,
   turnThreeNaught: turnThreeNaught,
   turnFourNaught: turnFourNaught,
+  turnOneCross: turnOneCross,
+  turnTwoCross: turnTwoCross,
+  turnThreeCross: turnThreeCross,
+  turnFourCross: turnFourCross,
+  turnFiveCross: turnFiveCross,
   resetBoard: resetBoard
 };
 
@@ -18699,6 +18775,8 @@ function defendRows(team) {
       return board[i + 2];
     } else if (board[i].teamName == enemyTeam && board[i].col == 0 && board[i + 2].teamName == enemyTeam && board[i + 1].teamName == 'none') {
       return board[i + 1];
+    } else if (board[i].teamName == enemyTeam && board[i].col == 1 && board[i + 1].teamName == enemyTeam && board[i - 1].teamName == 'none') {
+      return board[i - 1];
     }
   }
   return false;
@@ -18860,18 +18938,17 @@ module.exports = attack;
 "use strict";
 
 
-//var checkForWin = require('../client/winCheck.js')
 var defend = __webpack_require__(34);
 var board = __webpack_require__(1);
 var attack = __webpack_require__(35);
 
-// function turnOneCross() {
-//   //board[0] == topLeft
-//   if(board[0].isAvailable()) {
-//     return board[0]
-//   }
-// }
-//
+function turnOneCross() {
+  //board[0] == topLeft
+  if (board[0].teamName == 'none') {
+    return board[0];
+  }
+}
+
 function turnOneNaught() {
   //board[4] == midMid
   //board[7] == botLeft
@@ -18881,70 +18958,44 @@ function turnOneNaught() {
     return board[0];
   }
 }
-//
-// function turnTwoCross() {
-//   //board[1] == topMid
-//   //board[2] == topRight
-//   //board[6] == botLeft
-//   if(board[1].isAvailable() && board[2].isAvailable()){
-//     board[2].claimSquare('cross')
-//   }
-//   else {
-//     board[6].claimSquare('cross')
-//   }
-// }
-//
-function turnTwoNaught() {
-  if (defend('naught')) {
-    return defend('naught');
-  } else if (board[2].teamName == 'none') {
+
+function turnTwoCross() {
+  //board[1] == topMid
+  //board[2] == topRight
+  //board[6] == botLeft
+  //board[4] == midMid
+  if (board[4].teamName == 'naught') {
+    return board[8];
+  } else if (board[1].teamName == 'none' && board[2].teamName == 'none') {
     return board[2];
-  } else if (board[0].teamName == 'none') {
-    return board[0];
   } else {
     return board[6];
   }
 }
 
-// function turnThreeCross(){
-//   // board[6] == botLeft
-//   // board[8] == botRight
-//   if(attack('cross')){
-//     if(checkForWin('cross')){
-//       console.log('crosses win!!')
-//     }
-//     return
-//   }
-//   else if(defend('cross')){
-//     console.log('hello')
-//     return
-//   }
-//   else if(board[6].isAvailable()){
-//       board[6].claimSquare('cross')
-//       return
-//     }
-//   else if(board[8].isAvailable()){
-//       board[8].claimSquare('cross')
-//       return
-//     }
-//   else {
-//     for (var i = 0; i < board.length; i++) {
-//       if(board[i].isAvailable()){
-//         board[i].claimSquare('cross')
-//         return
-//       }
-//     }
-//   }
-//   if(checkForWin('cross')){
-//     console.log('crosses win!!')
-//   }
-// }
-//
-function turnThreeNaught() {
-  if (attack('naught')) {
-    return attack('naught');
-  } else if (defend('naught')) {
+function turnTwoNaught() {
+  if (defend('naught')) {
     return defend('naught');
+  } else if (board[1].teamName == 'none') {
+    return board[1];
+  } else if (board[3].teamName == 'none') {
+    return board[3];
+  } else {
+    return board[6];
+  }
+}
+
+function turnThreeCross() {
+  // board[6] == botLeft
+  // board[8] == botRight
+  if (attack('cross')) {
+    return attack('cross');
+  } else if (defend('cross')) {
+    return defend('cross');
+  } else if (board[6].teamName == 'none' && board[3].teamName == 'none') {
+    return board[6];
+  } else if (board[8].teamName == 'none') {
+    return board[8];
   } else {
     for (var i = 0; i < board.length; i++) {
       if (board[i].teamName == 'none') {
@@ -18953,30 +19004,38 @@ function turnThreeNaught() {
     }
   }
 }
-//
-// function turnFourCross(){
-//     if(attack('cross')){
-//       if(checkForWin('cross')){
-//         console.log('crosses win!!')
-//       }
-//       return
-//     }
-//     else if(defend('cross')){
-//       return
-//     }
-//     else {
-//       for (var i = 0; i < board.length; i++) {
-//         if(board[i].isAvailable()){
-//           board[i].claimSquare('cross')
-//           return
-//         }
-//       }
-//     }
-//     if(checkForWin('cross')){
-//       console.log('crosses win!!')
-//     }
-//   }
-//
+
+function turnThreeNaught() {
+  if (attack('naught')) {
+    console.log('this is and attack');
+    return attack('naught');
+  } else if (defend('naught')) {
+    console.log('this is a defend');
+    return defend('naught');
+  } else {
+    console.log('this is a random move');
+    for (var i = 0; i < board.length; i++) {
+      if (board[i].teamName == 'none') {
+        return board[i];
+      }
+    }
+  }
+}
+
+function turnFourCross() {
+  if (attack('cross')) {
+    return attack('cross');
+  } else if (defend('cross')) {
+    return defend('cross');
+  } else {
+    for (var i = 0; i < board.length; i++) {
+      if (board[i].teamName == 'none') {
+        return board[i];
+      }
+    }
+  }
+}
+
 function turnFourNaught() {
   // board[6] == botLeft
   // board[8] == botRight
@@ -18992,30 +19051,21 @@ function turnFourNaught() {
     }
   }
 }
-//
-// function turnFiveCross() {
-//     if(attack('cross')){
-//       if(checkForWin('cross')){
-//         console.log('crosses win!!')
-//       }
-//       return
-//     }
-//     else if(attack('naught')){
-//       return
-//       }
-//     else {
-//       for (var i = 0; i < board.length; i++) {
-//         if(board[i].isAvailable()){
-//           board[i].claimSquare('cross')
-//           return
-//         }
-//       }
-//     }
-//     if(checkForWin('cross')){
-//       console.log('crosses win!!')
-//     }
-// }
-//
+
+function turnFiveCross() {
+  if (attack('cross')) {
+    return attack('cross');
+  } else if (defend('cross')) {
+    return defend('cross');
+  } else {
+    for (var i = 0; i < board.length; i++) {
+      if (board[i].teamName == 'none') {
+        return board[i];
+      }
+    }
+  }
+}
+
 function resetBoard() {
   for (var i = 0; i < board.length; i++) {
     board[i].teamName = 'none';
@@ -19027,6 +19077,11 @@ module.exports = {
   turnTwoNaught: turnTwoNaught,
   turnThreeNaught: turnThreeNaught,
   turnFourNaught: turnFourNaught,
+  turnOneCross: turnOneCross,
+  turnTwoCross: turnTwoCross,
+  turnThreeCross: turnThreeCross,
+  turnFourCross: turnFourCross,
+  turnFiveCross: turnFiveCross,
   resetBoard: resetBoard
 };
 
@@ -19047,6 +19102,8 @@ function defendRows(team) {
       return board[i + 2];
     } else if (board[i].teamName == enemyTeam && board[i].col == 0 && board[i + 2].teamName == enemyTeam && board[i + 1].teamName == 'none') {
       return board[i + 1];
+    } else if (board[i].teamName == enemyTeam && board[i].col == 1 && board[i + 1].teamName == enemyTeam && board[i - 1].teamName == 'none') {
+      return board[i - 1];
     }
   }
   return false;

@@ -1,13 +1,15 @@
 import React from 'react'
 var userTeam = require('../settings').userTeam
+var botTeam = require('../settings').botTeam
 var token = require('../settings').token
 var turns = require('../../Bots/botMovesReact.js')
-var getCell = require('../settings').getCell
 var board = require('../boardArray')
 var checkForWin = require('../winCheck')
 
 var count = 1
-
+var alertCount = 0
+var naughtsScore = 0
+var crossesScore = 0
 
 class Board extends React.Component{
   constructor (props) {
@@ -26,11 +28,13 @@ class Board extends React.Component{
     this.resetBoard = this.resetBoard.bind(this)
   }
   resetBoard() {
-    for(const cell of board){
-      this.claimSquare(cell, 'none')
-    }
+  for(const cell of board){
+    this.claimSquare(cell, 'none')
+  }
+  count = 1
   }
   getCell(){
+    if(botTeam == 'naught'){
     if (count == 1) {
       count ++
       return turns.turnOneNaught()
@@ -51,6 +55,33 @@ class Board extends React.Component{
       alert('draw... as usual')
     }
   }
+    if(botTeam == 'cross')
+    if(count == 1){
+      count ++
+      return turns.turnOneCross()
+    }
+    else if (count == 2) {
+      count ++
+      return turns.turnTwoCross()
+    }
+    else if (count == 3) {
+      console.log('turn three')
+      count ++
+      return turns.turnThreeCross()
+    }
+    else if (count == 4) {
+      count ++
+      return turns.turnFourCross()
+    }
+    else if(count == 5) {
+      count ++
+      return turns.turnFiveCross()
+    }
+    else {
+      alert('draw... as usual')
+      this.resetBoard()
+    }
+  }
   claimSquare(cell, team){
     const {grid} = this.state
     let found
@@ -58,27 +89,58 @@ class Board extends React.Component{
       if (c == cell) found = cell
     }))
     found.teamName = team
-    if(checkForWin('naught')){
-      alert('Bot Wins!')
-      count = 1
-    }
-    else if(checkForWin('cross')){
-      alert('email me at edirose1998@gmail.com telling me how you did this')
-      count = 1
-    }
     this.setState({grid, userPaused: !this.state.userPaused})
+  }
+  changeTeam() {
+    if(userTeam == 'cross'){
+      userTeam = 'naught'
+    }
+    else {
+      userTeam = 'cross'
+    }
+    if(botTeam == 'cross'){
+      botTeam = 'naught'
+    }
+    else {
+      botTeam = 'cross'
+    }
+    this.resetBoard()
   }
   userClick(cell) {
     if (this.state.userPaused) return
     this.claimSquare(cell, userTeam)
     setTimeout(() => {
       var {grid} = this.state
-      this.claimSquare(this.getCell(), 'naught')
+      this.claimSquare(this.getCell(), botTeam)
     }, 2000)
   }
   render() {
+    if(botTeam == 'cross' && count == 1){
+      console.log('bot starts')
+      this.claimSquare(this.getCell(), botTeam)
+    }
+    console.log(count)
+    if(checkForWin(userTeam)){
+      if(botTeam == 'naught'){
+        naughtsScore ++
+      }
+      else {
+        crossesScore ++
+      }
+      alert('Please email me at edirose1998@gmail.com telling me how you won!! Congratulations')
+    }
+    if(checkForWin(botTeam)){
+      if(botTeam == 'naught'){
+        naughtsScore ++
+      }
+      else{
+        crossesScore ++
+      }
+      alert(botTeam + ' wins! Try Again!')
+    }
     return (
       <div>
+        <div className="game">
         <table style={{
           border: 'thin solid black'
         }}>
@@ -92,10 +154,10 @@ class Board extends React.Component{
                   return <td onClick={() => this.userClick(cell)} style={{
                     border: 'thin solid black',
                     padding: '10px',
-                    height: '40px',
-                    width: '30px'
+                    height: '50px',
+                    width: '40px'
                   }}>
-                    {(token(cell.teamName))}
+                    <div className= 'token'>{(token(cell.teamName))}</div>
                   </td>
                 })}
               </tr>
@@ -103,9 +165,18 @@ class Board extends React.Component{
           })}
         </tbody>
         </table>
-      <br/>
-        <button onClick= {() =>this.resetBoard()}>Try Again</button>
       </div>
+      <div class="addOns">
+      <div className="scoreBoard">
+        <h4> Score Board </h4>
+        <p> Naughts: {naughtsScore}  Crosses: {crossesScore} </p>
+      </div>
+      <div className="buttons">
+        <button onClick= {() =>this.resetBoard()}>Try Again</button>
+        <button onClick={() => this.changeTeam()}>Change Teams</button>
+      </div>
+      </div>
+    </div>
     )
   }
 }
