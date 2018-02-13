@@ -44,11 +44,11 @@ function turnTwoNaught() {
   else if (board[1].teamName == 'none'){
      return board[1]
       }
-  else if (board[3].teamName == 'none'){
-    return board[3]
+  else if (board[0].teamName == 'none'){
+    return board[0]
   }
   else {
-    return board[6]
+    return board[8]
   }
     }
 
@@ -89,12 +89,16 @@ function turnThreeNaught(){
   }
   else {
     console.log('this is a random move')
-    for (var i = 0; i < board.length; i++) {
-      if(board[i].teamName == 'none'){
-        return board[i]
-      }
+      for (var i = 0; i < board.length; i++) {
+        if(board[i].teamName == 'none' &&
+           board[i] !== board[0]&&
+           board[i] !== board[2]&&
+           board[i] !== board[6]&&
+           board[i] !== board[8]){
+          return board[i]
     }
   }
+}
 }
 
 function turnFourCross(){
