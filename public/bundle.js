@@ -586,31 +586,6 @@ module.exports = warning;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
-
-var userTeam = 'cross';
-var turns = __webpack_require__(30);
-
-function token(teamName) {
-  if (teamName == 'none') {
-    return ' ';
-  } else if (teamName == 'cross') {
-    return 'x';
-  } else if (teamName == 'naught') {
-    return 'o';
-  }
-}
-
-module.exports = {
-  userTeam: userTeam,
-  token: token
-};
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -674,7 +649,7 @@ module.exports = checkPropTypes;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -713,7 +688,7 @@ var ExecutionEnvironment = {
 module.exports = ExecutionEnvironment;
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -794,7 +769,7 @@ module.exports = EventListener;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -836,7 +811,7 @@ function getActiveElement(doc) /*?DOMElement*/{
 module.exports = getActiveElement;
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -907,7 +882,7 @@ function shallowEqual(objA, objB) {
 module.exports = shallowEqual;
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -950,7 +925,7 @@ function containsNode(outerNode, innerNode) {
 module.exports = containsNode;
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -978,6 +953,31 @@ function focusNode(node) {
 }
 
 module.exports = focusNode;
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var userTeam = 'cross';
+var turns = __webpack_require__(30);
+
+function token(teamName) {
+  if (teamName == 'none') {
+    return ' ';
+  } else if (teamName == 'cross') {
+    return 'x';
+  } else if (teamName == 'naught') {
+    return 'o';
+  }
+}
+
+module.exports = {
+  userTeam: userTeam,
+  token: token
+};
 
 /***/ }),
 /* 16 */
@@ -1055,7 +1055,7 @@ var emptyObject = __webpack_require__(5);
 var invariant = __webpack_require__(6);
 var warning = __webpack_require__(7);
 var emptyFunction = __webpack_require__(2);
-var checkPropTypes = __webpack_require__(9);
+var checkPropTypes = __webpack_require__(8);
 
 // TODO: this is special because it gets imported during build.
 
@@ -2475,7 +2475,7 @@ if (process.env.NODE_ENV === 'production') {
 /*
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var aa=__webpack_require__(3),l=__webpack_require__(10),B=__webpack_require__(4),C=__webpack_require__(2),ba=__webpack_require__(11),da=__webpack_require__(12),ea=__webpack_require__(13),fa=__webpack_require__(14),ia=__webpack_require__(15),D=__webpack_require__(5);
+var aa=__webpack_require__(3),l=__webpack_require__(9),B=__webpack_require__(4),C=__webpack_require__(2),ba=__webpack_require__(10),da=__webpack_require__(11),ea=__webpack_require__(12),fa=__webpack_require__(13),ia=__webpack_require__(14),D=__webpack_require__(5);
 function E(a){for(var b=arguments.length-1,c="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,d=0;d<b;d++)c+="\x26args[]\x3d"+encodeURIComponent(arguments[d+1]);b=Error(c+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}aa?void 0:E("227");
 var oa={children:!0,dangerouslySetInnerHTML:!0,defaultValue:!0,defaultChecked:!0,innerHTML:!0,suppressContentEditableWarning:!0,suppressHydrationWarning:!0,style:!0};function pa(a,b){return(a&b)===b}
 var ta={MUST_USE_PROPERTY:1,HAS_BOOLEAN_VALUE:4,HAS_NUMERIC_VALUE:8,HAS_POSITIVE_NUMERIC_VALUE:24,HAS_OVERLOADED_BOOLEAN_VALUE:32,HAS_STRING_BOOLEAN_VALUE:64,injectDOMPropertyConfig:function(a){var b=ta,c=a.Properties||{},d=a.DOMAttributeNamespaces||{},e=a.DOMAttributeNames||{};a=a.DOMMutationMethods||{};for(var f in c){ua.hasOwnProperty(f)?E("48",f):void 0;var g=f.toLowerCase(),h=c[f];g={attributeName:g,attributeNamespace:null,propertyName:f,mutationMethod:null,mustUseProperty:pa(h,b.MUST_USE_PROPERTY),
@@ -2775,16 +2775,16 @@ if (process.env.NODE_ENV !== "production") {
 var React = __webpack_require__(3);
 var invariant = __webpack_require__(6);
 var warning = __webpack_require__(7);
-var ExecutionEnvironment = __webpack_require__(10);
+var ExecutionEnvironment = __webpack_require__(9);
 var _assign = __webpack_require__(4);
 var emptyFunction = __webpack_require__(2);
-var EventListener = __webpack_require__(11);
-var getActiveElement = __webpack_require__(12);
-var shallowEqual = __webpack_require__(13);
-var containsNode = __webpack_require__(14);
-var focusNode = __webpack_require__(15);
+var EventListener = __webpack_require__(10);
+var getActiveElement = __webpack_require__(11);
+var shallowEqual = __webpack_require__(12);
+var containsNode = __webpack_require__(13);
+var focusNode = __webpack_require__(14);
 var emptyObject = __webpack_require__(5);
-var checkPropTypes = __webpack_require__(9);
+var checkPropTypes = __webpack_require__(8);
 var hyphenateStyleName = __webpack_require__(25);
 var camelizeStyleName = __webpack_require__(27);
 
@@ -18329,10 +18329,9 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var userTeam = __webpack_require__(8).userTeam;
-var token = __webpack_require__(8).token;
+var userTeam = __webpack_require__(15).userTeam;
+var token = __webpack_require__(15).token;
 var turns = __webpack_require__(33);
-var getCell = __webpack_require__(8).getCell;
 var board = __webpack_require__(1);
 var checkForWin = __webpack_require__(36);
 

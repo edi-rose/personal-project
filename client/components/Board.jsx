@@ -2,7 +2,6 @@ import React from 'react'
 var userTeam = require('../settings').userTeam
 var token = require('../settings').token
 var turns = require('../../Bots/botMovesReact.js')
-var getCell = require('../settings').getCell
 var board = require('../boardArray')
 var checkForWin = require('../winCheck')
 
