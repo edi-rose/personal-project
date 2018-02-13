@@ -18340,6 +18340,9 @@ var board = __webpack_require__(1);
 var checkForWin = __webpack_require__(36);
 
 var count = 1;
+var alertCount = 0;
+var naughtsScore = 0;
+var crossesScore = 0;
 
 var Board = function (_React$Component) {
   _inherits(Board, _React$Component);
@@ -18444,21 +18447,11 @@ var Board = function (_React$Component) {
         });
       });
       found.teamName = team;
-      if (checkForWin(botTeam)) {
-        alert('Bot Wins!');
-        count = 1;
-        this.resetBoard();
-      } else if (checkForWin(userTeam)) {
-        alert('email me at edirose1998@gmail.com telling me how you did this');
-        count = 1;
-        this.resetBoard();
-      }
       this.setState({ grid: grid, userPaused: !this.state.userPaused });
     }
   }, {
     key: 'changeTeam',
     value: function changeTeam() {
-      this.resetBoard();
       if (userTeam == 'cross') {
         userTeam = 'naught';
       } else {
@@ -18469,6 +18462,7 @@ var Board = function (_React$Component) {
       } else {
         botTeam = 'cross';
       }
+      this.resetBoard();
     }
   }, {
     key: 'userClick',
@@ -18491,6 +18485,23 @@ var Board = function (_React$Component) {
       if (botTeam == 'cross' && count == 1) {
         console.log('bot starts');
         this.claimSquare(this.getCell(), botTeam);
+      }
+      console.log(count);
+      if (checkForWin(userTeam)) {
+        if (botTeam == 'naught') {
+          naughtsScore++;
+        } else {
+          crossesScore++;
+        }
+        alert('Please email me at edirose1998@gmail.com telling me how you won!! Congratulations');
+      }
+      if (checkForWin(botTeam)) {
+        if (botTeam == 'naught') {
+          naughtsScore++;
+        } else {
+          crossesScore++;
+        }
+        alert(botTeam + ' wins! Try Again!');
       }
       return _react2.default.createElement(
         'div',
@@ -18525,6 +18536,25 @@ var Board = function (_React$Component) {
                 })
               );
             })
+          )
+        ),
+        _react2.default.createElement('br', null),
+        _react2.default.createElement(
+          'div',
+          { className: 'scoreBoard' },
+          _react2.default.createElement(
+            'h2',
+            null,
+            ' Score Board '
+          ),
+          _react2.default.createElement(
+            'h4',
+            null,
+            ' Naughts: ',
+            naughtsScore,
+            '  Crosses: ',
+            crossesScore,
+            ' '
           )
         ),
         _react2.default.createElement('br', null),
@@ -18592,7 +18622,10 @@ function turnTwoCross() {
   //board[1] == topMid
   //board[2] == topRight
   //board[6] == botLeft
-  if (board[1].teamName == 'none' && board[2].teamName == 'none') {
+  //board[4] == midMid
+  if (board[4].teamName == 'naught') {
+    return board[8];
+  } else if (board[1].teamName == 'none' && board[2].teamName == 'none') {
     return board[2];
   } else {
     return board[6];
@@ -18916,7 +18949,10 @@ function turnTwoCross() {
   //board[1] == topMid
   //board[2] == topRight
   //board[6] == botLeft
-  if (board[1].teamName == 'none' && board[2].teamName == 'none') {
+  //board[4] == midMid
+  if (board[4].teamName == 'naught') {
+    return board[8];
+  } else if (board[1].teamName == 'none' && board[2].teamName == 'none') {
     return board[2];
   } else {
     return board[6];

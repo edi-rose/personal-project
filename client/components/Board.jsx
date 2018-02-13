@@ -7,7 +7,9 @@ var board = require('../boardArray')
 var checkForWin = require('../winCheck')
 
 var count = 1
-
+var alertCount = 0
+var naughtsScore = 0
+var crossesScore = 0
 
 class Board extends React.Component{
   constructor (props) {
@@ -26,10 +28,10 @@ class Board extends React.Component{
     this.resetBoard = this.resetBoard.bind(this)
   }
   resetBoard() {
-    for(const cell of board){
-      this.claimSquare(cell, 'none')
-    }
-    count = 1
+  for(const cell of board){
+    this.claimSquare(cell, 'none')
+  }
+  count = 1
   }
   getCell(){
     if(botTeam == 'naught'){
@@ -87,20 +89,9 @@ class Board extends React.Component{
       if (c == cell) found = cell
     }))
     found.teamName = team
-    if(checkForWin(botTeam)){
-      alert('Bot Wins!')
-      count = 1
-      this.resetBoard()
-    }
-    else if(checkForWin(userTeam)){
-      alert('email me at edirose1998@gmail.com telling me how you did this')
-      count = 1
-      this.resetBoard()
-    }
     this.setState({grid, userPaused: !this.state.userPaused})
   }
   changeTeam() {
-    this.resetBoard()
     if(userTeam == 'cross'){
       userTeam = 'naught'
     }
@@ -113,6 +104,7 @@ class Board extends React.Component{
     else {
       botTeam = 'cross'
     }
+    this.resetBoard()
   }
   userClick(cell) {
     if (this.state.userPaused) return
@@ -126,6 +118,25 @@ class Board extends React.Component{
     if(botTeam == 'cross' && count == 1){
       console.log('bot starts')
       this.claimSquare(this.getCell(), botTeam)
+    }
+    console.log(count)
+    if(checkForWin(userTeam)){
+      if(botTeam == 'naught'){
+        naughtsScore ++
+      }
+      else {
+        crossesScore ++
+      }
+      alert('Please email me at edirose1998@gmail.com telling me how you won!! Congratulations')
+    }
+    if(checkForWin(botTeam)){
+      if(botTeam == 'naught'){
+        naughtsScore ++
+      }
+      else{
+        crossesScore ++
+      }
+      alert(botTeam + ' wins! Try Again!')
     }
     return (
       <div>
@@ -153,6 +164,11 @@ class Board extends React.Component{
           })}
         </tbody>
         </table>
+      <br/>
+      <div className='scoreBoard'>
+        <h2> Score Board </h2>
+        <h4> Naughts: {naughtsScore}  Crosses: {crossesScore} </h4>
+      </div>
       <br/>
         <button onClick= {() =>this.resetBoard()}>Try Again</button>
         <button onClick={() => this.changeTeam()}>Change Teams</button>

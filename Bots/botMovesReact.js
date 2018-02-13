@@ -25,7 +25,11 @@ function turnTwoCross() {
   //board[1] == topMid
   //board[2] == topRight
   //board[6] == botLeft
-  if(board[1].teamName == 'none' && board[2].teamName == 'none'){
+  //board[4] == midMid
+  if(board[4].teamName == 'naught'){
+    return board[8]
+  }
+  else if(board[1].teamName == 'none' && board[2].teamName == 'none'){
     return board[2]
   }
   else {
