@@ -34,6 +34,7 @@ class Board extends React.Component{
     this.claimSquare(cell, 'none')
   }
   count = 1
+  gameOver = false
   }
   getCell(){
     if(botTeam == 'naught'){
