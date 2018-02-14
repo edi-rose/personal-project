@@ -18624,6 +18624,7 @@ var Board = function (_React$Component) {
       var _this2 = this;
 
       if (this.state.userPaused) return;
+      if (cell.teamName !== 'none') return;
       this.claimSquare(cell, userTeam);
       setTimeout(function () {
         var grid = _this2.state.grid;

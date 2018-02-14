@@ -108,6 +108,7 @@ class Board extends React.Component{
   }
   userClick(cell) {
     if (this.state.userPaused) return
+    if (cell.teamName !== 'none') return 
     this.claimSquare(cell, userTeam)
     setTimeout(() => {
       var {grid} = this.state
