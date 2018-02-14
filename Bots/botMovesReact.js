@@ -86,15 +86,12 @@ function turnThreeCross(){
 
 function turnThreeNaught(){
   if(attack('naught')){
-    console.log('this is and attack')
   return attack('naught')
     }
   else if(defend('naught')){
-    console.log('this is a defend')
     return defend('naught')
   }
   else {
-    console.log('this is a random move')
       for (var i = 0; i < board.length; i++) {
         if(board[i].teamName == 'none' &&
            board[i] !== board[0]&&

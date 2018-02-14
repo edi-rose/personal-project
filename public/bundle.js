@@ -1058,13 +1058,10 @@ function turnThreeCross() {
 
 function turnThreeNaught() {
   if (attack('naught')) {
-    console.log('this is and attack');
     return attack('naught');
   } else if (defend('naught')) {
-    console.log('this is a defend');
     return defend('naught');
   } else {
-    console.log('this is a random move');
     for (var i = 0; i < board.length; i++) {
       if (board[i].teamName == 'none' && board[i] !== board[0] && board[i] !== board[2] && board[i] !== board[6] && board[i] !== board[8]) {
         return board[i];
@@ -18497,6 +18494,7 @@ var count = 1;
 var alertCount = 0;
 var naughtsScore = 0;
 var crossesScore = 0;
+var gameOver = false;
 
 var Board = function (_React$Component) {
   _inherits(Board, _React$Component);
@@ -18575,7 +18573,6 @@ var Board = function (_React$Component) {
         count++;
         return turns.turnTwoCross();
       } else if (count == 3) {
-        console.log('turn three');
         count++;
         return turns.turnThreeCross();
       } else if (count == 4) {
@@ -18623,6 +18620,7 @@ var Board = function (_React$Component) {
     value: function userClick(cell) {
       var _this2 = this;
 
+      if (gameOver) return;
       if (this.state.userPaused) return;
       if (cell.teamName !== 'none') return;
       this.claimSquare(cell, userTeam);
@@ -18638,10 +18636,8 @@ var Board = function (_React$Component) {
       var _this3 = this;
 
       if (botTeam == 'cross' && count == 1) {
-        console.log('bot starts');
         this.claimSquare(this.getCell(), botTeam);
       }
-      console.log(count);
       if (checkForWin(userTeam)) {
         if (botTeam == 'naught') {
           naughtsScore++;
@@ -18649,6 +18645,7 @@ var Board = function (_React$Component) {
           crossesScore++;
         }
         alert('Please email me at edirose1998@gmail.com telling me how you won!! Congratulations');
+        gameOver = true;
         this.resetBoard();
       }
       if (checkForWin(botTeam)) {
@@ -18658,6 +18655,7 @@ var Board = function (_React$Component) {
           crossesScore++;
         }
         alert(botTeam + ' wins! Try Again!');
+        gameOver = true;
         this.resetBoard();
       }
       return _react2.default.createElement(
