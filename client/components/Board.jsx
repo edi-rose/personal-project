@@ -81,7 +81,7 @@ class Board extends React.Component{
     }
     else {
       alert('draw... as usual')
-      this.resetBoard()
+      gameOver = true
     }
   }
   claimSquare(cell, team){
@@ -131,7 +131,6 @@ class Board extends React.Component{
       }
       alert('Please email me at edirose1998@gmail.com telling me how you won!! Congratulations')
       gameOver = true
-      this.resetBoard()
     }
     if(checkForWin(botTeam)){
       if(botTeam == 'naught'){
@@ -142,7 +141,6 @@ class Board extends React.Component{
       }
       alert(botTeam + ' wins! Try Again!')
       gameOver= true
-      this.resetBoard()
     }
     return (
       <div>

@@ -18545,6 +18545,7 @@ var Board = function (_React$Component) {
       }
 
       count = 1;
+      gameOver = false;
     }
   }, {
     key: 'getCell',
@@ -18583,7 +18584,7 @@ var Board = function (_React$Component) {
         return turns.turnFiveCross();
       } else {
         alert('draw... as usual');
-        this.resetBoard();
+        gameOver = true;
       }
     }
   }, {
@@ -18646,7 +18647,6 @@ var Board = function (_React$Component) {
         }
         alert('Please email me at edirose1998@gmail.com telling me how you won!! Congratulations');
         gameOver = true;
-        this.resetBoard();
       }
       if (checkForWin(botTeam)) {
         if (botTeam == 'naught') {
@@ -18656,7 +18656,6 @@ var Board = function (_React$Component) {
         }
         alert(botTeam + ' wins! Try Again!');
         gameOver = true;
-        this.resetBoard();
       }
       return _react2.default.createElement(
         'div',
