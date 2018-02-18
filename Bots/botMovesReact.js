@@ -3,6 +3,7 @@ var defend = require('./functions/defense.js')
 var board = require('../client/boardArray')
 var attack = require('./functions/attack.js')
 var smartMove = require('./functions/smartMove.js').smartMove
+var defendPin = require('./functions/DefendDoublePin').defendPin
 
 function turnOneCross() {
   //board[0] == topLeft
@@ -44,6 +45,9 @@ function turnTwoCross() {
 function turnTwoNaught() {
   if (defend('naught')){
     return defend('naught')
+  }
+  else if(defendPin()){
+    return defendPin()
   }
   else if(smartMove('naught')){
     return smartMove('naught')

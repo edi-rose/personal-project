@@ -993,6 +993,7 @@ var defend = __webpack_require__(31);
 var board = __webpack_require__(2);
 var attack = __webpack_require__(32);
 var smartMove = __webpack_require__(33).smartMove;
+var defendPin = __webpack_require__(35).defendPin;
 
 function turnOneCross() {
   //board[0] == topLeft
@@ -1030,6 +1031,8 @@ function turnTwoCross() {
 function turnTwoNaught() {
   if (defend('naught')) {
     return defend('naught');
+  } else if (defendPin()) {
+    return defendPin();
   } else if (smartMove('naught')) {
     return smartMove('naught');
   } else if (smartMove('cross')) {
@@ -18507,7 +18510,7 @@ var botTeam = __webpack_require__(8).botTeam;
 var token = __webpack_require__(8).token;
 var turns = __webpack_require__(16);
 var board = __webpack_require__(2);
-var checkForWin = __webpack_require__(35);
+var checkForWin = __webpack_require__(34);
 
 var count = 1;
 var alertCount = 0;
@@ -19061,8 +19064,7 @@ function getEachLane(lineType, unit) {
 module.exports = { smartMove: smartMove };
 
 /***/ }),
-/* 34 */,
-/* 35 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19162,6 +19164,27 @@ function countCheck(count) {
 }
 
 module.exports = checkForWin;
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var board = __webpack_require__(2);
+
+function defendPin() {
+  if (board[0].teamName == 'cross' && board[4].teamName == 'naught' && board[8].teamName == 'cross') {
+    return board[1];
+  } else if (board[2].teamName == 'cross' && board[4].teamName == 'naught' && board[6].teamName == 'cross') {
+    return board[1];
+  } else {
+    return false;
+  }
+}
+
+module.exports = { defendPin: defendPin };
 
 /***/ })
 /******/ ]);
