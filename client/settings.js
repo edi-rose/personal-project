@@ -1,6 +1,6 @@
 var userTeam = 'cross'
 var botTeam = 'naught'
-var turns = require('../bots/botMovesReact')
+var turns = require('../Bots/botMovesReact')
 
 function token(teamName) {
   if(teamName == 'none'){

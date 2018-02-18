@@ -10,6 +10,8 @@ var count = 1
 var alertCount = 0
 var naughtsScore = 0
 var crossesScore = 0
+var gameOver = false
+
 
 class Board extends React.Component{
   constructor (props) {
@@ -32,6 +34,7 @@ class Board extends React.Component{
     this.claimSquare(cell, 'none')
   }
   count = 1
+  gameOver = false
   }
   getCell(){
     if(botTeam == 'naught'){
@@ -65,7 +68,6 @@ class Board extends React.Component{
       return turns.turnTwoCross()
     }
     else if (count == 3) {
-      console.log('turn three')
       count ++
       return turns.turnThreeCross()
     }
@@ -79,7 +81,7 @@ class Board extends React.Component{
     }
     else {
       alert('draw... as usual')
-      this.resetBoard()
+      gameOver = true
     }
   }
   claimSquare(cell, team){
@@ -107,7 +109,9 @@ class Board extends React.Component{
     this.resetBoard()
   }
   userClick(cell) {
+    if (gameOver) return
     if (this.state.userPaused) return
+    if (cell.teamName !== 'none') return
     this.claimSquare(cell, userTeam)
     setTimeout(() => {
       var {grid} = this.state
@@ -116,10 +120,8 @@ class Board extends React.Component{
   }
   render() {
     if(botTeam == 'cross' && count == 1){
-      console.log('bot starts')
       this.claimSquare(this.getCell(), botTeam)
     }
-    console.log(count)
     if(checkForWin(userTeam)){
       if(botTeam == 'naught'){
         naughtsScore ++
@@ -128,7 +130,7 @@ class Board extends React.Component{
         crossesScore ++
       }
       alert('Please email me at edirose1998@gmail.com telling me how you won!! Congratulations')
-      this.resetBoard()
+      gameOver = true
     }
     if(checkForWin(botTeam)){
       if(botTeam == 'naught'){
@@ -138,7 +140,7 @@ class Board extends React.Component{
         crossesScore ++
       }
       alert(botTeam + ' wins! Try Again!')
-      this.resetBoard()
+      gameOver= true
     }
     return (
       <div>
@@ -177,6 +179,9 @@ class Board extends React.Component{
         <button onClick= {() =>this.resetBoard()}>Try Again</button>
         <button onClick={() => this.changeTeam()}>Change Teams</button>
       </div>
+      </div>
+      <div className="link">
+        <a href='./leaderBoard.html'> The Winners </a>
       </div>
     </div>
     )

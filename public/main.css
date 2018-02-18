@@ -1,6 +1,7 @@
 .body {
   width: 60%;
-  margin-left: 30%
+  margin-left: 30%;
+  background-image: url('./images/image.jpg');
 }
 .token {
   font-size: 20px;
@@ -24,4 +25,12 @@
   width: 40%;
   margin-left: 32%;
   font-size: 30px
+}
+.leaderBoard {
+  margin-top: 5%;
+  width: 50%;
+  margin-left: 25%
+}
+.link {
+  margin-top: 15%
 }
