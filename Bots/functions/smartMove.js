@@ -40,22 +40,17 @@ function getValues(cell){
 function checkLines(values, team){
   let count = 0
   if(checkLine('row', values[0], team)){
-    console.log('row')
     count ++
   }
   if (checkLine('col', values[1], team)){
-      console.log('col')
     count ++
   }
   if (checkLine('D1', values[2], team)){
-      console.log('D1')
     count ++
   }
   if (checkLine('D2', values[3], team)){
-      console.log('D2')
     count ++
   }
-  console.log(count)
   if (count > 1){
     return true
   }
