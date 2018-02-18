@@ -302,15 +302,15 @@ module.exports = emptyFunction;
 "use strict";
 
 
-var topLeft = { teamName: 'none', row: 0, col: 0 };
+var topLeft = { teamName: 'none', row: 0, col: 0, D1: true };
 var topMid = { teamName: 'none', row: 0, col: 1 };
-var topRight = { teamName: 'none', row: 0, col: 2 };
+var topRight = { teamName: 'none', row: 0, col: 2, D2: true };
 var midLeft = { teamName: 'none', row: 1, col: 0 };
-var midMid = { teamName: 'none', row: 1, col: 1 };
+var midMid = { teamName: 'none', row: 1, col: 1, D1: true, D2: true };
 var midRight = { teamName: 'none', row: 1, col: 2 };
-var botLeft = { teamName: 'none', row: 2, col: 0 };
+var botLeft = { teamName: 'none', row: 2, col: 0, D2: true };
 var botMid = { teamName: 'none', row: 2, col: 1 };
-var botRight = { teamName: 'none', row: 2, col: 2 };
+var botRight = { teamName: 'none', row: 2, col: 2, D1: true };
 
 var board = [topLeft, topMid, topRight, midLeft, midMid, midRight, botLeft, botMid, botRight];
 
@@ -992,6 +992,7 @@ module.exports = focusNode;
 var defend = __webpack_require__(31);
 var board = __webpack_require__(2);
 var attack = __webpack_require__(32);
+var smartMove = __webpack_require__(33).smartMove;
 
 function turnOneCross() {
   //board[0] == topLeft
@@ -1017,6 +1018,8 @@ function turnTwoCross() {
   //board[4] == midMid
   if (board[4].teamName == 'naught') {
     return board[8];
+  } else if (board[7].teamName == 'naught') {
+    return board[6];
   } else if (board[1].teamName == 'none' && board[2].teamName == 'none') {
     return board[2];
   } else {
@@ -1027,10 +1030,10 @@ function turnTwoCross() {
 function turnTwoNaught() {
   if (defend('naught')) {
     return defend('naught');
-  } else if (board[1].teamName == 'none' && board[4].teamName == 'naught' && (board[0].teamName == 'cross' && board[8].teamName == 'cross' || board[2].teamName == 'cross' && board[6].teamName == 'cross')) {
-    return board[1];
-  } else if (board[0].teamName == 'none' && board[2].teamName !== 'cross') {
-    return board[0];
+  } else if (smartMove('naught')) {
+    return smartMove('naught');
+  } else if (smartMove('cross')) {
+    return smartMove('cross');
   } else {
     return board[8];
   }
@@ -1043,10 +1046,10 @@ function turnThreeCross() {
     return attack('cross');
   } else if (defend('cross')) {
     return defend('cross');
-  } else if (board[6].teamName == 'none' && board[3].teamName == 'none') {
-    return board[6];
-  } else if (board[8].teamName == 'none') {
-    return board[8];
+  } else if (smartMove('cross')) {
+    return smartMove('cross');
+  } else if (smartMove('cross')) {
+    return smartMove('cross');
   } else {
     for (var i = 0; i < board.length; i++) {
       if (board[i].teamName == 'none') {
@@ -1061,6 +1064,10 @@ function turnThreeNaught() {
     return attack('naught');
   } else if (defend('naught')) {
     return defend('naught');
+  } else if (smartMove('naught')) {
+    return smartMove('naught');
+  } else if (smartMove('cross')) {
+    return smartMove('cross');
   } else {
     for (var i = 0; i < board.length; i++) {
       if (board[i].teamName == 'none' && board[i] !== board[0] && board[i] !== board[2] && board[i] !== board[6] && board[i] !== board[8]) {
@@ -1075,6 +1082,10 @@ function turnFourCross() {
     return attack('cross');
   } else if (defend('cross')) {
     return defend('cross');
+  } else if (smartMove('cross')) {
+    return smartMove('cross');
+  } else if (smartMove('cross')) {
+    return smartMove('cross');
   } else {
     for (var i = 0; i < board.length; i++) {
       if (board[i].teamName == 'none') {
@@ -1091,6 +1102,10 @@ function turnFourNaught() {
     return attack('naught');
   } else if (defend('naught')) {
     return defend('naught');
+  } else if (smartMove('naught')) {
+    return smartMove('naught');
+  } else if (smartMove('cross')) {
+    return smartMove('cross');
   } else {
     for (var i = 0; i < board.length; i++) {
       if (board[i].teamName == 'none') {
@@ -1105,6 +1120,10 @@ function turnFiveCross() {
     return attack('cross');
   } else if (defend('cross')) {
     return defend('cross');
+  } else if (smartMove('cross')) {
+    return smartMove('cross');
+  } else if (smartMove('cross')) {
+    return smartMove('cross');
   } else {
     for (var i = 0; i < board.length; i++) {
       if (board[i].teamName == 'none') {
@@ -18488,7 +18507,7 @@ var botTeam = __webpack_require__(8).botTeam;
 var token = __webpack_require__(8).token;
 var turns = __webpack_require__(16);
 var board = __webpack_require__(2);
-var checkForWin = __webpack_require__(33);
+var checkForWin = __webpack_require__(35);
 
 var count = 1;
 var alertCount = 0;
@@ -18942,6 +18961,108 @@ module.exports = attack;
 
 /***/ }),
 /* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var board = __webpack_require__(2);
+
+// lines array format [rowNumber, collumNumber, D1(if applicable), D2(if applicable)]
+
+function smartMove(team) {
+  for (var i = 0; i < board.length; i++) {
+    if (board[i].teamName !== 'none') {
+      continue;
+    }
+    var values = getValues(board[i]);
+    //lines is an array of the different col, row, and diagonal values of each cell
+    if (checkLines(values, team)) {
+      return board[i];
+      break;
+    }
+  }
+  return false;
+}
+
+//Gathers all the values of the cell's key value pairs
+function getValues(cell) {
+  var array = [];
+  array.push(cell.row);
+  array.push(cell.col);
+  if (cell.D1) {
+    array.push(true);
+  } else if (!cell.D1) {
+    array.push(false);
+  }
+  if (cell.D2) {
+    array.push(true);
+  } else if (!cell.D2) {
+    array.push(false);
+  }
+  return array;
+}
+
+function checkLines(values, team) {
+  var count = 0;
+  if (checkLine('row', values[0], team)) {
+    console.log('row');
+    count++;
+  }
+  if (checkLine('col', values[1], team)) {
+    console.log('col');
+    count++;
+  }
+  if (checkLine('D1', values[2], team)) {
+    console.log('D1');
+    count++;
+  }
+  if (checkLine('D2', values[3], team)) {
+    console.log('D2');
+    count++;
+  }
+  console.log(count);
+  if (count > 1) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function checkLine(lineType, unit, team) {
+  var arr = getEachLane(lineType, unit);
+  var count = 0;
+  var noneCount = 0;
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i].teamName == team) {
+      count++;
+    }
+    if (arr[i].teamName == 'none' && noneCount < 2) {
+      count++;
+      noneCount++;
+    }
+  }
+  if (count == 3) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function getEachLane(lineType, unit) {
+  var line = [];
+  for (var i = 0; i < board.length; i++) {
+    if (board[i][lineType] == unit) {
+      line.push(board[i]);
+    }
+  }
+  return line;
+}
+module.exports = { smartMove: smartMove };
+
+/***/ }),
+/* 34 */,
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

@@ -2,6 +2,7 @@
 var defend = require('./functions/defense.js')
 var board = require('../client/boardArray')
 var attack = require('./functions/attack.js')
+var smartMove = require('./functions/smartMove.js').smartMove
 
 function turnOneCross() {
   //board[0] == topLeft
@@ -29,6 +30,9 @@ function turnTwoCross() {
   if(board[4].teamName == 'naught'){
     return board[8]
   }
+  else if(board[7].teamName == 'naught'){
+    return board[6]
+  }
   else if(board[1].teamName == 'none' && board[2].teamName == 'none'){
     return board[2]
   }
@@ -41,17 +45,11 @@ function turnTwoNaught() {
   if (defend('naught')){
     return defend('naught')
   }
-  else if (board[1].teamName == 'none'&&
-           board[4].teamName == 'naught'&&
-           ((board[0].teamName == 'cross' &&
-           board[8].teamName == 'cross') ||
-           (board[2].teamName == 'cross' &&
-           board[6].teamName == 'cross'))){
-     return board[1]
-      }
-  else if (board[0].teamName == 'none' &&
-           board[2].teamName !== 'cross'){
-    return board[0]
+  else if(smartMove('naught')){
+    return smartMove('naught')
+  }
+  else if(smartMove('cross')){
+    return smartMove('cross')
   }
   else {
     return board[8]
@@ -68,13 +66,12 @@ function turnThreeCross(){
   else if(defend('cross')){
     return defend('cross')
   }
-  else if(board[6].teamName == 'none' &&
-          board[3].teamName == 'none'){
-      return board[6]
-    }
-  else if(board[8].teamName == 'none'){
-      return board[8]
-    }
+  else if(smartMove('cross')){
+    return smartMove('cross')
+  }
+  else if(smartMove('cross')){
+    return smartMove('cross')
+  }
   else {
     for (var i = 0; i < board.length; i++) {
       if(board[i].teamName == 'none'){
@@ -90,6 +87,12 @@ function turnThreeNaught(){
     }
   else if(defend('naught')){
     return defend('naught')
+  }
+  else if(smartMove('naught')){
+    return smartMove('naught')
+  }
+  else if(smartMove('cross')){
+    return smartMove('cross')
   }
   else {
       for (var i = 0; i < board.length; i++) {
@@ -111,6 +114,12 @@ function turnFourCross(){
     else if(defend('cross')){
       return defend('cross')
     }
+    else if(smartMove('cross')){
+      return smartMove('cross')
+    }
+    else if(smartMove('cross')){
+      return smartMove('cross')
+    }
     else {
       for (var i = 0; i < board.length; i++) {
         if(board[i].teamName == 'none'){
@@ -129,6 +138,12 @@ function turnFourNaught(){
     else if(defend('naught')){
       return defend('naught')
     }
+    else if(smartMove('naught')){
+      return smartMove('naught')
+    }
+    else if(smartMove('cross')){
+      return smartMove('cross')
+    }
     else {
       for (var i = 0; i < board.length; i++) {
         if(board[i].teamName == 'none'){
@@ -144,6 +159,12 @@ function turnFiveCross() {
     }
     else if(defend('cross')){
       return defend('cross')
+      }
+      else if(smartMove('cross')){
+        return smartMove('cross')
+      }
+      else if(smartMove('cross')){
+        return smartMove('cross')
       }
     else {
       for (var i = 0; i < board.length; i++) {
