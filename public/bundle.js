@@ -18637,6 +18637,7 @@ var Board = function (_React$Component) {
         botTeam = 'cross';
       }
       this.resetBoard();
+      this.resetBoard();
     }
   }, {
     key: 'userClick',
