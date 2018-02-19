@@ -107,6 +107,7 @@ class Board extends React.Component{
       botTeam = 'cross'
     }
     this.resetBoard()
+    this.resetBoard()
   }
   userClick(cell) {
     if (gameOver) return
@@ -118,6 +119,7 @@ class Board extends React.Component{
       this.claimSquare(this.getCell(), botTeam)
     }, 2000)
   }
+
   render() {
     if(botTeam == 'cross' && count == 1){
       this.claimSquare(this.getCell(), botTeam)
