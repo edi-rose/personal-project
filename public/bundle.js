@@ -18513,7 +18513,6 @@ var board = __webpack_require__(1);
 var checkForWin = __webpack_require__(35);
 
 var count = 1;
-var alertCount = 0;
 var naughtsScore = 0;
 var crossesScore = 0;
 var gameOver = false;
@@ -18535,6 +18534,7 @@ var Board = function (_React$Component) {
     };
     _this.userClick = _this.userClick.bind(_this);
     _this.resetBoard = _this.resetBoard.bind(_this);
+    _this.changeTeam = _this.changeTeam.bind(_this);
     return _this;
   }
 
@@ -18628,15 +18628,11 @@ var Board = function (_React$Component) {
     value: function changeTeam() {
       if (userTeam == 'cross') {
         userTeam = 'naught';
+        botTeam = 'cross';
       } else {
         userTeam = 'cross';
-      }
-      if (botTeam == 'cross') {
         botTeam = 'naught';
-      } else {
-        botTeam = 'cross';
       }
-      this.resetBoard();
       this.resetBoard();
     }
   }, {
@@ -18707,9 +18703,9 @@ var Board = function (_React$Component) {
                           return _this3.userClick(cell);
                         }, style: {
                           border: 'thin solid black',
-                          padding: '10px',
-                          height: '50px',
-                          width: '40px'
+                          padding: '15px',
+                          height: '100px',
+                          width: '90px'
                         } },
                       _react2.default.createElement(
                         'div',
@@ -18729,11 +18725,6 @@ var Board = function (_React$Component) {
           _react2.default.createElement(
             'div',
             { className: 'scoreBoard' },
-            _react2.default.createElement(
-              'h4',
-              null,
-              ' Score Board '
-            ),
             _react2.default.createElement(
               'p',
               null,

@@ -1,30 +1,35 @@
 .body {
-  width: 60%;
-  margin-left: 30%;
+  width: 90%;
+  margin-left: 5%;
   background-image: url('./images/image.jpg');
 }
 .token {
-  font-size: 20px;
-  margin-left: 14px
+  font-size: 50px;
+  margin-left: 26px;
+  margin-bottom: 3px
 }
 .game {
   margin-top: 5%;
-  margin-left: 38%;
-  width: 30%;
+  margin-left: 37%;
+  width: 50%;
 }
 .scoreBoard {
+  margin-top: 2%;
   float:right;
-  margin-right: 15%
+  margin-right: 5%;
+  font-size: 40px
 }
 .buttons {
-  margin-top: 3%;
   float: left;
-  margin-left: 3%
+  margin-left: 9%;
+  height: 50px;
+  width:80px;
+
 }
 .title{
   width: 40%;
-  margin-left: 34%;
-  font-size: 30px
+  margin-left: 35%;
+  font-size: 50px
 }
 .leaderBoard {
   margin-top: 5%;
@@ -37,4 +42,14 @@
 }
 .backButton {
   margin-left: 70%
+}
+
+button {
+  height: 100%;
+  font-size: 25px
+}
+
+.sideNote {
+  font-size: 20px;
+  margin-left: 10px
 }

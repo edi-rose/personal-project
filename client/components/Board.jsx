@@ -7,7 +7,6 @@ var board = require('../boardArray')
 var checkForWin = require('../winCheck')
 
 var count = 1
-var alertCount = 0
 var naughtsScore = 0
 var crossesScore = 0
 var gameOver = false
@@ -28,6 +27,7 @@ class Board extends React.Component{
     }
     this.userClick = this.userClick.bind(this)
     this.resetBoard = this.resetBoard.bind(this)
+    this.changeTeam = this.changeTeam.bind(this)
   }
   resetBoard() {
   for(const cell of board){
@@ -96,17 +96,12 @@ class Board extends React.Component{
   changeTeam() {
     if(userTeam == 'cross'){
       userTeam = 'naught'
+      botTeam = 'cross'
     }
     else {
       userTeam = 'cross'
-    }
-    if(botTeam == 'cross'){
       botTeam = 'naught'
     }
-    else {
-      botTeam = 'cross'
-    }
-    this.resetBoard()
     this.resetBoard()
   }
   userClick(cell) {
@@ -159,9 +154,9 @@ class Board extends React.Component{
                 {row.map((cell) => {
                   return <td onClick={() => this.userClick(cell)} style={{
                     border: 'thin solid black',
-                    padding: '10px',
-                    height: '50px',
-                    width: '40px'
+                    padding: '15px',
+                    height: '100px',
+                    width: '90px'
                   }}>
                     <div className= 'token'>{(token(cell.teamName))}</div>
                   </td>
@@ -174,7 +169,6 @@ class Board extends React.Component{
       </div>
       <div class="addOns">
       <div className="scoreBoard">
-        <h4> Score Board </h4>
         <p> Naughts: {naughtsScore}  Crosses: {crossesScore} </p>
       </div>
       <div className="buttons">
