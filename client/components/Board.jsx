@@ -182,9 +182,6 @@ class Board extends React.Component{
         <button onClick={() => this.changeTeam()}>Change Teams</button>
       </div>
       </div>
-      <div className="link">
-        <a href='./leaderBoard.html'> The Winners </a>
-      </div>
     </div>
     )
   }
