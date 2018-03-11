@@ -104,7 +104,6 @@ class Board extends React.Component{
     }
   }
   claimSquare(cell, team){
-    console.log('claiming square')
     const {grid} = this.state
     let found
     grid.forEach(row => row.forEach(c => {
@@ -125,13 +124,9 @@ class Board extends React.Component{
     this.resetBoard()
   }
   userClick(cell) {
-    console.log('game over?: ',this.state.gameOver)
-    console.log('user paused?: ',this.state.userPaused)
-    console.log(cell.teamName)
     if (this.state.gameOver) return
     if (this.state.userPaused) return
     if (cell.teamName !== 'none') return
-    console.log('got here')
     this.claimSquare(cell, userTeam)
     setTimeout(() => {
       var {grid} = this.state
@@ -141,7 +136,6 @@ class Board extends React.Component{
     this.checkWins()
   }
   checkWins(){
-    console.log('checking for win')
     if(checkForWin('cross')){
         this.setState({
           naughtsScore: this.state.naughtsScore + 1,
