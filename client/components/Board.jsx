@@ -6,10 +6,9 @@ var turns = require('../../Bots/botMovesReact.js')
 var board = require('../boardArray')
 var checkForWin = require('../winCheck')
 import ScoreBoard from './scoreBoard'
+import Buttons from './buttons'
 
 var count = 1
-var gameOver = false
-
 
 class Board extends React.Component{
   constructor (props) {
@@ -43,6 +42,16 @@ class Board extends React.Component{
     userPaused: false
   })
   count = 1
+  if(botTeam == 'cross'){
+    let cell = this.getCell()
+    const {grid} = this.state
+    let found
+    grid.forEach(row => row.forEach(c => {
+      if (c == cell) found = cell
+    }))
+    found.teamName = 'cross'
+    this.setState({grid: grid})
+  }
   }
   getCell(){
     if(botTeam == 'naught'){
@@ -180,8 +189,7 @@ class Board extends React.Component{
         <ScoreBoard naughtsScore = {this.state.naughtsScore} crossesScore = {this.state.crossesScore}/>
       </div>
       <div className="buttons">
-        <button onClick= {() =>this.resetBoard()}>Try Again</button>
-        <button onClick={() => this.changeTeam()}>Change Teams</button>
+        <Buttons resetBoard={this.resetBoard} changeTeam={this.changeTeam} />
       </div>
       </div>
     </div>
