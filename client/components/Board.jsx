@@ -5,10 +5,9 @@ var token = require('../settings').token
 var turns = require('../../Bots/botMovesReact.js')
 var board = require('../boardArray')
 var checkForWin = require('../winCheck')
+import ScoreBoard from './scoreBoard'
 
 var count = 1
-var naughtsScore = 0
-var crossesScore = 0
 var gameOver = false
 
 
@@ -23,18 +22,27 @@ class Board extends React.Component{
         // [topLeft,topMid,topRight],
         // [midLeft,midMid,midRight],
         // [botLeft,botMid,botRight]
-      ]
+      ],
+      naughtsScore: 0,
+      crossesScore: 0,
+      gameOver:false
     }
     this.userClick = this.userClick.bind(this)
     this.resetBoard = this.resetBoard.bind(this)
     this.changeTeam = this.changeTeam.bind(this)
+    this.checkWins = this.checkWins.bind(this)
   }
   resetBoard() {
   for(const cell of board){
     this.claimSquare(cell, 'none')
   }
+  this.setState({
+    gameOver: false
+  })
+  this.setState({
+    userPaused: false
+  })
   count = 1
-  gameOver = false
   }
   getCell(){
     if(botTeam == 'naught'){
@@ -81,10 +89,13 @@ class Board extends React.Component{
     }
     else {
       alert('draw... as usual')
-      gameOver = true
+     this.setState({
+       gameOver: true
+     })
     }
   }
   claimSquare(cell, team){
+    console.log('claiming square')
     const {grid} = this.state
     let found
     grid.forEach(row => row.forEach(c => {
@@ -105,40 +116,37 @@ class Board extends React.Component{
     this.resetBoard()
   }
   userClick(cell) {
-    if (gameOver) return
+    console.log('game over?: ',this.state.gameOver)
+    console.log('user paused?: ',this.state.userPaused)
+    console.log(cell.teamName)
+    if (this.state.gameOver) return
     if (this.state.userPaused) return
     if (cell.teamName !== 'none') return
+    console.log('got here')
     this.claimSquare(cell, userTeam)
     setTimeout(() => {
       var {grid} = this.state
       this.claimSquare(this.getCell(), botTeam)
+      this.checkWins()
     }, 2000)
+    this.checkWins()
   }
-
+  checkWins(){
+    console.log('checking for win')
+    if(checkForWin('cross')){
+        this.setState({
+          naughtsScore: this.state.naughtsScore + 1,
+          gameOver:true
+        })
+      }
+    if(checkForWin('naught')){
+        this.setState({
+          naughtsScore: this.state.naughtsScore + 1,
+          gameOver:true
+        })
+      }
+  }
   render() {
-    if(botTeam == 'cross' && count == 1){
-      this.claimSquare(this.getCell(), botTeam)
-    }
-    if(checkForWin(userTeam)){
-      if(botTeam == 'naught'){
-        naughtsScore ++
-      }
-      else {
-        crossesScore ++
-      }
-      alert('Please email me at edirose1998@gmail.com telling me how you won!! Congratulations')
-      gameOver = true
-    }
-    if(checkForWin(botTeam)){
-      if(botTeam == 'naught'){
-        naughtsScore ++
-      }
-      else{
-        crossesScore ++
-      }
-      alert(botTeam + ' wins! Try Again!')
-      gameOver= true
-    }
     return (
       <div>
         <div className="game">
@@ -167,9 +175,9 @@ class Board extends React.Component{
         </tbody>
         </table>
       </div>
-      <div class="addOns">
+      <div className="addOns">
       <div className="scoreBoard">
-        <p> Naughts: {naughtsScore}  Crosses: {crossesScore} </p>
+        <ScoreBoard naughtsScore = {this.state.naughtsScore} crossesScore = {this.state.crossesScore}/>
       </div>
       <div className="buttons">
         <button onClick= {() =>this.resetBoard()}>Try Again</button>

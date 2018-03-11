@@ -989,11 +989,11 @@ module.exports = focusNode;
 "use strict";
 
 
-var defend = __webpack_require__(31);
+var defend = __webpack_require__(32);
 var board = __webpack_require__(1);
-var attack = __webpack_require__(32);
-var smartMove = __webpack_require__(33).smartMove;
-var defendPin = __webpack_require__(34).defendPin;
+var attack = __webpack_require__(33);
+var smartMove = __webpack_require__(34).smartMove;
+var defendPin = __webpack_require__(35).defendPin;
 
 function turnOneCross() {
   //board[0] == topLeft
@@ -18497,6 +18497,10 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _scoreBoard = __webpack_require__(31);
+
+var _scoreBoard2 = _interopRequireDefault(_scoreBoard);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -18510,11 +18514,10 @@ var botTeam = __webpack_require__(8).botTeam;
 var token = __webpack_require__(8).token;
 var turns = __webpack_require__(16);
 var board = __webpack_require__(1);
-var checkForWin = __webpack_require__(35);
+var checkForWin = __webpack_require__(36);
+
 
 var count = 1;
-var naughtsScore = 0;
-var crossesScore = 0;
 var gameOver = false;
 
 var Board = function (_React$Component) {
@@ -18530,11 +18533,15 @@ var Board = function (_React$Component) {
       // [topLeft,topMid,topRight],
       // [midLeft,midMid,midRight],
       // [botLeft,botMid,botRight]
-      ]
+      ],
+      naughtsScore: 0,
+      crossesScore: 0,
+      gameOver: false
     };
     _this.userClick = _this.userClick.bind(_this);
     _this.resetBoard = _this.resetBoard.bind(_this);
     _this.changeTeam = _this.changeTeam.bind(_this);
+    _this.checkWins = _this.checkWins.bind(_this);
     return _this;
   }
 
@@ -18566,8 +18573,13 @@ var Board = function (_React$Component) {
         }
       }
 
+      this.setState({
+        gameOver: false
+      });
+      this.setState({
+        userPaused: false
+      });
       count = 1;
-      gameOver = false;
     }
   }, {
     key: 'getCell',
@@ -18606,12 +18618,15 @@ var Board = function (_React$Component) {
         return turns.turnFiveCross();
       } else {
         alert('draw... as usual');
-        gameOver = true;
+        this.setState({
+          gameOver: true
+        });
       }
     }
   }, {
     key: 'claimSquare',
     value: function claimSquare(cell, team) {
+      console.log('claiming square');
       var grid = this.state.grid;
 
       var found = void 0;
@@ -18640,42 +18655,44 @@ var Board = function (_React$Component) {
     value: function userClick(cell) {
       var _this2 = this;
 
-      if (gameOver) return;
+      console.log('game over?: ', this.state.gameOver);
+      console.log('user paused?: ', this.state.userPaused);
+      console.log(cell.teamName);
+      if (this.state.gameOver) return;
       if (this.state.userPaused) return;
       if (cell.teamName !== 'none') return;
+      console.log('got here');
       this.claimSquare(cell, userTeam);
       setTimeout(function () {
         var grid = _this2.state.grid;
 
         _this2.claimSquare(_this2.getCell(), botTeam);
+        _this2.checkWins();
       }, 2000);
+      this.checkWins();
+    }
+  }, {
+    key: 'checkWins',
+    value: function checkWins() {
+      console.log('checking for win');
+      if (checkForWin('cross')) {
+        this.setState({
+          naughtsScore: this.state.naughtsScore + 1,
+          gameOver: true
+        });
+      }
+      if (checkForWin('naught')) {
+        this.setState({
+          naughtsScore: this.state.naughtsScore + 1,
+          gameOver: true
+        });
+      }
     }
   }, {
     key: 'render',
     value: function render() {
       var _this3 = this;
 
-      if (botTeam == 'cross' && count == 1) {
-        this.claimSquare(this.getCell(), botTeam);
-      }
-      if (checkForWin(userTeam)) {
-        if (botTeam == 'naught') {
-          naughtsScore++;
-        } else {
-          crossesScore++;
-        }
-        alert('Please email me at edirose1998@gmail.com telling me how you won!! Congratulations');
-        gameOver = true;
-      }
-      if (checkForWin(botTeam)) {
-        if (botTeam == 'naught') {
-          naughtsScore++;
-        } else {
-          crossesScore++;
-        }
-        alert(botTeam + ' wins! Try Again!');
-        gameOver = true;
-      }
       return _react2.default.createElement(
         'div',
         null,
@@ -18721,19 +18738,11 @@ var Board = function (_React$Component) {
         ),
         _react2.default.createElement(
           'div',
-          { 'class': 'addOns' },
+          { className: 'addOns' },
           _react2.default.createElement(
             'div',
             { className: 'scoreBoard' },
-            _react2.default.createElement(
-              'p',
-              null,
-              ' Naughts: ',
-              naughtsScore,
-              '  Crosses: ',
-              crossesScore,
-              ' '
-            )
+            _react2.default.createElement(_scoreBoard2.default, { naughtsScore: this.state.naughtsScore, crossesScore: this.state.crossesScore })
           ),
           _react2.default.createElement(
             'div',
@@ -18774,6 +18783,36 @@ module.exports = {
 
 /***/ }),
 /* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = ScoreBoard;
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function ScoreBoard(props) {
+  return _react2.default.createElement(
+    'h3',
+    null,
+    'Naughts: ',
+    props.naughtsScore,
+    ' Crosses: ',
+    props.crossesScore,
+    ' '
+  );
+}
+
+/***/ }),
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18868,7 +18907,7 @@ function findEnemy(team) {
 module.exports = defend;
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18946,7 +18985,7 @@ function attack(team) {
 module.exports = attack;
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19042,7 +19081,7 @@ function getEachLane(lineType, unit) {
 module.exports = { smartMove: smartMove };
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19063,7 +19102,7 @@ function defendPin() {
 module.exports = { defendPin: defendPin };
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
