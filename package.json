@@ -4,6 +4,7 @@
   "description": "coolest game eva",
   "main": "index.js",
   "scripts": {
+    "test": "jest --watchAll",
     "start": "node server & webpack --watch",
     "postinstall": "yarn webpack",
     "dev": "nodemon server & webpack --watch"
@@ -18,6 +19,7 @@
   "author": "Edi Rose",
   "license": "ISC",
   "dependencies": {
+    "jest": "^22.4.2",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",

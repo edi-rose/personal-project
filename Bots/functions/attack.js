@@ -1,6 +1,4 @@
-var board = require('../../client/boardArray')
-
-function attackRows(team){
+function attackRows(team, board){
   for (var i = 0; i < board.length; i++) {
     if(board[i].teamName == team &&
        board[i].col == 0 &&
@@ -19,7 +17,7 @@ function attackRows(team){
 }
 
 
-function attackCollumns(team){
+function attackCollumns(team, board){
   for (var i = 0; i < board.length; i++) {
     if(board[i].teamName == team &&
        board[i].row == 0 &&
@@ -44,7 +42,7 @@ function attackCollumns(team){
   return false
 }
 
-function attackDiagonal1(team) {
+function attackDiagonal1(team, board) {
   //board[0] == topLeft
   //board[4] == midMid
   //board[8] == botRight
@@ -69,7 +67,7 @@ function attackDiagonal1(team) {
   }
 }
 
-function attackDiagonal2(team) {
+function attackDiagonal2(team, board) {
   //board[2] == topRight
   //board[4] == midMid
   //board[6] == botLeft
@@ -93,20 +91,26 @@ function attackDiagonal2(team) {
     }
 }
 
-function attack(team) {
-  if(attackRows(team)){
+function attack(team, board) {
+  if(attackRows(team, board)){
     return attackRows(team)
   }
-  else if(attackCollumns(team)){
-    return attackCollumns(team)
+  else if(attackCollumns(team, board)){
+    return attackCollumns(team, board)
   }
-  else if(attackDiagonal1(team)){
-    return attackDiagonal1(team)
+  else if(attackDiagonal1(team, board)){
+    return attackDiagonal1(team, board)
   }
-  else if(attackDiagonal2(team)){
-    return attackDiagonal2(team)
+  else if(attackDiagonal2(team, board)){
+    return attackDiagonal2(team, board)
   }
   return false
 }
 
-module.exports = attack
+module.exports = {
+  attack:attack,
+  attackRows:attackRows,
+  attackCollumns: attackCollumns,
+  attackDiagonal1: attackDiagonal1,
+  attackDiagonal2: attackDiagonal2
+}

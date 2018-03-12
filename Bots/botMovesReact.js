@@ -1,7 +1,6 @@
-
-var defend = require('./functions/defense.js')
 var board = require('../client/boardArray')
-var attack = require('./functions/attack.js')
+var defend = require('./functions/defense.js').defend
+var attack = require('./functions/attack.js').attack
 var smartMove = require('./functions/smartMove.js').smartMove
 var defendPin = require('./functions/DefendDoublePin').defendPin
 
@@ -43,17 +42,17 @@ function turnTwoCross() {
 }
 
 function turnTwoNaught() {
-  if (defend('naught')){
-    return defend('naught')
+  if (defend('naught', board)){
+    return defend('naught', board)
   }
-  else if(defendPin()){
-    return defendPin()
+  else if(defendPin(board)){
+    return defendPin(board)
   }
-  else if(smartMove('naught')){
-    return smartMove('naught')
+  else if(smartMove('naught', board)){
+    return smartMove('naught', board)
   }
-  else if(smartMove('cross')){
-    return smartMove('cross')
+  else if(smartMove('cross', board)){
+    return smartMove('cross', board)
   }
   else {
     return board[8]
@@ -64,17 +63,17 @@ function turnTwoNaught() {
 function turnThreeCross(){
   // board[6] == botLeft
   // board[8] == botRight
-  if(attack('cross')){
-    return attack('cross')
+  if(attack('cross', board)){
+    return attack('cross', board)
   }
-  else if(defend('cross')){
-    return defend('cross')
+  else if(defend('cross', board)){
+    return defend('cross', board)
   }
-  else if(smartMove('cross')){
-    return smartMove('cross')
+  else if(smartMove('cross', board)){
+    return smartMove('cross', board)
   }
-  else if(smartMove('cross')){
-    return smartMove('cross')
+  else if(smartMove('cross', board)){
+    return smartMove('cross', board)
   }
   else {
     for (var i = 0; i < board.length; i++) {
@@ -86,17 +85,17 @@ function turnThreeCross(){
 }
 
 function turnThreeNaught(){
-  if(attack('naught')){
-  return attack('naught')
+  if(attack('naught', board)){
+  return attack('naught', board)
     }
-  else if(defend('naught')){
-    return defend('naught')
+  else if(defend('naught', board)){
+    return defend('naught', board)
   }
-  else if(smartMove('naught')){
-    return smartMove('naught')
+  else if(smartMove('naught', board)){
+    return smartMove('naught', board)
   }
-  else if(smartMove('cross')){
-    return smartMove('cross')
+  else if(smartMove('cross', board)){
+    return smartMove('cross', board)
   }
   else {
       for (var i = 0; i < board.length; i++) {
@@ -112,17 +111,17 @@ function turnThreeNaught(){
 }
 
 function turnFourCross(){
-    if(attack('cross')){
-      return attack('cross')
+    if(attack('cross', board)){
+      return attack('cross', board)
     }
-    else if(defend('cross')){
-      return defend('cross')
+    else if(defend('cross', board)){
+      return defend('cross', board)
     }
-    else if(smartMove('cross')){
-      return smartMove('cross')
+    else if(smartMove('cross', board)){
+      return smartMove('cross', board)
     }
-    else if(smartMove('cross')){
-      return smartMove('cross')
+    else if(smartMove('cross', board)){
+      return smartMove('cross', board)
     }
     else {
       for (var i = 0; i < board.length; i++) {
@@ -136,17 +135,17 @@ function turnFourCross(){
 function turnFourNaught(){
     // board[6] == botLeft
     // board[8] == botRight
-    if(attack('naught')){
-     return attack('naught')
+    if(attack('naught', board)){
+     return attack('naught', board)
     }
-    else if(defend('naught')){
-      return defend('naught')
+    else if(defend('naught', board)){
+      return defend('naught', board)
     }
-    else if(smartMove('naught')){
-      return smartMove('naught')
+    else if(smartMove('naught', board)){
+      return smartMove('naught', board)
     }
-    else if(smartMove('cross')){
-      return smartMove('cross')
+    else if(smartMove('cross', board)){
+      return smartMove('cross', board)
     }
     else {
       for (var i = 0; i < board.length; i++) {
@@ -158,17 +157,17 @@ function turnFourNaught(){
 }
 
 function turnFiveCross() {
-    if(attack('cross')){
-      return attack('cross')
+    if(attack('cross', board)){
+      return attack('cross', board)
     }
-    else if(defend('cross')){
-      return defend('cross')
+    else if(defend('cross', board)){
+      return defend('cross', board)
       }
-      else if(smartMove('cross')){
-        return smartMove('cross')
+      else if(smartMove('cross', board)){
+        return smartMove('cross', board)
       }
-      else if(smartMove('cross')){
-        return smartMove('cross')
+      else if(smartMove('cross', board)){
+        return smartMove('cross', board)
       }
     else {
       for (var i = 0; i < board.length; i++) {

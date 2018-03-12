@@ -1,15 +1,14 @@
-var board = require('../../client/boardArray')
 
 // lines array format [rowNumber, collumNumber, D1(if applicable), D2(if applicable)]
 
-function smartMove(team) {
+function smartMove(team, board) {
   for (var i = 0; i <board.length; i++) {
     if(board[i].teamName !== 'none'){
     continue
      }
     let values= getValues(board[i])
         //lines is an array of the different col, row, and diagonal values of each cell
-    if(checkLines(values, team)){
+    if(checkLines(values, team, board)){
       return board[i]
       break
    }
@@ -37,18 +36,18 @@ function getValues(cell){
   return array
 }
 
-function checkLines(values, team){
+function checkLines(values, team, board){
   let count = 0
-  if(checkLine('row', values[0], team)){
+  if(checkLine('row', values[0], team, board)){
     count ++
   }
-  if (checkLine('col', values[1], team)){
+  if (checkLine('col', values[1], team, board)){
     count ++
   }
-  if (checkLine('D1', values[2], team)){
+  if (checkLine('D1', values[2], team, board)){
     count ++
   }
-  if (checkLine('D2', values[3], team)){
+  if (checkLine('D2', values[3], team, board)){
     count ++
   }
   if (count > 1){
@@ -60,8 +59,8 @@ function checkLines(values, team){
 }
 
 
-function checkLine (lineType, unit, team){
-  let arr = getEachLane(lineType, unit)
+function checkLine (lineType, unit, team, board){
+  let arr = getEachLane(lineType, unit, board)
   let count = 0
   let noneCount = 0
   for (var i = 0; i < arr.length; i++) {
@@ -82,7 +81,7 @@ function checkLine (lineType, unit, team){
 }
 
 
-function getEachLane(lineType, unit){
+function getEachLane(lineType, unit, board){
   let line = []
   for (var i = 0; i < board.length; i++) {
     if(board[i][lineType] == unit){
