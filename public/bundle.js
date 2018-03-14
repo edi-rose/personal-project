@@ -18686,7 +18686,7 @@ var Board = function (_React$Component) {
     value: function checkWins() {
       if (checkForWin('cross')) {
         this.setState({
-          naughtsScore: this.state.naughtsScore + 1,
+          crossScore: this.state.crossScore + 1,
           gameOver: true
         });
       }
@@ -18953,7 +18953,7 @@ module.exports = {
 
 
 function attackRows(team, board) {
-  console.log(board);
+  console.log('rows', board);
   for (var i = 0; i < board.length; i++) {
     if (board[i].teamName == team && board[i].col == 0 && board[i + 1].teamName == team && board[i + 2].teamName == 'none') {
       return board[i + 2];
@@ -19008,8 +19008,9 @@ function attackDiagonal2(team, board) {
 }
 
 function attack(team, board) {
+  console.log('board: ', board);
   if (attackRows(team, board)) {
-    return attackRows(team);
+    return attackRows(team, board);
   } else if (attackCollumns(team, board)) {
     return attackCollumns(team, board);
   } else if (attackDiagonal1(team, board)) {
@@ -19036,7 +19037,6 @@ module.exports = {
 
 
 // lines array format [rowNumber, collumNumber, D1(if applicable), D2(if applicable)]
-
 function smartMove(team, board) {
   for (var i = 0; i < board.length; i++) {
     if (board[i].teamName !== 'none') {
@@ -19045,6 +19045,7 @@ function smartMove(team, board) {
     var values = getValues(board[i]);
     //lines is an array of the different col, row, and diagonal values of each cell
     if (checkLines(values, team, board)) {
+      console.log('pin prevented');
       return board[i];
       break;
     }
@@ -19120,7 +19121,10 @@ function getEachLane(lineType, unit, board) {
   }
   return line;
 }
-module.exports = { smartMove: smartMove };
+
+module.exports = {
+  smartMove: smartMove
+};
 
 /***/ }),
 /* 36 */

@@ -1,6 +1,5 @@
 
 // lines array format [rowNumber, collumNumber, D1(if applicable), D2(if applicable)]
-
 function smartMove(team, board) {
   for (var i = 0; i <board.length; i++) {
     if(board[i].teamName !== 'none'){
@@ -9,6 +8,7 @@ function smartMove(team, board) {
     let values= getValues(board[i])
         //lines is an array of the different col, row, and diagonal values of each cell
     if(checkLines(values, team, board)){
+      console.log('pin prevented')
       return board[i]
       break
    }
@@ -89,6 +89,8 @@ function getEachLane(lineType, unit, board){
     }
   }
   return line
-
 }
-module.exports = {smartMove: smartMove}
+
+module.exports = {
+  smartMove:smartMove
+}
