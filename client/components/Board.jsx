@@ -138,7 +138,7 @@ class Board extends React.Component{
   checkWins(){
     if(checkForWin('cross')){
         this.setState({
-          naughtsScore: this.state.naughtsScore + 1,
+          crossScore: this.state.crossScore + 1,
           gameOver:true
         })
       }
