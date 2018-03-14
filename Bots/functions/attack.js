@@ -1,5 +1,4 @@
 function attackRows(team, board){
-  console.log('rows', board)
   for (var i = 0; i < board.length; i++) {
     if(board[i].teamName == team &&
        board[i].col == 0 &&
@@ -93,7 +92,6 @@ function attackDiagonal2(team, board) {
 }
 
 function attack(team, board) {
-  console.log('board: ', board)
   if(attackRows(team, board)){
     return attackRows(team, board)
   }
