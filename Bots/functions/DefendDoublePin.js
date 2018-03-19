@@ -1,6 +1,4 @@
-var board = require('../../client/boardArray')
-
-function defendPin() {
+function defendPin(board) {
   if(board[0].teamName == 'cross' &&
      board[4].teamName == 'naught' &&
      board[8].teamName == 'cross'){

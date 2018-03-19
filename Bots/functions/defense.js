@@ -1,7 +1,5 @@
-var board = require('../../client/boardArray')
-
 //working
-function defendRows(team) {
+function defendRows(team, board) {
   var enemyTeam = findEnemy(team)
   for (var i = 0; i < board.length; i++) {
     if(board[i].teamName == enemyTeam &&
@@ -28,7 +26,7 @@ function defendRows(team) {
 
 
 //working
-function defendCollumns(team) {
+function defendCollumns(team, board) {
   var enemyTeam = findEnemy(team)
   for (var i = 0; i < board.length; i++) {
     if(board[i].teamName == enemyTeam &&
@@ -55,7 +53,7 @@ function defendCollumns(team) {
 }
 
 //untested
-function defendDiagonal1(team) {
+function defendDiagonal1(team, board) {
   var enemyTeam = findEnemy(team)
   //board[0] == topLeft
   //board[4] == midMid
@@ -80,7 +78,7 @@ function defendDiagonal1(team) {
     }
 }
 
-function defendDiagonal2(team) {
+function defendDiagonal2(team, board) {
   var enemyTeam = findEnemy(team)
   //board[2] == topRight
   //board[4] == midMid
@@ -105,18 +103,18 @@ function defendDiagonal2(team) {
     }
 }
 
-function defend(team) {
-  if(defendRows(team)){
-    return (defendRows(team))
+function defend(team, board) {
+  if(defendRows(team, board)){
+    return (defendRows(team, board))
   }
-  else if(defendCollumns(team)){
-    return defendCollumns(team)
+  else if(defendCollumns(team, board)){
+    return defendCollumns(team, board)
   }
-  else if(defendDiagonal1(team)){
-    return defendDiagonal1(team)
+  else if(defendDiagonal1(team, board)){
+    return defendDiagonal1(team, board)
   }
-  else if(defendDiagonal2(team)){
-    return defendDiagonal2(team)
+  else if(defendDiagonal2(team, board)){
+    return defendDiagonal2(team, board)
   }
   return false
 }
@@ -130,4 +128,10 @@ function findEnemy(team){
   }
 }
 
-module.exports = defend
+module.exports = {
+  defend: defend,
+  defendRows: defendRows,
+  defendCollumns: defendCollumns,
+  defendDiagonal1: defendDiagonal1,
+  defendDiagonal2: defendDiagonal2
+ }

@@ -18,5 +18,4 @@ module.exports = {
   userTeam: userTeam,
   token: token,
   botTeam: botTeam
-
 }

@@ -258,21 +258,15 @@ process.umask = function() { return 0; };
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
 
+if (process.env.NODE_ENV === 'production') {
+  module.exports = __webpack_require__(18);
+} else {
+  module.exports = __webpack_require__(19);
+}
 
-var topLeft = { teamName: 'none', row: 0, col: 0, D1: true };
-var topMid = { teamName: 'none', row: 0, col: 1 };
-var topRight = { teamName: 'none', row: 0, col: 2, D2: true };
-var midLeft = { teamName: 'none', row: 1, col: 0 };
-var midMid = { teamName: 'none', row: 1, col: 1, D1: true, D2: true };
-var midRight = { teamName: 'none', row: 1, col: 2 };
-var botLeft = { teamName: 'none', row: 2, col: 0, D2: true };
-var botMid = { teamName: 'none', row: 2, col: 1 };
-var botRight = { teamName: 'none', row: 2, col: 2, D1: true };
-
-var board = [topLeft, topMid, topRight, midLeft, midMid, midRight, botLeft, botMid, botRight];
-
-module.exports = board;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
 /* 2 */
@@ -318,21 +312,6 @@ module.exports = emptyFunction;
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(18);
-} else {
-  module.exports = __webpack_require__(19);
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -429,7 +408,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -453,7 +432,7 @@ module.exports = emptyObject;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -513,7 +492,7 @@ module.exports = invariant;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -582,7 +561,7 @@ module.exports = warning;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -606,8 +585,28 @@ module.exports = {
   userTeam: userTeam,
   token: token,
   botTeam: botTeam
-
 };
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var topLeft = { teamName: 'none', row: 0, col: 0, D1: true };
+var topMid = { teamName: 'none', row: 0, col: 1 };
+var topRight = { teamName: 'none', row: 0, col: 2, D2: true };
+var midLeft = { teamName: 'none', row: 1, col: 0 };
+var midMid = { teamName: 'none', row: 1, col: 1, D1: true, D2: true };
+var midRight = { teamName: 'none', row: 1, col: 2 };
+var botLeft = { teamName: 'none', row: 2, col: 0, D2: true };
+var botMid = { teamName: 'none', row: 2, col: 1 };
+var botRight = { teamName: 'none', row: 2, col: 2, D1: true };
+
+var board = [topLeft, topMid, topRight, midLeft, midMid, midRight, botLeft, botMid, botRight];
+
+module.exports = board;
 
 /***/ }),
 /* 9 */
@@ -624,8 +623,8 @@ module.exports = {
 
 
 if (process.env.NODE_ENV !== 'production') {
-  var invariant = __webpack_require__(6);
-  var warning = __webpack_require__(7);
+  var invariant = __webpack_require__(5);
+  var warning = __webpack_require__(6);
   var ReactPropTypesSecret = __webpack_require__(20);
   var loggedTypeFailures = {};
 }
@@ -989,11 +988,11 @@ module.exports = focusNode;
 "use strict";
 
 
-var defend = __webpack_require__(31);
-var board = __webpack_require__(1);
-var attack = __webpack_require__(32);
-var smartMove = __webpack_require__(33).smartMove;
-var defendPin = __webpack_require__(34).defendPin;
+var board = __webpack_require__(8);
+var defend = __webpack_require__(33).defend;
+var attack = __webpack_require__(34).attack;
+var smartMove = __webpack_require__(35).smartMove;
+var defendPin = __webpack_require__(36).defendPin;
 
 function turnOneCross() {
   //board[0] == topLeft
@@ -1029,14 +1028,14 @@ function turnTwoCross() {
 }
 
 function turnTwoNaught() {
-  if (defend('naught')) {
-    return defend('naught');
-  } else if (defendPin()) {
-    return defendPin();
-  } else if (smartMove('naught')) {
-    return smartMove('naught');
-  } else if (smartMove('cross')) {
-    return smartMove('cross');
+  if (defend('naught', board)) {
+    return defend('naught', board);
+  } else if (defendPin(board)) {
+    return defendPin(board);
+  } else if (smartMove('naught', board)) {
+    return smartMove('naught', board);
+  } else if (smartMove('cross', board)) {
+    return smartMove('cross', board);
   } else {
     return board[8];
   }
@@ -1045,14 +1044,14 @@ function turnTwoNaught() {
 function turnThreeCross() {
   // board[6] == botLeft
   // board[8] == botRight
-  if (attack('cross')) {
-    return attack('cross');
-  } else if (defend('cross')) {
-    return defend('cross');
-  } else if (smartMove('cross')) {
-    return smartMove('cross');
-  } else if (smartMove('cross')) {
-    return smartMove('cross');
+  if (attack('cross', board)) {
+    return attack('cross', board);
+  } else if (defend('cross', board)) {
+    return defend('cross', board);
+  } else if (smartMove('cross', board)) {
+    return smartMove('cross', board);
+  } else if (smartMove('cross', board)) {
+    return smartMove('cross', board);
   } else {
     for (var i = 0; i < board.length; i++) {
       if (board[i].teamName == 'none') {
@@ -1063,14 +1062,14 @@ function turnThreeCross() {
 }
 
 function turnThreeNaught() {
-  if (attack('naught')) {
-    return attack('naught');
-  } else if (defend('naught')) {
-    return defend('naught');
-  } else if (smartMove('naught')) {
-    return smartMove('naught');
-  } else if (smartMove('cross')) {
-    return smartMove('cross');
+  if (attack('naught', board)) {
+    return attack('naught', board);
+  } else if (defend('naught', board)) {
+    return defend('naught', board);
+  } else if (smartMove('naught', board)) {
+    return smartMove('naught', board);
+  } else if (smartMove('cross', board)) {
+    return smartMove('cross', board);
   } else {
     for (var i = 0; i < board.length; i++) {
       if (board[i].teamName == 'none' && board[i] !== board[0] && board[i] !== board[2] && board[i] !== board[6] && board[i] !== board[8]) {
@@ -1081,14 +1080,14 @@ function turnThreeNaught() {
 }
 
 function turnFourCross() {
-  if (attack('cross')) {
-    return attack('cross');
-  } else if (defend('cross')) {
-    return defend('cross');
-  } else if (smartMove('cross')) {
-    return smartMove('cross');
-  } else if (smartMove('cross')) {
-    return smartMove('cross');
+  if (attack('cross', board)) {
+    return attack('cross', board);
+  } else if (defend('cross', board)) {
+    return defend('cross', board);
+  } else if (smartMove('cross', board)) {
+    return smartMove('cross', board);
+  } else if (smartMove('cross', board)) {
+    return smartMove('cross', board);
   } else {
     for (var i = 0; i < board.length; i++) {
       if (board[i].teamName == 'none') {
@@ -1101,14 +1100,14 @@ function turnFourCross() {
 function turnFourNaught() {
   // board[6] == botLeft
   // board[8] == botRight
-  if (attack('naught')) {
-    return attack('naught');
-  } else if (defend('naught')) {
-    return defend('naught');
-  } else if (smartMove('naught')) {
-    return smartMove('naught');
-  } else if (smartMove('cross')) {
-    return smartMove('cross');
+  if (attack('naught', board)) {
+    return attack('naught', board);
+  } else if (defend('naught', board)) {
+    return defend('naught', board);
+  } else if (smartMove('naught', board)) {
+    return smartMove('naught', board);
+  } else if (smartMove('cross', board)) {
+    return smartMove('cross', board);
   } else {
     for (var i = 0; i < board.length; i++) {
       if (board[i].teamName == 'none') {
@@ -1119,14 +1118,14 @@ function turnFourNaught() {
 }
 
 function turnFiveCross() {
-  if (attack('cross')) {
-    return attack('cross');
-  } else if (defend('cross')) {
-    return defend('cross');
-  } else if (smartMove('cross')) {
-    return smartMove('cross');
-  } else if (smartMove('cross')) {
-    return smartMove('cross');
+  if (attack('cross', board)) {
+    return attack('cross', board);
+  } else if (defend('cross', board)) {
+    return defend('cross', board);
+  } else if (smartMove('cross', board)) {
+    return smartMove('cross', board);
+  } else if (smartMove('cross', board)) {
+    return smartMove('cross', board);
   } else {
     for (var i = 0; i < board.length; i++) {
       if (board[i].teamName == 'none') {
@@ -1162,7 +1161,7 @@ module.exports = {
 "use strict";
 
 
-var _react = __webpack_require__(3);
+var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -1190,7 +1189,7 @@ document.addEventListener('DOMContentLoaded', function () {
  * LICENSE file in the root directory of this source tree.
  */
 
-var m=__webpack_require__(4),n=__webpack_require__(5),p=__webpack_require__(2),q="function"===typeof Symbol&&Symbol["for"],r=q?Symbol["for"]("react.element"):60103,t=q?Symbol["for"]("react.call"):60104,u=q?Symbol["for"]("react.return"):60105,v=q?Symbol["for"]("react.portal"):60106,w=q?Symbol["for"]("react.fragment"):60107,x="function"===typeof Symbol&&Symbol.iterator;
+var m=__webpack_require__(3),n=__webpack_require__(4),p=__webpack_require__(2),q="function"===typeof Symbol&&Symbol["for"],r=q?Symbol["for"]("react.element"):60103,t=q?Symbol["for"]("react.call"):60104,u=q?Symbol["for"]("react.return"):60105,v=q?Symbol["for"]("react.portal"):60106,w=q?Symbol["for"]("react.fragment"):60107,x="function"===typeof Symbol&&Symbol.iterator;
 function y(a){for(var b=arguments.length-1,e="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,c=0;c<b;c++)e+="\x26args[]\x3d"+encodeURIComponent(arguments[c+1]);b=Error(e+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}
 var z={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}};function A(a,b,e){this.props=a;this.context=b;this.refs=n;this.updater=e||z}A.prototype.isReactComponent={};A.prototype.setState=function(a,b){"object"!==typeof a&&"function"!==typeof a&&null!=a?y("85"):void 0;this.updater.enqueueSetState(this,a,b,"setState")};A.prototype.forceUpdate=function(a){this.updater.enqueueForceUpdate(this,a,"forceUpdate")};
 function B(a,b,e){this.props=a;this.context=b;this.refs=n;this.updater=e||z}function C(){}C.prototype=A.prototype;var D=B.prototype=new C;D.constructor=B;m(D,A.prototype);D.isPureReactComponent=!0;function E(a,b,e){this.props=a;this.context=b;this.refs=n;this.updater=e||z}var F=E.prototype=new C;F.constructor=E;m(F,A.prototype);F.unstable_isAsyncReactComponent=!0;F.render=function(){return this.props.children};var G={current:null},H=Object.prototype.hasOwnProperty,I={key:!0,ref:!0,__self:!0,__source:!0};
@@ -1226,10 +1225,10 @@ if (process.env.NODE_ENV !== "production") {
   (function() {
 'use strict';
 
-var _assign = __webpack_require__(4);
-var emptyObject = __webpack_require__(5);
-var invariant = __webpack_require__(6);
-var warning = __webpack_require__(7);
+var _assign = __webpack_require__(3);
+var emptyObject = __webpack_require__(4);
+var invariant = __webpack_require__(5);
+var warning = __webpack_require__(6);
 var emptyFunction = __webpack_require__(2);
 var checkPropTypes = __webpack_require__(9);
 
@@ -2651,7 +2650,7 @@ if (process.env.NODE_ENV === 'production') {
 /*
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var aa=__webpack_require__(3),l=__webpack_require__(10),B=__webpack_require__(4),C=__webpack_require__(2),ba=__webpack_require__(11),da=__webpack_require__(12),ea=__webpack_require__(13),fa=__webpack_require__(14),ia=__webpack_require__(15),D=__webpack_require__(5);
+var aa=__webpack_require__(1),l=__webpack_require__(10),B=__webpack_require__(3),C=__webpack_require__(2),ba=__webpack_require__(11),da=__webpack_require__(12),ea=__webpack_require__(13),fa=__webpack_require__(14),ia=__webpack_require__(15),D=__webpack_require__(4);
 function E(a){for(var b=arguments.length-1,c="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,d=0;d<b;d++)c+="\x26args[]\x3d"+encodeURIComponent(arguments[d+1]);b=Error(c+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}aa?void 0:E("227");
 var oa={children:!0,dangerouslySetInnerHTML:!0,defaultValue:!0,defaultChecked:!0,innerHTML:!0,suppressContentEditableWarning:!0,suppressHydrationWarning:!0,style:!0};function pa(a,b){return(a&b)===b}
 var ta={MUST_USE_PROPERTY:1,HAS_BOOLEAN_VALUE:4,HAS_NUMERIC_VALUE:8,HAS_POSITIVE_NUMERIC_VALUE:24,HAS_OVERLOADED_BOOLEAN_VALUE:32,HAS_STRING_BOOLEAN_VALUE:64,injectDOMPropertyConfig:function(a){var b=ta,c=a.Properties||{},d=a.DOMAttributeNamespaces||{},e=a.DOMAttributeNames||{};a=a.DOMMutationMethods||{};for(var f in c){ua.hasOwnProperty(f)?E("48",f):void 0;var g=f.toLowerCase(),h=c[f];g={attributeName:g,attributeNamespace:null,propertyName:f,mutationMethod:null,mustUseProperty:pa(h,b.MUST_USE_PROPERTY),
@@ -2948,18 +2947,18 @@ if (process.env.NODE_ENV !== "production") {
   (function() {
 'use strict';
 
-var React = __webpack_require__(3);
-var invariant = __webpack_require__(6);
-var warning = __webpack_require__(7);
+var React = __webpack_require__(1);
+var invariant = __webpack_require__(5);
+var warning = __webpack_require__(6);
 var ExecutionEnvironment = __webpack_require__(10);
-var _assign = __webpack_require__(4);
+var _assign = __webpack_require__(3);
 var emptyFunction = __webpack_require__(2);
 var EventListener = __webpack_require__(11);
 var getActiveElement = __webpack_require__(12);
 var shallowEqual = __webpack_require__(13);
 var containsNode = __webpack_require__(14);
 var focusNode = __webpack_require__(15);
-var emptyObject = __webpack_require__(5);
+var emptyObject = __webpack_require__(4);
 var checkPropTypes = __webpack_require__(9);
 var hyphenateStyleName = __webpack_require__(26);
 var camelizeStyleName = __webpack_require__(28);
@@ -18493,9 +18492,17 @@ module.exports = camelize;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(3);
+var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
+
+var _scoreBoard = __webpack_require__(31);
+
+var _scoreBoard2 = _interopRequireDefault(_scoreBoard);
+
+var _buttons = __webpack_require__(32);
+
+var _buttons2 = _interopRequireDefault(_buttons);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -18505,17 +18512,15 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var userTeam = __webpack_require__(8).userTeam;
-var botTeam = __webpack_require__(8).botTeam;
-var token = __webpack_require__(8).token;
+var userTeam = __webpack_require__(7).userTeam;
+var botTeam = __webpack_require__(7).botTeam;
+var token = __webpack_require__(7).token;
 var turns = __webpack_require__(16);
-var board = __webpack_require__(1);
-var checkForWin = __webpack_require__(35);
+var board = __webpack_require__(8);
+var checkForWin = __webpack_require__(37);
+
 
 var count = 1;
-var naughtsScore = 0;
-var crossesScore = 0;
-var gameOver = false;
 
 var Board = function (_React$Component) {
   _inherits(Board, _React$Component);
@@ -18530,11 +18535,15 @@ var Board = function (_React$Component) {
       // [topLeft,topMid,topRight],
       // [midLeft,midMid,midRight],
       // [botLeft,botMid,botRight]
-      ]
+      ],
+      naughtsScore: 0,
+      crossesScore: 0,
+      gameOver: false
     };
     _this.userClick = _this.userClick.bind(_this);
     _this.resetBoard = _this.resetBoard.bind(_this);
     _this.changeTeam = _this.changeTeam.bind(_this);
+    _this.checkWins = _this.checkWins.bind(_this);
     return _this;
   }
 
@@ -18566,8 +18575,26 @@ var Board = function (_React$Component) {
         }
       }
 
+      this.setState({
+        gameOver: false
+      });
+      this.setState({
+        userPaused: false
+      });
       count = 1;
-      gameOver = false;
+      if (botTeam == 'cross') {
+        var _cell = this.getCell();
+        var grid = this.state.grid;
+
+        var found = void 0;
+        grid.forEach(function (row) {
+          return row.forEach(function (c) {
+            if (c == _cell) found = _cell;
+          });
+        });
+        found.teamName = 'cross';
+        this.setState({ grid: grid });
+      }
     }
   }, {
     key: 'getCell',
@@ -18606,7 +18633,9 @@ var Board = function (_React$Component) {
         return turns.turnFiveCross();
       } else {
         alert('draw... as usual');
-        gameOver = true;
+        this.setState({
+          gameOver: true
+        });
       }
     }
   }, {
@@ -18640,7 +18669,7 @@ var Board = function (_React$Component) {
     value: function userClick(cell) {
       var _this2 = this;
 
-      if (gameOver) return;
+      if (this.state.gameOver) return;
       if (this.state.userPaused) return;
       if (cell.teamName !== 'none') return;
       this.claimSquare(cell, userTeam);
@@ -18648,34 +18677,31 @@ var Board = function (_React$Component) {
         var grid = _this2.state.grid;
 
         _this2.claimSquare(_this2.getCell(), botTeam);
+        _this2.checkWins();
       }, 2000);
+      this.checkWins();
+    }
+  }, {
+    key: 'checkWins',
+    value: function checkWins() {
+      if (checkForWin('cross')) {
+        this.setState({
+          crossScore: this.state.crossScore + 1,
+          gameOver: true
+        });
+      }
+      if (checkForWin('naught')) {
+        this.setState({
+          naughtsScore: this.state.naughtsScore + 1,
+          gameOver: true
+        });
+      }
     }
   }, {
     key: 'render',
     value: function render() {
       var _this3 = this;
 
-      if (botTeam == 'cross' && count == 1) {
-        this.claimSquare(this.getCell(), botTeam);
-      }
-      if (checkForWin(userTeam)) {
-        if (botTeam == 'naught') {
-          naughtsScore++;
-        } else {
-          crossesScore++;
-        }
-        alert('Please email me at edirose1998@gmail.com telling me how you won!! Congratulations');
-        gameOver = true;
-      }
-      if (checkForWin(botTeam)) {
-        if (botTeam == 'naught') {
-          naughtsScore++;
-        } else {
-          crossesScore++;
-        }
-        alert(botTeam + ' wins! Try Again!');
-        gameOver = true;
-      }
       return _react2.default.createElement(
         'div',
         null,
@@ -18721,37 +18747,16 @@ var Board = function (_React$Component) {
         ),
         _react2.default.createElement(
           'div',
-          { 'class': 'addOns' },
+          { className: 'addOns' },
           _react2.default.createElement(
             'div',
             { className: 'scoreBoard' },
-            _react2.default.createElement(
-              'p',
-              null,
-              ' Naughts: ',
-              naughtsScore,
-              '  Crosses: ',
-              crossesScore,
-              ' '
-            )
+            _react2.default.createElement(_scoreBoard2.default, { naughtsScore: this.state.naughtsScore, crossesScore: this.state.crossesScore })
           ),
           _react2.default.createElement(
             'div',
             { className: 'buttons' },
-            _react2.default.createElement(
-              'button',
-              { onClick: function onClick() {
-                  return _this3.resetBoard();
-                } },
-              'Try Again'
-            ),
-            _react2.default.createElement(
-              'button',
-              { onClick: function onClick() {
-                  return _this3.changeTeam();
-                } },
-              'Change Teams'
-            )
+            _react2.default.createElement(_buttons2.default, { resetBoard: this.resetBoard, changeTeam: this.changeTeam })
           )
         )
       );
@@ -18779,10 +18784,77 @@ module.exports = {
 "use strict";
 
 
-var board = __webpack_require__(1);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = ScoreBoard;
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function ScoreBoard(props) {
+  return _react2.default.createElement(
+    'h3',
+    null,
+    'Naughts: ',
+    props.naughtsScore,
+    ' Crosses: ',
+    props.crossesScore,
+    ' '
+  );
+}
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = Buttons;
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function Buttons(props) {
+  return _react2.default.createElement(
+    "div",
+    { className: "buttons" },
+    _react2.default.createElement(
+      "button",
+      { onClick: function onClick() {
+          return props.resetBoard();
+        } },
+      "Try Again"
+    ),
+    _react2.default.createElement(
+      "button",
+      { onClick: function onClick() {
+          return props.changeTeam();
+        } },
+      "Change Teams"
+    )
+  );
+}
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 
 //working
-function defendRows(team) {
+function defendRows(team, board) {
   var enemyTeam = findEnemy(team);
   for (var i = 0; i < board.length; i++) {
     if (board[i].teamName == enemyTeam && board[i].col == 0 && board[i + 1].teamName == enemyTeam && board[i + 2].teamName == 'none') {
@@ -18797,7 +18869,7 @@ function defendRows(team) {
 }
 
 //working
-function defendCollumns(team) {
+function defendCollumns(team, board) {
   var enemyTeam = findEnemy(team);
   for (var i = 0; i < board.length; i++) {
     if (board[i].teamName == enemyTeam && board[i].row == 0 && board[i + 3].teamName == enemyTeam && board[i + 6].teamName == 'none') {
@@ -18812,7 +18884,7 @@ function defendCollumns(team) {
 }
 
 //untested
-function defendDiagonal1(team) {
+function defendDiagonal1(team, board) {
   var enemyTeam = findEnemy(team);
   //board[0] == topLeft
   //board[4] == midMid
@@ -18828,7 +18900,7 @@ function defendDiagonal1(team) {
   }
 }
 
-function defendDiagonal2(team) {
+function defendDiagonal2(team, board) {
   var enemyTeam = findEnemy(team);
   //board[2] == topRight
   //board[4] == midMid
@@ -18844,15 +18916,15 @@ function defendDiagonal2(team) {
   }
 }
 
-function defend(team) {
-  if (defendRows(team)) {
-    return defendRows(team);
-  } else if (defendCollumns(team)) {
-    return defendCollumns(team);
-  } else if (defendDiagonal1(team)) {
-    return defendDiagonal1(team);
-  } else if (defendDiagonal2(team)) {
-    return defendDiagonal2(team);
+function defend(team, board) {
+  if (defendRows(team, board)) {
+    return defendRows(team, board);
+  } else if (defendCollumns(team, board)) {
+    return defendCollumns(team, board);
+  } else if (defendDiagonal1(team, board)) {
+    return defendDiagonal1(team, board);
+  } else if (defendDiagonal2(team, board)) {
+    return defendDiagonal2(team, board);
   }
   return false;
 }
@@ -18865,18 +18937,23 @@ function findEnemy(team) {
   }
 }
 
-module.exports = defend;
+module.exports = {
+  defend: defend,
+  defendRows: defendRows,
+  defendCollumns: defendCollumns,
+  defendDiagonal1: defendDiagonal1,
+  defendDiagonal2: defendDiagonal2
+};
 
 /***/ }),
-/* 32 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var board = __webpack_require__(1);
-
-function attackRows(team) {
+function attackRows(team, board) {
+  console.log('rows', board);
   for (var i = 0; i < board.length; i++) {
     if (board[i].teamName == team && board[i].col == 0 && board[i + 1].teamName == team && board[i + 2].teamName == 'none') {
       return board[i + 2];
@@ -18887,7 +18964,7 @@ function attackRows(team) {
   return false;
 }
 
-function attackCollumns(team) {
+function attackCollumns(team, board) {
   for (var i = 0; i < board.length; i++) {
     if (board[i].teamName == team && board[i].row == 0 && board[i + 3].teamName == team && board[i + 6].teamName == 'none') {
       return board[i + 6];
@@ -18900,7 +18977,7 @@ function attackCollumns(team) {
   return false;
 }
 
-function attackDiagonal1(team) {
+function attackDiagonal1(team, board) {
   //board[0] == topLeft
   //board[4] == midMid
   //board[8] == botRight
@@ -18915,7 +18992,7 @@ function attackDiagonal1(team) {
   }
 }
 
-function attackDiagonal2(team) {
+function attackDiagonal2(team, board) {
   //board[2] == topRight
   //board[4] == midMid
   //board[6] == botLeft
@@ -18930,40 +19007,45 @@ function attackDiagonal2(team) {
   }
 }
 
-function attack(team) {
-  if (attackRows(team)) {
-    return attackRows(team);
-  } else if (attackCollumns(team)) {
-    return attackCollumns(team);
-  } else if (attackDiagonal1(team)) {
-    return attackDiagonal1(team);
-  } else if (attackDiagonal2(team)) {
-    return attackDiagonal2(team);
+function attack(team, board) {
+  console.log('board: ', board);
+  if (attackRows(team, board)) {
+    return attackRows(team, board);
+  } else if (attackCollumns(team, board)) {
+    return attackCollumns(team, board);
+  } else if (attackDiagonal1(team, board)) {
+    return attackDiagonal1(team, board);
+  } else if (attackDiagonal2(team, board)) {
+    return attackDiagonal2(team, board);
   }
   return false;
 }
 
-module.exports = attack;
+module.exports = {
+  attack: attack,
+  attackRows: attackRows,
+  attackCollumns: attackCollumns,
+  attackDiagonal1: attackDiagonal1,
+  attackDiagonal2: attackDiagonal2
+};
 
 /***/ }),
-/* 33 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var board = __webpack_require__(1);
-
 // lines array format [rowNumber, collumNumber, D1(if applicable), D2(if applicable)]
-
-function smartMove(team) {
+function smartMove(team, board) {
   for (var i = 0; i < board.length; i++) {
     if (board[i].teamName !== 'none') {
       continue;
     }
     var values = getValues(board[i]);
     //lines is an array of the different col, row, and diagonal values of each cell
-    if (checkLines(values, team)) {
+    if (checkLines(values, team, board)) {
+      console.log('pin prevented');
       return board[i];
       break;
     }
@@ -18989,18 +19071,18 @@ function getValues(cell) {
   return array;
 }
 
-function checkLines(values, team) {
+function checkLines(values, team, board) {
   var count = 0;
-  if (checkLine('row', values[0], team)) {
+  if (checkLine('row', values[0], team, board)) {
     count++;
   }
-  if (checkLine('col', values[1], team)) {
+  if (checkLine('col', values[1], team, board)) {
     count++;
   }
-  if (checkLine('D1', values[2], team)) {
+  if (checkLine('D1', values[2], team, board)) {
     count++;
   }
-  if (checkLine('D2', values[3], team)) {
+  if (checkLine('D2', values[3], team, board)) {
     count++;
   }
   if (count > 1) {
@@ -19010,8 +19092,8 @@ function checkLines(values, team) {
   }
 }
 
-function checkLine(lineType, unit, team) {
-  var arr = getEachLane(lineType, unit);
+function checkLine(lineType, unit, team, board) {
+  var arr = getEachLane(lineType, unit, board);
   var count = 0;
   var noneCount = 0;
   for (var i = 0; i < arr.length; i++) {
@@ -19030,7 +19112,7 @@ function checkLine(lineType, unit, team) {
   }
 }
 
-function getEachLane(lineType, unit) {
+function getEachLane(lineType, unit, board) {
   var line = [];
   for (var i = 0; i < board.length; i++) {
     if (board[i][lineType] == unit) {
@@ -19039,18 +19121,19 @@ function getEachLane(lineType, unit) {
   }
   return line;
 }
-module.exports = { smartMove: smartMove };
+
+module.exports = {
+  smartMove: smartMove
+};
 
 /***/ }),
-/* 34 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var board = __webpack_require__(1);
-
-function defendPin() {
+function defendPin(board) {
   if (board[0].teamName == 'cross' && board[4].teamName == 'naught' && board[8].teamName == 'cross') {
     return board[1];
   } else if (board[2].teamName == 'cross' && board[4].teamName == 'naught' && board[6].teamName == 'cross') {
@@ -19063,13 +19146,13 @@ function defendPin() {
 module.exports = { defendPin: defendPin };
 
 /***/ }),
-/* 35 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var board = __webpack_require__(1);
+var board = __webpack_require__(8);
 
 function checkForWin(team) {
   var taken = getTeam(team);
