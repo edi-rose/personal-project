@@ -153,15 +153,11 @@ class Board extends React.Component{
     return (
       <div>
         <div className="game">
-        <table style={{
-          border: 'thin solid black'
-        }}>
+        <table className='board'>
         <tbody>
           {this.state.grid && this.state.grid.map((row) => {
             return (
-              <tr style={{
-                border: 'thin solid black'
-              }}>
+              <tr className='board'>
                 {row.map((cell) => {
                   return <td onClick={() => this.userClick(cell)} className='boardMain'>
                     <div className= 'token'>{(token(cell.teamName))}</div>

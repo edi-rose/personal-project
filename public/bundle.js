@@ -18710,18 +18710,14 @@ var Board = function (_React$Component) {
           { className: 'game' },
           _react2.default.createElement(
             'table',
-            { style: {
-                border: 'thin solid black'
-              } },
+            { className: 'board' },
             _react2.default.createElement(
               'tbody',
               null,
               this.state.grid && this.state.grid.map(function (row) {
                 return _react2.default.createElement(
                   'tr',
-                  { style: {
-                      border: 'thin solid black'
-                    } },
+                  { className: 'board' },
                   row.map(function (cell) {
                     return _react2.default.createElement(
                       'td',
