@@ -18727,12 +18727,7 @@ var Board = function (_React$Component) {
                       'td',
                       { onClick: function onClick() {
                           return _this3.userClick(cell);
-                        }, style: {
-                          border: 'thin solid black',
-                          padding: '15px',
-                          height: '100px',
-                          width: '90px'
-                        } },
+                        }, className: 'boardMain' },
                       _react2.default.createElement(
                         'div',
                         { className: 'token' },
@@ -18953,7 +18948,6 @@ module.exports = {
 
 
 function attackRows(team, board) {
-  console.log('rows', board);
   for (var i = 0; i < board.length; i++) {
     if (board[i].teamName == team && board[i].col == 0 && board[i + 1].teamName == team && board[i + 2].teamName == 'none') {
       return board[i + 2];
@@ -19008,7 +19002,6 @@ function attackDiagonal2(team, board) {
 }
 
 function attack(team, board) {
-  console.log('board: ', board);
   if (attackRows(team, board)) {
     return attackRows(team, board);
   } else if (attackCollumns(team, board)) {

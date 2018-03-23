@@ -163,12 +163,7 @@ class Board extends React.Component{
                 border: 'thin solid black'
               }}>
                 {row.map((cell) => {
-                  return <td onClick={() => this.userClick(cell)} style={{
-                    border: 'thin solid black',
-                    padding: '15px',
-                    height: '100px',
-                    width: '90px'
-                  }}>
+                  return <td onClick={() => this.userClick(cell)} className='boardMain'>
                     <div className= 'token'>{(token(cell.teamName))}</div>
                   </td>
                 })}
